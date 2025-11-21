@@ -1,0 +1,6 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+/source/Netto.Kassentableau.Web/appsettings.Local.json
