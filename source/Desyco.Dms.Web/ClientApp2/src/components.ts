@@ -1,0 +1,38 @@
+import {
+  BlockUI,
+  Card,
+  FloatLabel,
+  InputText,
+  Paginator,
+  Select,
+  Button,
+  Panel,
+  InputGroup,
+  InputGroupAddon,
+  Toast,
+  Column,
+  DataTable,
+  DynamicDialog,
+  ProgressSpinner,
+  MultiSelect,
+} from "primevue";
+
+export const components = [
+  //Prime Components
+  { name: "DataTable", type: DataTable },
+  { name: "Column", type: Column },
+  { name: "Card", type: Card },
+  { name: "Select", type: Select },
+  { name: "MultiSelect", type: MultiSelect },
+  { name: "FloatLabel", type: FloatLabel },
+  { name: "InputText", type: InputText },
+  { name: "Paginator", type: Paginator },
+  { name: "BlockUI", type: BlockUI },
+  { name: "ProgressSpinner", type: ProgressSpinner },
+  { name: "DynamicDialog", type: DynamicDialog },
+  { name: "Button", type: Button },
+  { name: "Panel", type: Panel },
+  { name: "InputGroup", type: InputGroup },
+  { name: "InputGroupAddon", type: InputGroupAddon },
+  { name: "Toast", type: Toast },
+];

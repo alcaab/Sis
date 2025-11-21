@@ -1,0 +1,143 @@
+{
+  "applicationName": "Kassentableau",
+  "administration": "Administration",
+  "articlesPreview": "Artikelvorschau",
+  "customGroups": "Artikelgruppierung",
+  "jobOverview": "Jobübersicht",
+  "emailSettings": "E-Mail-Einstellungen",
+  "emailTemplates": "E-Mail-Vorlagen",
+  "articlePreview": "Artikelvorschau",
+  "notFound": "Nicht gefunden",
+  "unauthorized": "Nicht autorisiert",
+  "errors": {
+    "conflict": "Vorgang abgelehnt: Ein Datensatz mit denselben Informationen ist bereits vorhanden"
+  },
+  "common": {
+    "confirm": "Bestätigen",
+    "deleteConfirm": "Möchten Sie {content} wirklich löschen?",
+    "yes": "Ja",
+    "no": "Nein",
+    "delete": "Löschen",
+    "details": "Details",
+    "timestamp": "Zeitstempel",
+    "selected": "ausgewählt",
+    "value": "Wert",
+    "actions": "Aktionen",
+    "buttons": {
+      "save": "Speichern",
+      "close": "Schließen",
+      "edit": "Editieren",
+      "delete": "Löschen",
+      "add": "Hinzufügen"
+    },
+    "noEntries": "Keine Einträge vorhanden.",
+    "pageReportTemplate": "{first} bis {last} von {totalRecords}",
+    "successfullySaved": "Speichern erfolgreich",
+    "successfullySavedInfo": "{type} wurde erfolgreich gespeichert.",
+    "successfullyDeleted": "Löschen erfolgreich",
+    "successfullyDeletedInfo": "{successful} Element(e) wurde(n) erfolgreich gelöscht.",
+    "errorTitle": "Fehler",
+    "errorMessage": "Ein Fehler ist aufgetreten",
+    "saveErrorMessage": "Beim Speichern ist ein Fehler aufgetreten.",
+    "deleteErrorMessage": "Das Element konnte nicht gelöscht werden."
+  },
+  "appSettings": {
+    "title": "Allgemein",
+    "loadError": "Einstellungen konnten nicht geladen werden.",
+    "saved": "Einstellungen wurden erfolgreich gespeichert.",
+    "exportPath": {
+      "title": "Exportpfad",
+      "exportWeekDaysHours": "Export Wochentage - Uhrzeit",
+      "minimumDays": "Es muss mindestens ein Wochentag ausgewählt werden.",
+      "maximumSDays": "Es können maximal sieben Wochentage ausgewählt werden.",
+      "exportTime": "Export Uhrzeit",
+      "exportTimeFormatError": "Bitte verwenden Sie das Format HH:MM.",
+      "exportTimeRequired": "Die Export Uhrzeit ist erforderlich.",
+      "exportPathXml": "Exportpfad XML",
+      "exportPathXmlHint": "Pfad, in dem die XML-Dateien gespeichert werden.",
+      "exportPathImages": "Exportpfad Bilddateien",
+      "exportPathImagesHint": "Pfad, in dem die Bilddateien gespeichert werden.",
+      "exportWeekDaysHint": "Legt fest, an welchen Wochentagen und zu welcher Uhrzeit der Export der XML Dateien erfolgt.",
+      "pathNotEmpty": "Der Exportpfad darf nicht leer sein.",
+      "pathNotWritable": "Der Exportpfad ist nicht beschreibbar. Bitte überprüfen Sie die Berechtigungen.",
+      "pathWritable": "Der Exportpfad ist beschreibbar.",
+      "pathTooLong": "Der Exportpfad ist zu lang.",
+      "invalidPath": "Der Exportpfad muss eine gültige Struktur haben.",
+      "noTrimSpaces": "Der Exportpfad darf keine führenden oder nachfolgenden Leerzeichen enthalten."
+    },
+    "emailSettings": {
+      "title": "E-Mail Einstellungen",
+      "emailWeekDaysHours": "E-Mail Wochentage - Uhrzeit",
+      "minimumDays": "Es muss mindestens ein Wochentag ausgewählt werden.",
+      "maximumDays": "Es können maximal sieben Wochentage ausgewählt werden.",
+      "emailTime": "E-Mail Uhrzeit",
+      "emailTimeFormatError": "Bitte verwenden Sie das Format HH:MM.",
+      "emailTimeRequired": "Die E-Mail Uhrzeit ist erforderlich.",
+      "emailWeekDays": "E-Mail Benachrichtigung zu fehlenden Bildern",
+      "emailWeekDaysHint": "Legt fest, an welchen Wochentagen und zu welcher Uhrzeit die E-Mail-Benachrichtigungen gesendet werden."
+    }
+  },
+  "days": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "selectDay": "Tage auswählen"
+  },
+  "time": "Uhrzeit",
+  "customGroup": {
+    "name": "Bezeichnug",
+    "subGroups": "Untergruppen",
+    "articles": "Artikelnummern",
+    "addGroup": "Gruppe hinzufügen",
+    "search": "Gruppen nach Namen suchen",
+    "newHeader": "Neue benutzerdefinierte Gruppe",
+    "editHeader": "Benutzerdefinierte Gruppe bearbeiten",
+    "subGroupPlaceholder": "Untergruppen auswählen",
+    "validations": {
+      "name": "Gruppenname ist erforderlich",
+      "nameMaxLength": "Der Name darf maximal 25 Zeichen lang sein",
+      "nameNoSpaces": "Der Name darf keine Leerzeichen am Anfang oder Ende enthalten",
+      "subGroups":"Mindestens eine Untergruppe ist erforderlich"
+    },
+    "addArticle": "Artikel hinzufügen",
+    "articleDescription": "Artikelbeschreibung",
+    "selectPlaceholder": "Wählen Sie den Artikel, den Sie hinzufügen möchten",
+    "articleList": "Liste der ausgewählten Artikel",
+    "mainGroup": {
+      "bakeOff": "Bake Off"
+    },
+    "loading": "Laden..."
+  },
+  "store": {
+    "title": "Filiale",
+    "errorLoadingFilter": "Fehler beim Laden des Filial filters"
+  },
+  "calendarWeek": {
+    "title": "KW",
+    "errorLoadingFilter": "Fehler beim Laden des Kalenderwochen-Filters"
+  },
+  "ProductArea": {
+  "title": "Warenbereich",
+  "errorLoadingFilter": "Fehler beim Laden des Warenbereich filters"
+},
+  "gtinArticle": {
+  "title": "Sonderfälle GTIN",
+  "description": "Die Artikel in der Liste werden für den Export in Betracht gezogen, obwohl sie eine GTIN haben.",
+  "updated": "Sichtbarkeit der Artikel wurde aktualisiert",
+  "updateError": "Fehler beim Aktualisieren der Sichtbarkeit der Artikel",
+  "select": "Artikel auswählen",
+  "addArticle": "Artikel hinzufügen",
+  "search": "Artikel suchen",
+  "displayText": "Artikel",
+  "loadError": "Fehler beim Laden der Artikel",
+  "loadAvailableError": "Fehler beim Laden der verfügbaren Artikel",
+  "added": "Artikel hinzugefügt",
+  "addError": "Fehler beim Hinzufügen der Artikel",
+  "deleted": "Artikel gelöscht",
+  "deleteError": "Fehler beim Löschen der Artikel"
+}
+}
