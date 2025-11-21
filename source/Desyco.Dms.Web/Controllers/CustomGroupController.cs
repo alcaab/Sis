@@ -3,8 +3,8 @@
 // using Desyco.Dms.Application.CustomGroups.Commands;
 // using Desyco.Dms.Application.CustomGroups.Models;
 // using Desyco.Dms.Application.CustomGroups.Queries;
-// using Desyco.ContractManager.Domain.Common.Filtering;
-// using Desyco.ContractManager.Domain.CustomGroups;
+// using Desyco.Dms.Domain.Common.Filtering;
+// using Desyco.Dms.Domain.CustomGroups;
 // using Netto.Kassentableau.Web.Infrastructure;
 // using Netto.Kassentableau.Web.ModelBinders;
 //
