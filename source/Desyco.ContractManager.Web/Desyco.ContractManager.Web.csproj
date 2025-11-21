@@ -9,7 +9,7 @@
         <SpaRoot>ClientApp\</SpaRoot>
         <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
         <SpaProxyServerUrl>https://localhost:5002</SpaProxyServerUrl>
-        <RootNamespace>Netto.Kassentableau.Web</RootNamespace>
+        <RootNamespace>Desyco.Dms.Web</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

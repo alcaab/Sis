@@ -1,7 +1,7 @@
-﻿using Desyco.ContractManager.Application.Common.Results;
-using Desyco.ContractManager.Application.Common.Results.Error;
+﻿using Desyco.Dms.Application.Common.Results;
+using Desyco.Dms.Application.Common.Results.Error;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+namespace Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 
 internal static class BehaviorResult
 {

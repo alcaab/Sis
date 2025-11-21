@@ -1,12 +1,12 @@
-﻿using Desyco.ContractManager.Application.Common;
-using Desyco.ContractManager.Domain.Common;
-using Desyco.ContractManager.Infrastructure.Common;
+﻿using Desyco.Dms.Application.Common;
+using Desyco.Dms.Domain.Common;
+using Desyco.Dms.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Desyco.ContractManager.Infrastructure;
+namespace Desyco.Dms.Infrastructure;
 
 public static class InfrastructureComposition
 {

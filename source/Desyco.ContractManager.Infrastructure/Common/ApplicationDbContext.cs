@@ -1,13 +1,13 @@
-﻿using Desyco.ContractManager.Application.Common;
+﻿using Desyco.Dms.Application.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Desyco.ContractManager.Infrastructure.Common;
+namespace Desyco.Dms.Infrastructure.Common;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IUnitOfWork
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ArgumentNullException.ThrowIfNull(modelBuilder, nameof(modelBuilder));
+        ArgumentNullException.ThrowIfNull(modelBuilder);
         
         base.OnModelCreating(modelBuilder);
 

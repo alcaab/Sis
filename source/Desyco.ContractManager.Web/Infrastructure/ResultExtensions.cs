@@ -1,9 +1,9 @@
-﻿using Desyco.ContractManager.Application.Common.Results;
-using Desyco.ContractManager.Application.Common.Results.Error;
-using Desyco.ContractManager.Application.Common.Results.ResultModels;
+﻿using Desyco.Dms.Application.Common.Results;
+using Desyco.Dms.Application.Common.Results.Error;
+using Desyco.Dms.Application.Common.Results.ResultModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Desyco.ContractManager.Web.Infrastructure;
+namespace Desyco.Dms.Web.Infrastructure;
 
 public static class ResultExtensions
 {

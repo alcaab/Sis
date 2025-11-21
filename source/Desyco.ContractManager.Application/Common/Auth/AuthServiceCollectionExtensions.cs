@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Desyco.ContractManager.Application.Common.Auth;
+namespace Desyco.Dms.Application.Common.Auth;
 
 public static class AuthServiceCollectionExtensions
 {

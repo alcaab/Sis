@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Web.Resources;
+﻿namespace Desyco.Dms.Web.Resources;
 
 public static class DescriptionStrings
 {

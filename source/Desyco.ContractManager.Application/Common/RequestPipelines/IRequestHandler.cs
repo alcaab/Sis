@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Application.Common.RequestPipelines;
+﻿namespace Desyco.Dms.Application.Common.RequestPipelines;
 
 public interface IRequestHandler<in TRequest, TResponse>
     where TRequest : IRequest<TResponse>

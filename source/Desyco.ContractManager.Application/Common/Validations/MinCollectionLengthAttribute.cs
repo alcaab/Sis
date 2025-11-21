@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
-namespace Desyco.ContractManager.Application.Common.Validations;
+namespace Desyco.Dms.Application.Common.Validations;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
 public class MinCollectionLengthAttribute(int minLength) : ValidationAttribute

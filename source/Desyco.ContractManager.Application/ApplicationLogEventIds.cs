@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Desyco.ContractManager.Application;
+namespace Desyco.Dms.Application;
 
 [ExcludeFromCodeCoverage]
 public static class ApplicationLogEventIds // 1000

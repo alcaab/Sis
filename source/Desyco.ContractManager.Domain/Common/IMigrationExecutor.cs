@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Domain.Common;
+﻿namespace Desyco.Dms.Domain.Common;
 
 public interface IMigrationExecutor
 {

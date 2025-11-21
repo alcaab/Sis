@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
-using Desyco.ContractManager.Application.Common.Auth;
-using Desyco.ContractManager.Application.Common.Results.Error;
+using Desyco.Dms.Application.Common.Auth;
+using Desyco.Dms.Application.Common.Results.Error;
 using Microsoft.Extensions.Logging;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+namespace Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 
 public class AuthorizationBehavior<TRequest, TResponse>(
     IEnumerable<IAuthGuard<TRequest>> authGuards,

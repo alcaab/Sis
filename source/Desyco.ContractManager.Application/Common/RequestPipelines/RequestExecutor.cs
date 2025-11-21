@@ -1,7 +1,7 @@
-﻿using Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+﻿using Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines;
+namespace Desyco.Dms.Application.Common.RequestPipelines;
 
 public class RequestExecutor(IServiceProvider serviceProvider) : IRequestExecutor
 {

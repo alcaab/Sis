@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Desyco.ContractManager.Web;
+namespace Desyco.Dms.Web;
 
 [ExcludeFromCodeCoverage]
 public static class AuthConstants

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Netto.Kassentableau.Application;
+namespace Desyco.Dms.Application;
 
 [ExcludeFromCodeCoverage]
 public static class AppConstants

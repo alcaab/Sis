@@ -1,7 +1,7 @@
-﻿using Desyco.ContractManager.Application.Common.Results.Error;
+﻿using Desyco.Dms.Application.Common.Results.Error;
 using Microsoft.Extensions.Logging;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+namespace Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 
 public class HandleExceptionBehavior<TRequest, TResponse>(ILogger<HandleExceptionBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Desyco.ContractManager.Application.Common.Results.Error;
+using Desyco.Dms.Application.Common.Results.Error;
 using Microsoft.Extensions.Logging;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+namespace Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>(
     ILogger<ValidationBehavior<TRequest, TResponse>> logger,

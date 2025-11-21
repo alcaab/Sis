@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Application.Common;
+﻿namespace Desyco.Dms.Application.Common;
 
 public interface IUnitOfWork
 {

@@ -1,12 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Desyco.ContractManager.Application;
-using Desyco.ContractManager.Domain;
-using Desyco.ContractManager.Domain.Common;
-using Desyco.ContractManager.Infrastructure;
+using Desyco.Dms.Application;
+using Desyco.Dms.Domain;
+using Desyco.Dms.Domain.Common;
+using Desyco.Dms.Infrastructure;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Desyco.ContractManager.Web;
+namespace Desyco.Dms.Web;
 
 public static class CompositionRoot
 {

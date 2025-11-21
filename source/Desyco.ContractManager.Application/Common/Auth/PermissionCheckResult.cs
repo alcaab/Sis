@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Application.Common.Auth;
+﻿namespace Desyco.Dms.Application.Common.Auth;
 
 public sealed class PermissionCheckResult
 {

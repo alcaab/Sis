@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Application.Common.Results.Error;
+﻿namespace Desyco.Dms.Application.Common.Results.Error;
 
 public enum ErrorType
 {

@@ -1,8 +1,8 @@
-﻿using Desyco.ContractManager.Application.Common.RequestPipelines;
-using Desyco.ContractManager.Application.Common.Results;
+﻿using Desyco.Dms.Application.Common.RequestPipelines;
+using Desyco.Dms.Application.Common.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Desyco.ContractManager.Web.Infrastructure;
+namespace Desyco.Dms.Web.Infrastructure;
 
 public static class RequestExecutorExtensions
 {

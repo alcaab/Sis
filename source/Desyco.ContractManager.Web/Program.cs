@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Desyco.ContractManager.Web;
+using Desyco.Dms.Web;
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Exceptions.Core;

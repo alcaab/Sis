@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+namespace Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 
 public static partial class BehaviorLog
 {

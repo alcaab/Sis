@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
-using Desyco.ContractManager.Application.Common.RequestPipelines;
-using Desyco.ContractManager.Application.Common.RequestPipelines.Behaviors;
+using Desyco.Dms.Application.Common.Auth;
+using Desyco.Dms.Application.Common.RequestPipelines;
+using Desyco.Dms.Application.Common.RequestPipelines.Behaviors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Desyco.ContractManager.Application.Common.Auth;
 
-namespace Desyco.ContractManager.Application;
+namespace Desyco.Dms.Application;
 
 public static class AppComposition
 {

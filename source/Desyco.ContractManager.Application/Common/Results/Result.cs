@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Application.Common.Results;
+﻿namespace Desyco.Dms.Application.Common.Results;
 
 public record Result<TValue>
 {

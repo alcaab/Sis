@@ -1,4 +1,4 @@
-﻿namespace Desyco.ContractManager.Web;
+﻿namespace Desyco.Dms.Web;
 
 public static class AppPolicy
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Desyco.ContractManager.Application.Common.Results.Error;
+namespace Desyco.Dms.Application.Common.Results.Error;
 
 public record Error(ErrorType Type, string Message)
 {

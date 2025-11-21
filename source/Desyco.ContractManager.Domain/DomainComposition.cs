@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Desyco.ContractManager.Domain;
+namespace Desyco.Dms.Domain;
 
 public static class DomainComposition
 {
