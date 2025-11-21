@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.ContractManager.Web"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.ContractManager.Domain", "source\Desyco.ContractManager.Domain\Desyco.ContractManager.Domain.csproj", "{F19CA7EF-5391-47BE-BAF5-1B754FF81DA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.ContractManager.Application", "source\Desyco.ContractManager.Application\Desyco.ContractManager.Application.csproj", "{DE6D6A48-DB4B-4705-9FD9-C703EBC3A17A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.Dms.Application", "source\Desyco.Dms.Application\Desyco.Dms.Application.csproj", "{DE6D6A48-DB4B-4705-9FD9-C703EBC3A17A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.ContractManager.Infrastructure", "source\Desyco.ContractManager.Infrastructure\Desyco.ContractManager.Infrastructure.csproj", "{CE5F1C47-7D54-472C-ACB0-BFE1C624282E}"
 EndProject

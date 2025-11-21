@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Desyco.ContractManager.Application\Desyco.ContractManager.Application.csproj" />
+        <ProjectReference Include="..\Desyco.Dms.Application\Desyco.Dms.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
