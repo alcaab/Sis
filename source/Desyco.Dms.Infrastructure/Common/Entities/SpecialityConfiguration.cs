@@ -1,0 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Desyco.Dms.Domain.Common.Entities;
+
+namespace Desyco.Dms.Infrastructure.Common.Entities;
+
+public class SpecialityConfiguration : IEntityTypeConfiguration<SpecialityEntity>
+{
+    public void Configure(EntityTypeBuilder<SpecialityEntity> builder)
+    {
+        builder.ToTable("Speciality");
+        builder.HasKey(x => x.Id);
+    }
+}
