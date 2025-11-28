@@ -1,5 +1,4 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Desyco.Dms.Application;
 using Desyco.Dms.Domain;
 using Desyco.Dms.Domain.Common;
 using Desyco.Dms.Infrastructure;
@@ -14,10 +13,10 @@ public static class CompositionRoot
         IHostEnvironment environment)
     {
         services.ConfigureDomainServices(configuration, environment);
-        services.ConfigureApplicationServices(configuration, environment);
+        // services.ConfigureApplicationServices(configuration, environment);
         services.ConfigureInfrastructureServices(configuration, environment);
         services.ConfigureHangfireServices(configuration);
-        services.AddWebHandlersFromAssembly(typeof(AppComposition).Assembly);
+        // services.AddWebHandlersFromAssembly(typeof(AppComposition).Assembly);
         services.ConfigureAuthServices(configuration);
 
         return services;
