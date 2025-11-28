@@ -12,6 +12,8 @@ public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItemEnti
     {
         builder.ToTable("InvoiceItem");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Description).HasMaxLength(255);
 
         builder.HasOne<InvoiceEntity>().WithMany().HasForeignKey(x => x.InvoiceId);
         builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);

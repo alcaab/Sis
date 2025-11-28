@@ -10,5 +10,7 @@ public class AttendanceStatusConfiguration : IEntityTypeConfiguration<Attendance
     {
         builder.ToTable("AttendanceStatus");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

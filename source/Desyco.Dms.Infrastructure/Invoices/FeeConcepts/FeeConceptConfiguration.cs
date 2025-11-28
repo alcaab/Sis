@@ -10,5 +10,7 @@ public class FeeConceptConfiguration : IEntityTypeConfiguration<FeeConceptEntity
     {
         builder.ToTable("FeeConcept");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
     }
 }

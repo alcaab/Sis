@@ -14,6 +14,8 @@ public class SectionConfiguration : IEntityTypeConfiguration<SectionEntity>
     {
         builder.ToTable("Section");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
 
         builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId);
         builder.HasOne<GradeEntity>().WithMany().HasForeignKey(x => x.GradeId);

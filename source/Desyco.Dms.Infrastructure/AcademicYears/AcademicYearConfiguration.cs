@@ -10,5 +10,7 @@ public class AcademicYearConfiguration : IEntityTypeConfiguration<AcademicYearEn
     {
         builder.ToTable("AcademicYear");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

@@ -11,6 +11,8 @@ public class AttendanceConfiguration : IEntityTypeConfiguration<AttendanceEntity
     {
         builder.ToTable("Attendance");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Remarks).HasMaxLength(500);
 
         builder.HasOne<EnrollmentEntity>().WithMany().HasForeignKey(x => x.EnrollmentId);
         builder.HasOne<AttendanceStatusEntity>().WithMany().HasForeignKey(x => x.Status);

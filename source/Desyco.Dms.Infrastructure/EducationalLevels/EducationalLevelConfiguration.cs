@@ -10,5 +10,7 @@ public class EducationalLevelConfiguration : IEntityTypeConfiguration<Educationa
     {
         builder.ToTable("EducationalLevel");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

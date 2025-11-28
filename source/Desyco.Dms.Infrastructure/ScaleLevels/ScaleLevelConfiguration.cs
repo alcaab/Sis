@@ -11,6 +11,9 @@ public class ScaleLevelConfiguration : IEntityTypeConfiguration<ScaleLevelEntity
     {
         builder.ToTable("ScaleLevel");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
+        builder.Property(x => x.ShortCode).HasMaxLength(10);
 
         builder.HasOne<GradingScaleEntity>().WithMany().HasForeignKey(x => x.GradingScaleId);
     }

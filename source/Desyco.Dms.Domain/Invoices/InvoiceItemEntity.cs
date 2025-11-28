@@ -16,7 +16,7 @@ public class InvoiceItemEntity : EntityBase<int>
     
     public decimal Payment { get; set; }
 
-    public string? Description  { get; set; }
+    public string Description  { get; set; } = string.Empty;
 
     public bool IsPaid { get; set; }
 }

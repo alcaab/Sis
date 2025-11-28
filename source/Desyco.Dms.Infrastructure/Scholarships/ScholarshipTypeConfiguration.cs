@@ -10,5 +10,8 @@ public class ScholarshipTypeConfiguration : IEntityTypeConfiguration<Scholarship
     {
         builder.ToTable("ScholarshipType");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
+        builder.Property(x => x.Requirements).HasMaxLength(500);
     }
 }

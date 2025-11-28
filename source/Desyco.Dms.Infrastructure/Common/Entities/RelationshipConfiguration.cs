@@ -10,5 +10,7 @@ public class RelationshipConfiguration : IEntityTypeConfiguration<RelationshipEn
     {
         builder.ToTable("Relationship");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

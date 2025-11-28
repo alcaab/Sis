@@ -12,6 +12,8 @@ public class SubjectConfiguration : IEntityTypeConfiguration<SubjectEntity>
     {
         builder.ToTable("Subject");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
 
         builder.HasOne<GradeEntity>().WithMany().HasForeignKey(x => x.GradeId);
         builder.HasOne<GradingScaleEntity>().WithMany().HasForeignKey(x => x.GradingScaleId);

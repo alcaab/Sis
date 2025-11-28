@@ -10,5 +10,7 @@ public class EvaluationConfiguration : IEntityTypeConfiguration<EvaluationEntity
     {
         builder.ToTable("Evaluation");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
     }
 }

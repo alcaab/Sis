@@ -13,6 +13,8 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<EnrollmentEntity
     {
         builder.ToTable("Enrollment");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.WithdrawalReason).HasMaxLength(500);
 
         builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId);
         builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);

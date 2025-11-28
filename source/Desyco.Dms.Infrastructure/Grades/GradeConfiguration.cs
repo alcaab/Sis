@@ -10,5 +10,7 @@ public class GradeConfiguration : IEntityTypeConfiguration<GradeEntity>
     {
         builder.ToTable("Grade");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

@@ -10,6 +10,8 @@ public class SubjectAreaConfiguration : IEntityTypeConfiguration<SubjectAreaEnti
     {
         builder.ToTable("SubjectArea");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
 
 
     }

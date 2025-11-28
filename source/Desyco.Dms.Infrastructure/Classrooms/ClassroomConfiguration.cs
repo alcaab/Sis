@@ -10,6 +10,11 @@ public class ClassroomConfiguration : IEntityTypeConfiguration<ClassroomEntity>
     {
         builder.ToTable("Classroom");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
+        builder.Property(x => x.Code).HasMaxLength(20);
+        builder.Property(x => x.Building).HasMaxLength(50);
+        builder.Property(x => x.Floor).HasMaxLength(20);
 
         builder.HasOne<ClassroomTypeEntity>().WithMany().HasForeignKey(x => x.ClassroomTypeId);
     }

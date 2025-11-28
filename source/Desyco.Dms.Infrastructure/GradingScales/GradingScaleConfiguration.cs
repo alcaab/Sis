@@ -10,5 +10,7 @@ public class GradingScaleConfiguration : IEntityTypeConfiguration<GradingScaleEn
     {
         builder.ToTable("GradingScale");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

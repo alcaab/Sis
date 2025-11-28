@@ -10,5 +10,7 @@ public class ClassroomTypeConfiguration : IEntityTypeConfiguration<ClassroomType
     {
         builder.ToTable("ClassroomType");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
     }
 }

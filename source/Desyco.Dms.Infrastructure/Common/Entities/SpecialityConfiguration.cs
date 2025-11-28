@@ -10,5 +10,7 @@ public class SpecialityConfiguration : IEntityTypeConfiguration<SpecialityEntity
     {
         builder.ToTable("Speciality");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(100);
     }
 }

@@ -11,6 +11,8 @@ public class EvaluationPeriodConfiguration : IEntityTypeConfiguration<Evaluation
     {
         builder.ToTable("EvaluationPeriod");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
 
         builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId);
     }

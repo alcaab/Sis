@@ -11,6 +11,8 @@ public class ScholarshipAwardConfiguration : IEntityTypeConfiguration<Scholarshi
     {
         builder.ToTable("ScholarshipAward");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Justification).HasMaxLength(500);
 
         builder.HasOne<EnrollmentEntity>().WithMany().HasForeignKey(x => x.EnrollmentId);
         builder.HasOne<ScholarshipTypeEntity>().WithMany().HasForeignKey(x => x.ScholarshipTypeId);

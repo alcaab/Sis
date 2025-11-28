@@ -10,5 +10,11 @@ public class GuardianConfiguration : IEntityTypeConfiguration<GuardianEntity>
     {
         builder.ToTable("Guardian");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.FirstName).HasMaxLength(50);
+        builder.Property(x => x.LastName).HasMaxLength(50);
+        builder.Property(x => x.Address).HasMaxLength(255);
+        builder.Property(x => x.Email).HasMaxLength(100);
+        builder.Property(x => x.Phone).HasMaxLength(20);
     }
 }

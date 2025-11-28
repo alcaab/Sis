@@ -10,5 +10,8 @@ public class ShiftConfiguration : IEntityTypeConfiguration<ShiftEntity>
     {
         builder.ToTable("Shift");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Name).HasMaxLength(50);
+        builder.Property(x => x.TranslationKey).HasMaxLength(100);
     }
 }
