@@ -10,4 +10,10 @@ public static class EfConfigurationExtensions
 
     public static PropertyBuilder HasDefaultDateTime(this PropertyBuilder source)
         => source.HasColumnType(DateTimeDefault);
+
+    public static PropertyBuilder HasMoneyValuePrecision(this PropertyBuilder source)
+        => source.HasPrecision(14, 2);
+
+    public static PropertyBuilder HasEvaluationValuePrecision(this PropertyBuilder source)
+        => source.HasPrecision(5, 2);
 }

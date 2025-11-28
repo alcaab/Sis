@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Desyco.Dms.Domain.Guardians;
 using Desyco.Dms.Domain.Payments;
 
 namespace Desyco.Dms.Infrastructure.Payments;
@@ -10,5 +11,9 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PaymentEntity>
     {
         builder.ToTable("Payment");
         builder.HasKey(x => x.Id);
+        
+        builder.Property(x => x.Number).HasMaxLength(20);
+
+        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId);
     }
 }
