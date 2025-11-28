@@ -1,4 +1,4 @@
-﻿using Desyco.Dms.Domain.Common;
+using Desyco.Dms.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Desyco.Dms.Infrastructure.Common;

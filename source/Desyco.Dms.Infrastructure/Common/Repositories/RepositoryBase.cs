@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Desyco.Dms.Application.Common.Repositories;
+using Desyco.Dms.Domain.Common.Interfaces;
 using Desyco.Dms.Domain.Common.Base;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,0 +1,6 @@
+﻿using Desyco.Dms.Domain.Common.Interfaces;
+using Desyco.Dms.Domain.Teachers;
+
+namespace Desyco.Dms.Domain.Teachers.Interfaces;
+
+public interface ITeacherRepository : IRepositoryBase<TeacherEntity, int>;

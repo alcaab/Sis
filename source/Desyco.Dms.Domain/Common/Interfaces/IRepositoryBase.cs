@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Desyco.Dms.Domain.Common.Base;
 
-namespace Desyco.Dms.Application.Common.Repositories;
+namespace Desyco.Dms.Domain.Common.Interfaces;
 
 public interface IRepositoryBase<TEntity, TKey> where TEntity : EntityBase<TKey>
 {

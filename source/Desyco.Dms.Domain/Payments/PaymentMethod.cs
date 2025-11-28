@@ -1,4 +1,4 @@
-﻿namespace Desyco.Dms.Domain.Payments;
+namespace Desyco.Dms.Domain.Payments;
 
 public enum PaymentMethod
 {

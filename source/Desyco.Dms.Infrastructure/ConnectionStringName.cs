@@ -1,4 +1,4 @@
-﻿namespace Desyco.Dms.Infrastructure;
+namespace Desyco.Dms.Infrastructure;
 
 [ExcludeFromCodeCoverage]
 public static class ConnectionStringName
