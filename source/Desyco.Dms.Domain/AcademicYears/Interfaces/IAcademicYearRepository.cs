@@ -1,5 +1,4 @@
 using Desyco.Dms.Domain.Common.Interfaces;
-using Desyco.Dms.Domain.AcademicYears;
 
 namespace Desyco.Dms.Domain.AcademicYears.Interfaces;
 

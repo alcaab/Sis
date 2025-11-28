@@ -1,5 +1,4 @@
 using Desyco.Dms.Domain.Common.Interfaces;
-using Desyco.Dms.Domain.ScaleLevels;
 
 namespace Desyco.Dms.Domain.ScaleLevels.Interfaces;
 

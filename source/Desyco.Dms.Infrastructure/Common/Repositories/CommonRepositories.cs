@@ -1,7 +1,5 @@
 using Desyco.Dms.Domain.Common.Interfaces;
 using Desyco.Dms.Domain.Common.Entities;
-using Desyco.Dms.Infrastructure.Common;
-using Desyco.Dms.Infrastructure.Common.Repositories;
 
 namespace Desyco.Dms.Infrastructure.Common.Repositories;
 
