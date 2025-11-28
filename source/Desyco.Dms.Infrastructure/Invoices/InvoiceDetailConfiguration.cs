@@ -6,11 +6,11 @@ using Desyco.Dms.Domain.Students;
 
 namespace Desyco.Dms.Infrastructure.Invoices;
 
-public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItemEntity>
+public class InvoiceDetailConfiguration : IEntityTypeConfiguration<InvoiceDetailEntity>
 {
-    public void Configure(EntityTypeBuilder<InvoiceItemEntity> builder)
+    public void Configure(EntityTypeBuilder<InvoiceDetailEntity> builder)
     {
-        builder.ToTable("InvoiceItem");
+        builder.ToTable("InvoiceDetail");
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Description).HasMaxLength(255);

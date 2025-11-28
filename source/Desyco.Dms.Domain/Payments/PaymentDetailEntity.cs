@@ -6,7 +6,7 @@ public class PaymentDetailEntity : EntityBase<int>
     
     public int? StudentId { get; set; }
 
-    public int? InvoiceItemId { get; set; }
+    public int? InvoiceDetailId { get; set; }
     
     public PaymentConceptType ConceptTypeId { get; set; }
     

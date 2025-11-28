@@ -1,6 +1,6 @@
 namespace Desyco.Dms.Domain.Invoices;
 
-public class InvoiceItemEntity : EntityBase<int>
+public class InvoiceDetailEntity : EntityBase<int>
 {
     public int InvoiceId { get; set; }
 
