@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Enrollments;
 using Desyco.Dms.Domain.Scholarships;
+using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Scholarships;
 
@@ -13,6 +14,7 @@ public class ScholarshipAwardConfiguration : IEntityTypeConfiguration<Scholarshi
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Justification).HasMaxLength(500);
+        builder.Property(x => x.AssignedPercentage).HasPercentageValuePrecision();
 
         builder.HasOne<EnrollmentEntity>().WithMany().HasForeignKey(x => x.EnrollmentId);
         builder.HasOne<ScholarshipTypeEntity>().WithMany().HasForeignKey(x => x.ScholarshipTypeId);

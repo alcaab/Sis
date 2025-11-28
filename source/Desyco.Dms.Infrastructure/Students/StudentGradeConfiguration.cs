@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Evaluations;
 using Desyco.Dms.Domain.ScaleLevels;
 using Desyco.Dms.Domain.Students;
+using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Students;
 
@@ -14,6 +15,7 @@ public class StudentGradeConfiguration : IEntityTypeConfiguration<StudentGradeEn
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Comments).HasMaxLength(500);
+        builder.Property(x => x.Score).HasEvaluationValuePrecision();
 
         builder.HasOne<EvaluationEntity>().WithMany().HasForeignKey(x => x.EvaluationId);
         builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);

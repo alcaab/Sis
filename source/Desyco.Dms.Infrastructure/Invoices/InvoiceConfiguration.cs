@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Guardians;
 using Desyco.Dms.Domain.Invoices;
+using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Invoices;
 
@@ -13,6 +14,9 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<InvoiceEntity>
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Number).HasMaxLength(20);
+        builder.Property(x => x.SubTotal).HasMoneyValuePrecision();
+        builder.Property(x => x.TotalDiscount).HasMoneyValuePrecision();
+        builder.Property(x => x.TotalAmount).HasMoneyValuePrecision();
 
         builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId);
         builder.HasOne<InvoiceStatusEntity>().WithMany().HasForeignKey(x => x.Status);

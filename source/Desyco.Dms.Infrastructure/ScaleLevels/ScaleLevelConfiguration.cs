@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.GradingScales;
 using Desyco.Dms.Domain.ScaleLevels;
+using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.ScaleLevels;
 
@@ -14,6 +15,7 @@ public class ScaleLevelConfiguration : IEntityTypeConfiguration<ScaleLevelEntity
         
         builder.Property(x => x.Name).HasMaxLength(50);
         builder.Property(x => x.ShortCode).HasMaxLength(10);
+        builder.Property(x => x.NumericEquivalent).HasEvaluationValuePrecision();
 
         builder.HasOne<GradingScaleEntity>().WithMany().HasForeignKey(x => x.GradingScaleId);
     }
