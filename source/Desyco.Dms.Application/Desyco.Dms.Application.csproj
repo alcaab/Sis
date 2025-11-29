@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac" Version="9.0.0" />
         <PackageReference Include="Desyco.Mediator" Version="1.0.1" />
         <PackageReference Include="Desyco.Mediator.Contracts" Version="1.0.1" />
         <PackageReference Include="IdentityModel" Version="7.0.0" />

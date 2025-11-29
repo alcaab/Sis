@@ -1,5 +1,4 @@
-﻿using Desyco.Dms.Application.AcademicYears.Mappers;
-using Desyco.Dms.Application.Common;
+﻿using Desyco.Dms.Application.Common;
 using Desyco.Mediator.MicrosoftExtensionsDI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,8 +19,6 @@ public static class AppComposition
                 typeof(IMediatorHandlerMarker).Assembly
             )
         );
-
-        services.AddSingleton<AcademicYearMapper>();
 
         return services;
     }

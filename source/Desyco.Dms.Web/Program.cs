@@ -1,4 +1,8 @@
 ﻿using System.Globalization;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Desyco.Dms.Application;
+using Desyco.Dms.Infrastructure;
 using Desyco.Dms.Web;
 using Serilog;
 using Serilog.Exceptions;
@@ -6,6 +10,13 @@ using Serilog.Exceptions;
 const string CorsPolicy = "_allowedOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
+    containerBuilder.RegisterModule(new ApplicationModule());
+    containerBuilder.RegisterModule(new InfrastructureModule());
+});
 
 builder.Configuration
     .AddJsonFile("appsettings.Local.json", optional: true);
