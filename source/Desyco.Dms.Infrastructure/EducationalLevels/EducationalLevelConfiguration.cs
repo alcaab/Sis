@@ -12,5 +12,11 @@ public class EducationalLevelConfiguration : IEntityTypeConfiguration<Educationa
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Name).HasMaxLength(50);
+
+        
+        builder.HasOne<EducationalLevelTypeEntity>()
+            .WithMany()
+            .HasForeignKey(x => x.LevelTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

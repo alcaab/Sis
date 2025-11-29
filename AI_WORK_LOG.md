@@ -83,6 +83,11 @@ Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API m�
     *   **Propósito:** Generar GUIDs en C# que sean amigables con los índices de SQL Server (evitando fragmentación) mediante el algoritmo COMB.
     *   **Uso Previsto:** Facilitar una futura refactorización de entidades transaccionales (Facturas, Pagos) de `int` a `Guid` para optimizar inserciones masivas.
 
+### J. Modificaciones en el Modelo de Datos (EducationalLevel)
+*   **Nueva Configuración:** `EducationalLevelTypeConfiguration.cs` para la entidad `EducationalLevelTypeEntity` (Tabla: `EducationalLevelType`).
+*   **Relación:** Se actualizó `EducationalLevelConfiguration.cs` para establecer la relación uno a muchos con `EducationalLevelTypeEntity` usando `LevelTypeId` y `DeleteBehavior.Restrict`.
+*   **Migración:** Se generó la migración `AddEducationalLevelTypeEntity` para aplicar los cambios del modelo de datos.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
 2.  **Explorar Scalar UI:** Navegar a `/scalar/v1` para ver la documentación de la API versionada.
