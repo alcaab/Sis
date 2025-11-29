@@ -1,5 +1,3 @@
-using Desyco.Dms.Domain.Common.Base;
-
 namespace Desyco.Dms.Domain.GradingScales;
 
 public class GradingScaleTypeEntity : EntityBase<GradingScaleType>, ITranslationKey
