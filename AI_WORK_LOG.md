@@ -107,6 +107,17 @@ Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API m�
     *   Se generó la migración `AddGradingScaleTypeAndEnrollmentStatus`.
 *   **Seeders:** Se crearon `GradingScaleTypeSeeder` y `EnrollmentStatusSeeder`.
 
+### N. Tablas de Idiomas y Traducciones
+*   **Objetivo:** Soportar la funcionalidad multiidioma de `TranslationKey`.
+*   **Implementación:**
+    *   **`LanguageEntity`:** Entidad para gestionar idiomas (`Id`, `Name`, `Code`, `IsActive`).
+    *   **`LanguageConfiguration`:** Configuración de EF Core para `LanguageEntity`, incluyendo `HasData` para idiomas iniciales ("en", "es").
+    *   **`TranslationEntity`:** Entidad para almacenar las traducciones (`Id`, `Key`, `LanguageId`, `Value`).
+    *   **`TranslationConfiguration`:** Configuración de EF Core para `TranslationEntity`, con un índice único compuesto en `(Key, LanguageId)` y sin propiedades de navegación.
+    *   Se generó la migración `AddLanguageAndTranslationTables`.
+*   **Corrección:** Se restauró la configuración de la relación FK en `TranslationConfiguration.cs` para `LanguageId` (sin propiedad de navegación).
+*   **Corrección:** Se eliminó un comentario en línea inapropiado en `LanguageEntity.cs`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
 2.  **Explorar Scalar UI:** Navegar a `/scalar/v1` para ver la documentación de la API versionada.

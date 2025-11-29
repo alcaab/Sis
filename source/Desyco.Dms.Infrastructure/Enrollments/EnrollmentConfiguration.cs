@@ -19,5 +19,9 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<EnrollmentEntity
         builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<SectionEntity>().WithMany().HasForeignKey(x => x.SectionId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<EnrollmentStatusEntity>()
+            .WithMany()
+            .HasForeignKey(x => x.Status) // Property is 'Status' in EnrollmentEntity
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

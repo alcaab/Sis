@@ -39,7 +39,7 @@ builder.Logging.AddSerilog(Log.Logger);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureServices(builder.Configuration, builder.Environment);
-builder.Services.AddControllers(/*opt => opt.ModelBinderProviders.Insert(0, new QueryOptionsBinderProvider())*/);
+builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -98,12 +98,6 @@ app.MapScalarApiReference(options =>
 });
 
 app.MapGet("/", () => Results.Redirect("/scalar"));
-
-// app.UseHangfireDashboard("/jobs", new DashboardOptions
-// {
-//     Authorization = [new OidcDashboardAuthorizationFilter()],
-//     IgnoreAntiforgeryToken = true
-// });
 
 app.ExecuteMigrations();
 
