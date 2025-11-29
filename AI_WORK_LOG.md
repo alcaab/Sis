@@ -88,6 +88,16 @@ Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API m�
 *   **Relación:** Se actualizó `EducationalLevelConfiguration.cs` para establecer la relación uno a muchos con `EducationalLevelTypeEntity` usando `LevelTypeId` y `DeleteBehavior.Restrict`.
 *   **Migración:** Se generó la migración `AddEducationalLevelTypeEntity` para aplicar los cambios del modelo de datos.
 
+### K. Implementación de ITranslationKey en Enums
+*   **Objetivo:** Permitir soporte multiidioma en tablas de catálogo (Enum-Driven).
+*   **Cambios:** Se implementó `ITranslationKey` y se añadió la propiedad `TranslationKey` en:
+    *   `AttendanceStatusEntity`
+    *   `EducationalLevelTypeEntity`
+    *   `PaymentConceptTypeEntity`
+    *   `PaymentMethodEntity`
+*   **Configuración:** Se configuró `MaxLength(100)` para `TranslationKey` en sus respectivas clases de configuración.
+*   **Migración:** Se generó `AddTranslationKeyToEnums`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
 2.  **Explorar Scalar UI:** Navegar a `/scalar/v1` para ver la documentación de la API versionada.
