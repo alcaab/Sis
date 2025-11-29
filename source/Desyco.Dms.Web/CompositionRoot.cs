@@ -3,8 +3,11 @@ using Desyco.Dms.Application;
 using Desyco.Dms.Domain;
 using Desyco.Dms.Domain.Common;
 using Desyco.Dms.Infrastructure;
+using Desyco.Dms.Web.Infrastructure;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Scrima.OData;
 using Scrima.OData.AspNetCore;
 
 namespace Desyco.Dms.Web;
@@ -62,9 +65,9 @@ public static class CompositionRoot
     {
         services.AddODataQuery();
 
-        // services.Replace(new ServiceDescriptor(
-        //     typeof(IODataRawQueryParser),
-        //     typeof(CustomODataRawQueryParser),
-        //     ServiceLifetime.Singleton));
+        services.Replace(new ServiceDescriptor(
+            typeof(IODataRawQueryParser),
+            typeof(ODataSortRawQueryParser),
+            ServiceLifetime.Singleton));
     }
 }

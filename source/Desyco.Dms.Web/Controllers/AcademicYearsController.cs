@@ -10,7 +10,8 @@ using Scrima.OData.AspNetCore;
 namespace Desyco.Dms.Web.Controllers;
 
 [ApiController]
-[Route("api/academic-years")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/academic-years")]
 public class AcademicYearsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]

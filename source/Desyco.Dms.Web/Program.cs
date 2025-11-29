@@ -6,7 +6,9 @@ using Desyco.Dms.Infrastructure;
 using Desyco.Dms.Web;
 using Serilog;
 using Serilog.Exceptions;
-using Scalar.AspNetCore; // Added for Scalar UI
+using Scalar.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 const string CorsPolicy = "_allowedOrigins";
 
@@ -42,6 +44,20 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApiVersioning(settings =>
+{
+    settings.ReportApiVersions = true;
+    settings.AssumeDefaultVersionWhenUnspecified = true;
+    settings.DefaultApiVersion = new ApiVersion(1, 0);
+    settings.ApiVersionReader = new UrlSegmentApiVersionReader();
+});
+
+builder.Services.AddVersionedApiExplorer(settings =>
+{
+    settings.GroupNameFormat = "'v'VVV";
+    settings.SubstituteApiVersionInUrl = true;
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(CorsPolicy, policyBuilder =>
@@ -51,20 +67,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
-
-// builder.Services
-//     .AddApiVersioning(settings =>
-//     {
-//         settings.ReportApiVersions = true;
-//         settings.AssumeDefaultVersionWhenUnspecified = true;
-//         settings.DefaultApiVersion = new ApiVersion(1, 0);
-//         settings.ApiVersionReader = new UrlSegmentApiVersionReader();
-//     }).AddApiExplorer(settings =>
-//     {
-//         settings.DefaultApiVersion = new ApiVersion(1, 0);
-//         settings.GroupNameFormat = "'v'VVV";
-//         settings.SubstituteApiVersionInUrl = true;
-//     });
 
 var app = builder.Build();
 

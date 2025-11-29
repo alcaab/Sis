@@ -60,10 +60,29 @@ Se generó un documento (`FrontendMaintenanceViews.md`) clasificando las vistas 
 3.  **Operativa:** (Enrollment, TeacherAssignment).
 4.  **Financiero:** (Invoice, Payment).
 
+### F. Implementación de Scalar UI
+Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API más moderna.
+*   **Paquete:** Instalado `Scalar.AspNetCore` (v2.11.0).
+*   **Configuración:** Se actualizó `Program.cs` para usar `app.MapScalarApiReference()`.
+*   **Acceso:** La documentación ahora está disponible (ruta por defecto `/scalar/v1`).
+
+### G. Implementación de API Versioning
+*   **Paquetes:** Se instalaron `Microsoft.AspNetCore.Mvc.Versioning` y `Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer`.
+*   **Configuración:** Se habilitó `AddApiVersioning` y `AddVersionedApiExplorer` en `Program.cs` para soportar versionado por URL (`/v{version}/`).
+*   **Controllers:** Se aplicó `[ApiVersion("1.0")]` y la ruta versionada al `AcademicYearsController`.
+*   **Corrección:** Se revirtieron cambios en `Scrima` dentro del controlador para respetar la implementación original, manteniendo solo la capa de versionado.
+
+### H. Verificación General y Estabilización
+*   **Compilación:** La solución compila exitosamente tras corregir errores en `Program.cs`.
+*   **Base de Datos:** Se creó la migración `Fix_Enums_And_Cascades`.
+*   **Ejecución:** Se aplicaron las migraciones exitosamente.
+*   **Autofac:** Confirmado el funcionamiento correcto.
+
 ## 3. Instrucciones para la Próxima Sesión
-1.  **Verificar Migración:** Lo último realizado fue la configuración de Autofac y los arreglos de `DeleteBehavior`. El siguiente paso lógico es intentar ejecutar la migración (`dotnet ef migrations add ...`) para confirmar que el `DbContext` ya es válido.
-2.  **Probar Endpoints:** Ejecutar la aplicación y probar el endpoint `GET /api/academic-years` con parámetros OData (ej. `?$top=10`) para asegurar que Autofac y Scrima funcionan en conjunto.
-3.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController`.
+1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
+2.  **Explorar Scalar UI:** Navegar a `/scalar/v1` para ver la documentación de la API versionada.
+3.  **Probar Endpoints:** Verificar que la ruta `/api/v1/academic-years` funciona correctamente.
+4.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
 ## 4. Rutas Clave
 *   **Web/API:** `source/Desyco.Dms.Web`
