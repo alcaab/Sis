@@ -98,18 +98,14 @@ Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API m�
 *   **Configuración:** Se configuró `MaxLength(100)` para `TranslationKey` en sus respectivas clases de configuración.
 *   **Migración:** Se generó `AddTranslationKeyToEnums`.
 
-### L. Mecanismo de Seeding Automático para Enums
-*   **Objetivo:** Sincronizar las tablas de base de datos con los Enums del código al inicio de la aplicación.
-*   **Diseño:** 
-    *   `EnumEntitySeeder<TEntity, TEnum>`: Clase base abstracta que gestiona Insert/Update/Delete comparando Enum vs BD.
-    *   `ApplicationDbSeeder`: Orquestador que ejecuta todos los seeders registrados.
+### M. Incorporación de GradingScaleType y EnrollmentStatus al Seeding
+*   **Objetivo:** Convertir `GradingScaleType` y `EnrollmentStatus` en tablas de catálogo sincronizadas.
 *   **Implementación:**
-    *   Se crearon 8 seeders concretos en `source/Desyco.Dms.Infrastructure/Seeders/`.
-    *   Se registró la inyección de dependencias en `InfrastructureModule`.
-    *   Se configuró la ejecución en `Program.cs` después de las migraciones.
-*   **Mejoras Adicionales:**
-    *   Se refactorizó el logging para usar `[LoggerMessage]` y Event IDs centralizados en `ApplicationLogEventIds.Seeding`.
-    *   Se reemplazó la dependencia de `Humanizer.Core` por un método interno para humanizar `PascalCase` a `Title Case` en el `Name` de las entidades, manteniendo el `TranslationKey` basado en el nombre crudo del Enum.
+    *   Se crearon `GradingScaleTypeEntity` y `EnrollmentStatusEntity` en el dominio, implementando `ITranslationKey`.
+    *   Se crearon `GradingScaleTypeConfiguration` y `EnrollmentStatusConfiguration` en la infraestructura.
+    *   Se actualizaron `GradingScaleConfiguration` y `EnrollmentConfiguration` para establecer las relaciones `HasOne` con `DeleteBehavior.Restrict`.
+    *   Se generó la migración `AddGradingScaleTypeAndEnrollmentStatus`.
+*   **Seeders:** Se crearon `GradingScaleTypeSeeder` y `EnrollmentStatusSeeder`.
 
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
