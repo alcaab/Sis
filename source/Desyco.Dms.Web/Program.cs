@@ -6,6 +6,7 @@ using Desyco.Dms.Infrastructure;
 using Desyco.Dms.Web;
 using Serilog;
 using Serilog.Exceptions;
+using Scalar.AspNetCore; // Added for Scalar UI
 
 const string CorsPolicy = "_allowedOrigins";
 
@@ -86,7 +87,15 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+
+app.MapScalarApiReference(options =>
+{
+    options.Title = "Documentación de mi API";
+    options.Theme = ScalarTheme.BluePlanet;
+    options.OpenApiRoutePattern = "/swagger/v1/swagger.json";
+});
+
+app.MapGet("/", () => Results.Redirect("/scalar"));
 
 // app.UseHangfireDashboard("/jobs", new DashboardOptions
 // {
