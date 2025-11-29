@@ -44,7 +44,16 @@ Se resolvieron varios errores bloqueantes para la creación de migraciones:
     *   Endpoints: `GetAll`, `GetById`, `Create`, `Update`, `Delete`.
     *   Ubicación: `source/Desyco.Dms.Web/Controllers/AcademicYearsController.cs`.
 
-### D. Análisis de Frontend (Pendiente de implementación)
+### D. Implementación de Scrima.OData (Filtrado y Paginación)
+*   **Verificación:** Se confirmó que los paquetes `Scrima` están instalados y configurados correctamente en todas las capas (`Web`, `Infrastructure`, `Domain`).
+*   **Configuración:** Se verificó la llamada `services.AddODataQuery()` en `CompositionRoot`.
+*   **CQRS con OData:**
+    *   `GetAllAcademicYearsQuery`: Modificado para aceptar `QueryOptions` y retornar `QueryResult<AcademicYearDto>`.
+    *   `GetAllAcademicYearsQueryHandler`: Actualizado para usar `GetResultListAsync` del repositorio (implementación de Scrima en EF Core).
+*   **Mapeo Avanzado:** Se añadió un método `partial` en `AcademicYearMapper` para mapear automáticamente de `QueryResult<Entity>` a `QueryResult<Dto>` usando Riok.Mapperly.
+*   **Controller:** `AcademicYearsController.GetAll` ahora acepta `[FromQuery] QueryOptions` y soporta sintaxis OData (filter, orderby, skip, top).
+
+### E. Análisis de Frontend (Pendiente de implementación)
 Se generó un documento (`FrontendMaintenanceViews.md`) clasificando las vistas necesarias en:
 1.  **Catálogos Maestros:** (AcademicYear, Shift, Classroom, etc.) - Grids simples.
 2.  **Gestión Compleja:** (Student, Teacher) - Formularios con pestañas/detalles.
@@ -53,7 +62,7 @@ Se generó un documento (`FrontendMaintenanceViews.md`) clasificando las vistas 
 
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Verificar Migración:** Lo último realizado fue la configuración de Autofac y los arreglos de `DeleteBehavior`. El siguiente paso lógico es intentar ejecutar la migración (`dotnet ef migrations add ...`) para confirmar que el `DbContext` ya es válido.
-2.  **Probar Endpoints:** Ejecutar la aplicación y probar el CRUD de `AcademicYears` para asegurar que Autofac está resolviendo correctamente el `Repository` y el `Mapper`.
+2.  **Probar Endpoints:** Ejecutar la aplicación y probar el endpoint `GET /api/academic-years` con parámetros OData (ej. `?$top=10`) para asegurar que Autofac y Scrima funcionan en conjunto.
 3.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController`.
 
 ## 4. Rutas Clave

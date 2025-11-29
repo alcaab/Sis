@@ -2,15 +2,20 @@ using Desyco.Dms.Application.AcademicYears.DTOs;
 using Desyco.Dms.Application.AcademicYears.Mappers;
 using Desyco.Dms.Domain.AcademicYears.Interfaces;
 using Desyco.Mediator;
+using Scrima.Core.Query;
 
 namespace Desyco.Dms.Application.AcademicYears.Queries;
 
 public class GetAllAcademicYearsQueryHandler(IAcademicYearRepository academicYearRepository, AcademicYearMapper mapper)
-    : IRequestHandler<GetAllAcademicYearsQuery, List<AcademicYearDto>>
+    : IRequestHandler<GetAllAcademicYearsQuery, QueryResult<AcademicYearDto>>
 {
-    public async Task<List<AcademicYearDto>> Handle(GetAllAcademicYearsQuery request, CancellationToken cancellationToken = default)
+    public async Task<QueryResult<AcademicYearDto>> Handle(GetAllAcademicYearsQuery request,
+        CancellationToken cancellationToken = default)
     {
-        var academicYears = await academicYearRepository.ListAsync(cancellationToken: cancellationToken);
-        return academicYears.Select(mapper.Map).ToList();
+        var result =
+            await academicYearRepository.GetResultListAsync(request.QueryOptions, null,
+                cancellationToken);
+        
+        return mapper.Map(result);
     }
 }

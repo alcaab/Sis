@@ -1,8 +1,11 @@
 using Desyco.Dms.Application.AcademicYears.Commands;
 using Desyco.Dms.Application.AcademicYears.DTOs;
 using Desyco.Dms.Application.AcademicYears.Queries;
+using Desyco.Dms.Domain.AcademicYears;
 using Desyco.Mediator;
 using Microsoft.AspNetCore.Mvc;
+using Scrima.Core.Query;
+using Scrima.OData.AspNetCore;
 
 namespace Desyco.Dms.Web.Controllers;
 
@@ -12,9 +15,10 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<AcademicYearDto>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<QueryResult<AcademicYearDto>>> GetAll(ODataQuery<AcademicYearEntity> queryOptions,
+        CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllAcademicYearsQuery(), cancellationToken);
+        var result = await mediator.Send(new GetAllAcademicYearsQuery(queryOptions), cancellationToken);
         return Ok(result);
     }
 
@@ -30,7 +34,8 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<AcademicYearDto>> Create([FromBody] AcademicYearDto dto, CancellationToken cancellationToken)
+    public async Task<ActionResult<AcademicYearDto>> Create([FromBody] AcademicYearDto dto,
+        CancellationToken cancellationToken)
     {
         var command = new CreateAcademicYearCommand(dto);
         var result = await mediator.Send(command, cancellationToken);
@@ -42,7 +47,8 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<AcademicYearDto>> Update(int id, [FromBody] AcademicYearDto dto, CancellationToken cancellationToken)
+    public async Task<ActionResult<AcademicYearDto>> Update(int id, [FromBody] AcademicYearDto dto,
+        CancellationToken cancellationToken)
     {
         if (id != dto.Id)
         {
@@ -53,7 +59,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
         try
         {
             var result = await mediator.Send(command, cancellationToken);
-            // The handler for UpdateAcademicYearCommand returns the updated DTO.
+            // The handler for UpdateAcademicYearCommand returns the updated DTO. -
             // Returning 200 OK with the updated resource is a valid REST practice.
             return Ok(result);
         }

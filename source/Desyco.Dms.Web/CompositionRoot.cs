@@ -5,6 +5,7 @@ using Desyco.Dms.Domain.Common;
 using Desyco.Dms.Infrastructure;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Scrima.OData.AspNetCore;
 
 namespace Desyco.Dms.Web;
 
@@ -19,6 +20,7 @@ public static class CompositionRoot
         services.ConfigureHangfireServices(configuration);
         // services.AddWebHandlersFromAssembly(typeof(AppComposition).Assembly);
         services.ConfigureAuthServices(configuration);
+        services.ConfigureODataQuery();
 
         return services;
     }
@@ -54,5 +56,15 @@ public static class CompositionRoot
             c.UseSqlServerStorage(hangfireConnectionString);
             c.UseSerilogLogProvider();
         });
+    }
+    
+    public static void ConfigureODataQuery(this IServiceCollection services)
+    {
+        services.AddODataQuery();
+
+        // services.Replace(new ServiceDescriptor(
+        //     typeof(IODataRawQueryParser),
+        //     typeof(CustomODataRawQueryParser),
+        //     ServiceLifetime.Singleton));
     }
 }

@@ -2,6 +2,8 @@ using System.Linq.Expressions;
 using Desyco.Dms.Domain.Common.Interfaces;
 using Desyco.Dms.Domain.Common.Base;
 using Microsoft.EntityFrameworkCore;
+using Scrima.Core.Query;
+using Scrima.EntityFrameworkCore;
 
 namespace Desyco.Dms.Infrastructure.Common.Repositories;
 
@@ -10,6 +12,14 @@ public abstract class RepositoryBase<TEntity, TKey>(ApplicationDbContext context
 {
     protected readonly ApplicationDbContext Context = context;
     protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
+
+    public Task<QueryResult<TEntity>> GetResultListAsync(
+        QueryOptions queryOptions,
+        Expression<Func<TEntity, string, bool>>? searchExpression = null,
+        CancellationToken cancellationToken = default)
+    {
+        return DbSet.ToQueryResultAsync(queryOptions, searchExpression, cancellationToken: cancellationToken);
+    }
 
     public virtual async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
     {
