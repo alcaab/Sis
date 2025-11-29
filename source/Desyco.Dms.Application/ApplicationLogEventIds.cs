@@ -5,6 +5,19 @@ namespace Desyco.Dms.Application;
 [ExcludeFromCodeCoverage]
 public static class ApplicationLogEventIds // 1000
 {
+    public static class Seeding // 1000 - 1099
+    {
+        public const int SeedingStarted = 1000;
+        public const int SeedingCompleted = 1001;
+        public const int SeedingExecution = 1002;
+        public const int SeedingError = 1003;
+
+        // Entity Seeding
+        public const int EnumEntityDeleted = 1010;
+        public const int EnumEntityDeleteSkipped = 1011;
+        public const int EnumEntityDeleteError = 1012;
+    }
+
     public static class Pipelines // 1100 - 1499
     {
         // Validation Events 1200 - 1299

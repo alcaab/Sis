@@ -106,6 +106,13 @@ app.MapGet("/", () => Results.Redirect("/scalar"));
 // });
 
 app.ExecuteMigrations();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<Desyco.Dms.Infrastructure.Seeders.ApplicationDbSeeder>();
+    await seeder.SeedAsync();
+}
+
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 

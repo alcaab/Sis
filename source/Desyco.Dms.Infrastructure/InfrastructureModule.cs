@@ -1,4 +1,6 @@
 using Autofac;
+using Desyco.Dms.Infrastructure.Common.Seeding;
+using Desyco.Dms.Infrastructure.Seeders;
 
 namespace Desyco.Dms.Infrastructure;
 
@@ -6,13 +8,20 @@ public class InfrastructureModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        // Escanea y registra todos los tipos que terminen en "Repository"
-        // y los asigna a sus interfaces implementadas (ej. AcademicYearRepository -> IAcademicYearRepository)
+        // "Repository"
         builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
             .Where(t => t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
-        // Aquí puedes añadir otros servicios de infraestructura si es necesario
+        // Seeders
+        builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
+            .AssignableTo<IDataSeeder>()
+            .As<IDataSeeder>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<ApplicationDbSeeder>()
+            .AsSelf()
+            .InstancePerLifetimeScope();
     }
 }

@@ -38,5 +38,5 @@ public enum PaymentConceptType
 
     // --- 7. Miscellaneous ---
     Donation,               // Voluntary financial contributions
-    Other                   // Uncategorized charges
+    Other,                   // Uncategorized charges
 }
