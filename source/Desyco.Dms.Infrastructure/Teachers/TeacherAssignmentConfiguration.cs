@@ -13,8 +13,8 @@ public class TeacherAssignmentConfiguration : IEntityTypeConfiguration<TeacherAs
         builder.ToTable("TeacherAssignment");
         builder.HasKey(x => x.Id);
 
-        builder.HasOne<TeacherEntity>().WithMany().HasForeignKey(x => x.TeacherId);
-        builder.HasOne<SectionEntity>().WithMany().HasForeignKey(x => x.SectionId);
-        builder.HasOne<SubjectEntity>().WithMany().HasForeignKey(x => x.SubjectId);
+        builder.HasOne<TeacherEntity>().WithMany().HasForeignKey(x => x.TeacherId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<SectionEntity>().WithMany().HasForeignKey(x => x.SectionId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<SubjectEntity>().WithMany().HasForeignKey(x => x.SubjectId).OnDelete(DeleteBehavior.Restrict);
     }
 }

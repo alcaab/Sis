@@ -1,3 +1,5 @@
+using Desyco.Dms.Domain.Shifts;
+
 namespace Desyco.Dms.Domain.Sections;
 
 public class SectionEntity: EntityBase<int>
@@ -6,7 +8,7 @@ public class SectionEntity: EntityBase<int>
     
     public int GradeId { get; set; }
     
-    public int ShiftId { get; set; }
+    public ShiftType ShiftId { get; set; }
     
     public int? ClassroomId { get; set; }
     

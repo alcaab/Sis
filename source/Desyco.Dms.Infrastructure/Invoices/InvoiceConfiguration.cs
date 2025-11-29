@@ -18,7 +18,7 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<InvoiceEntity>
         builder.Property(x => x.TotalDiscount).HasMoneyValuePrecision();
         builder.Property(x => x.TotalAmount).HasMoneyValuePrecision();
 
-        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId);
-        builder.HasOne<InvoiceStatusEntity>().WithMany().HasForeignKey(x => x.Status);
+        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<InvoiceStatusEntity>().WithMany().HasForeignKey(x => x.Status).OnDelete(DeleteBehavior.Restrict);
     }
 }

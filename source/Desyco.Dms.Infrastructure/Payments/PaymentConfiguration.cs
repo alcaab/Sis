@@ -16,6 +16,6 @@ public class PaymentConfiguration : IEntityTypeConfiguration<PaymentEntity>
         builder.Property(x => x.Number).HasMaxLength(20);
         builder.Property(x => x.TotalAmount).HasMoneyValuePrecision();
 
-        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId);
+        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId).OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -24,7 +24,7 @@ public abstract class RepositoryBase<TEntity, TKey>(ApplicationDbContext context
     {
         IQueryable<TEntity> query = DbSet;
         
-        // includes: [x => x.Status, x => x.Enrollments]);
+        // includes: [x => x.StatusId, x => x.Enrollments]);
         if (includes != null)
         {
             query = includes.Aggregate(query, (current, include) => current.Include(include));

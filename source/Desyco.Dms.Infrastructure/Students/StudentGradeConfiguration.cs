@@ -17,8 +17,8 @@ public class StudentGradeConfiguration : IEntityTypeConfiguration<StudentGradeEn
         builder.Property(x => x.Comments).HasMaxLength(500);
         builder.Property(x => x.Score).HasEvaluationValuePrecision();
 
-        builder.HasOne<EvaluationEntity>().WithMany().HasForeignKey(x => x.EvaluationId);
-        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);
-        builder.HasOne<ScaleLevelEntity>().WithMany().HasForeignKey(x => x.ScaleLevelId);
+        builder.HasOne<EvaluationEntity>().WithMany().HasForeignKey(x => x.EvaluationId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<ScaleLevelEntity>().WithMany().HasForeignKey(x => x.ScaleLevelId).OnDelete(DeleteBehavior.Restrict);
     }
 }

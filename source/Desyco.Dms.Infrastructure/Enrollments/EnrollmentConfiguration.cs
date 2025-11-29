@@ -16,8 +16,8 @@ public class EnrollmentConfiguration : IEntityTypeConfiguration<EnrollmentEntity
         
         builder.Property(x => x.WithdrawalReason).HasMaxLength(500);
 
-        builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId);
-        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);
-        builder.HasOne<SectionEntity>().WithMany().HasForeignKey(x => x.SectionId);
+        builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<SectionEntity>().WithMany().HasForeignKey(x => x.SectionId).OnDelete(DeleteBehavior.Restrict);
     }
 }

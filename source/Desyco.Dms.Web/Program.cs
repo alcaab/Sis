@@ -83,7 +83,7 @@ app.UseSwaggerUI();
 //     IgnoreAntiforgeryToken = true
 // });
 
-//app.ExecuteMigrations();
+app.ExecuteMigrations();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 

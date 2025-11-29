@@ -1,7 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Desyco.Dms.Application;
+using Desyco.Dms.Application.AcademicYears.Mappers;
 using Desyco.Dms.Domain;
+using Desyco.Dms.Domain.AcademicYears.Interfaces;
 using Desyco.Dms.Domain.Common;
 using Desyco.Dms.Infrastructure;
+using Desyco.Dms.Infrastructure.AcademicYears.Repositories;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -13,8 +17,13 @@ public static class CompositionRoot
         IHostEnvironment environment)
     {
         services.ConfigureDomainServices(configuration, environment);
-        // services.ConfigureApplicationServices(configuration, environment);
+        services.ConfigureApplicationServices(configuration, environment);
         services.ConfigureInfrastructureServices(configuration, environment);
+        
+        // Manual registration for debugging
+        services.AddScoped<IAcademicYearRepository, AcademicYearRepository>();
+        services.AddSingleton<AcademicYearMapper>();
+        
         services.ConfigureHangfireServices(configuration);
         // services.AddWebHandlersFromAssembly(typeof(AppComposition).Assembly);
         services.ConfigureAuthServices(configuration);

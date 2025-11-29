@@ -1,5 +1,7 @@
 using Desyco.Dms.Application.Common;
+using Desyco.Dms.Domain.AcademicYears.Interfaces;
 using Desyco.Dms.Domain.Common;
+using Desyco.Dms.Infrastructure.AcademicYears.Repositories;
 using Desyco.Dms.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,8 @@ public static class InfrastructureComposition
     {
         services.ConfigureDatabaseServices(configuration);
         services.AddSingleton(TimeProvider.System);
+
+        services.AddScoped<IAcademicYearRepository, AcademicYearRepository>();
     }
 
     private static void ConfigureDatabaseServices(this IServiceCollection services, IConfiguration configuration)

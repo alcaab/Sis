@@ -16,7 +16,7 @@ public class ScholarshipAwardConfiguration : IEntityTypeConfiguration<Scholarshi
         builder.Property(x => x.Justification).HasMaxLength(500);
         builder.Property(x => x.AssignedPercentage).HasPercentageValuePrecision();
 
-        builder.HasOne<EnrollmentEntity>().WithMany().HasForeignKey(x => x.EnrollmentId);
-        builder.HasOne<ScholarshipTypeEntity>().WithMany().HasForeignKey(x => x.ScholarshipTypeId);
+        builder.HasOne<EnrollmentEntity>().WithMany().HasForeignKey(x => x.EnrollmentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<ScholarshipTypeEntity>().WithMany().HasForeignKey(x => x.ScholarshipTypeId).OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -15,6 +15,6 @@ public class StudentConfiguration : IEntityTypeConfiguration<StudentEntity>
         builder.Property(x => x.FirstName).HasMaxLength(50);
         builder.Property(x => x.LastName).HasMaxLength(50);
 
-        builder.HasOne<StudentStatusEntity>().WithMany().HasForeignKey(x => x.Status);
+        builder.HasOne<StudentStatusEntity>().WithMany().HasForeignKey(x => x.StatusId);
     }
 }

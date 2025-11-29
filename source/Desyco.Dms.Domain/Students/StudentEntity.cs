@@ -10,5 +10,5 @@ public class StudentEntity : EntityBase<int>
 
     public DateOnly DateOfBirth { get; set; }
     
-    public StudentStatus Status { get; set; }
+    public StudentStatus StatusId { get; set; }
 }

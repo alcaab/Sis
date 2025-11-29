@@ -17,9 +17,9 @@ public class SectionConfiguration : IEntityTypeConfiguration<SectionEntity>
         
         builder.Property(x => x.Name).HasMaxLength(50);
 
-        builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId);
-        builder.HasOne<GradeEntity>().WithMany().HasForeignKey(x => x.GradeId);
-        builder.HasOne<ShiftEntity>().WithMany().HasForeignKey(x => x.ShiftId);
-        builder.HasOne<ClassroomEntity>().WithMany().HasForeignKey(x => x.ClassroomId);
+        builder.HasOne<AcademicYearEntity>().WithMany().HasForeignKey(x => x.AcademicYearId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<GradeEntity>().WithMany().HasForeignKey(x => x.GradeId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<ShiftEntity>().WithMany().HasForeignKey(x => x.ShiftId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<ClassroomEntity>().WithMany().HasForeignKey(x => x.ClassroomId).OnDelete(DeleteBehavior.Restrict);
     }
 }

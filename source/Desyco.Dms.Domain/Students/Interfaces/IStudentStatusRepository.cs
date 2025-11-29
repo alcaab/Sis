@@ -2,4 +2,4 @@
 
 namespace Desyco.Dms.Domain.Students.Interfaces;
 
-public interface IStudentStatusRepository : IRepositoryBase<StudentStatusEntity, int>;
+public interface IStudentStatusRepository : IRepositoryBase<StudentStatusEntity, StudentStatus>;

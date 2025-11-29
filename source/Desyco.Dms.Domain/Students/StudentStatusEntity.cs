@@ -1,6 +1,6 @@
 namespace Desyco.Dms.Domain.Students;
 
-public class StudentStatusEntity : EntityBase<int>, ITranslationKey
+public class StudentStatusEntity : EntityBase<StudentStatus>, ITranslationKey
 {
     public string Name { get; set; } = string.Empty;
     

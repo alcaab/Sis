@@ -20,8 +20,8 @@ public class InvoiceDetailConfiguration : IEntityTypeConfiguration<InvoiceDetail
         builder.Property(x => x.NetAmount).HasMoneyValuePrecision();
         builder.Property(x => x.Payment).HasMoneyValuePrecision();
 
-        builder.HasOne<InvoiceEntity>().WithMany().HasForeignKey(x => x.InvoiceId);
-        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);
-        builder.HasOne<FeeConceptEntity>().WithMany().HasForeignKey(x => x.FeeConceptId);
+        builder.HasOne<InvoiceEntity>().WithMany().HasForeignKey(x => x.InvoiceId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<FeeConceptEntity>().WithMany().HasForeignKey(x => x.FeeConceptId).OnDelete(DeleteBehavior.Restrict);
     }
 }

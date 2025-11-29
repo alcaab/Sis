@@ -45,13 +45,13 @@
 //         {
 //             Type = $"https://netto-online.de/developers/docs/problems/{error.Type.ToString().ToLowerInvariant()}",
 //             Title = error.Type.GetTitle(),
-//             Status = error.Type.GetStatusCode(),
+//             StatusId = error.Type.GetStatusCode(),
 //             Detail = error.Message
 //         };
 //
 //         if (error.Metadata is not { Count: > 0 })
 //         {
-//             return new ObjectResult(details) { StatusCode = details.Status };
+//             return new ObjectResult(details) { StatusCode = details.StatusId };
 //         }
 //
 //         foreach (var kvp in error.Metadata)
@@ -59,7 +59,7 @@
 //
 //         return new ObjectResult(details)
 //         {
-//             StatusCode = details.Status
+//             StatusCode = details.StatusId
 //         };
 //     }
 //

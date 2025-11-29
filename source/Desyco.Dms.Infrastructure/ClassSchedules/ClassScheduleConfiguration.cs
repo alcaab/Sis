@@ -13,7 +13,7 @@ public class ClassScheduleConfiguration : IEntityTypeConfiguration<ClassSchedule
         builder.ToTable("ClassSchedule");
         builder.HasKey(x => x.Id);
 
-        builder.HasOne<DayOfWeekEntity>().WithMany().HasForeignKey(x => x.DayOfWeekId);
-        builder.HasOne<ClassroomEntity>().WithMany().HasForeignKey(x => x.ClassroomId);
+        builder.HasOne<DayOfWeekEntity>().WithMany().HasForeignKey(x => x.DayOfWeekId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<ClassroomEntity>().WithMany().HasForeignKey(x => x.ClassroomId).OnDelete(DeleteBehavior.Restrict);
     }
 }

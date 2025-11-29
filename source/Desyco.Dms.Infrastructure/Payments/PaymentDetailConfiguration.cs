@@ -17,9 +17,9 @@ public class PaymentDetailConfiguration : IEntityTypeConfiguration<PaymentDetail
         builder.Property(x => x.Description).HasMaxLength(255);
         builder.Property(x => x.Amount).HasMoneyValuePrecision();
 
-        builder.HasOne<PaymentEntity>().WithMany().HasForeignKey(x => x.PaymentId);
-        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);
-        builder.HasOne<InvoiceDetailEntity>().WithMany().HasForeignKey(x => x.InvoiceDetailId);
-        builder.HasOne<PaymentConceptTypeEntity>().WithMany().HasForeignKey(x => x.ConceptTypeId);
+        builder.HasOne<PaymentEntity>().WithMany().HasForeignKey(x => x.PaymentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<InvoiceDetailEntity>().WithMany().HasForeignKey(x => x.InvoiceDetailId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<PaymentConceptTypeEntity>().WithMany().HasForeignKey(x => x.ConceptTypeId).OnDelete(DeleteBehavior.Restrict);
     }
 }

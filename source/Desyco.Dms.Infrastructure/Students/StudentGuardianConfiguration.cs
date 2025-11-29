@@ -13,8 +13,8 @@ public class StudentGuardianConfiguration : IEntityTypeConfiguration<StudentGuar
         builder.ToTable("StudentGuardian");
         builder.HasKey(x => new { x.StudentId, x.GuardianId });
 
-        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId);
-        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId);
-        builder.HasOne<RelationshipEntity>().WithMany().HasForeignKey(x => x.RelationShipId);
+        builder.HasOne<StudentEntity>().WithMany().HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<GuardianEntity>().WithMany().HasForeignKey(x => x.GuardianId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<RelationshipEntity>().WithMany().HasForeignKey(x => x.RelationShipId).OnDelete(DeleteBehavior.Restrict);
     }
 }
