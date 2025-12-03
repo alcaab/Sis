@@ -1,8 +1,60 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import AppConfigurator from './AppConfigurator.vue';
+import { ref } from 'vue';
 
 const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
+
+const items = ref([
+    {
+        label: 'Home',
+        icon: 'pi pi-home'
+    },
+    {
+        label: 'Admin',
+        icon: 'pi pi-star'
+    },
+    {
+        label: 'Assess',
+        icon: 'pi pi-search',
+        items: [
+            {
+                label: 'Components',
+                icon: 'pi pi-bolt'
+            },
+            {
+                label: 'Blocks',
+                icon: 'pi pi-server'
+            },
+            {
+                label: 'UI Kit',
+                icon: 'pi pi-pencil'
+            },
+            {
+                label: 'Templates',
+                icon: 'pi pi-palette',
+                items: [
+                    {
+                        label: 'Apollo',
+                        icon: 'pi pi-palette'
+                    },
+                    {
+                        label: 'Ultima',
+                        icon: 'pi pi-palette'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        label: 'Learn',
+        icon: 'pi pi-envelope'
+    },
+    {
+        label: 'People',
+        icon: 'pi pi-envelope'
+    }
+]);
 </script>
 
 <template>
@@ -29,11 +81,12 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
                         />
                     </g>
                 </svg>
-
                 <span>SAKAI</span>
             </router-link>
         </div>
-
+        <div class="layout-topbar-menubar">
+            <Menubar :model="items" />
+        </div>
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">
                 <button type="button" class="layout-topbar-action" @click="toggleDarkMode">
@@ -77,3 +130,9 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
         </div>
     </div>
 </template>
+<style scoped>
+:deep(.p-menubar) {
+    border: none !important;
+    border-radius: 0;
+}
+</style>

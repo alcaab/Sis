@@ -3,7 +3,7 @@
 .layout-topbar {
     position: fixed;
     height: 4rem;
-    z-index: 997;
+    z-index: 999;
     left: 0;
     top: 0;
     width: 100%;
@@ -14,7 +14,7 @@
     align-items: center;
 
     .layout-topbar-logo-container {
-        width: 20rem;
+        width: 15rem;
         display: flex;
         align-items: center;
     }
@@ -77,6 +77,10 @@
 
     .layout-topbar-menu-button {
         display: none;
+    }
+
+    .layout-topbar-menubar {
+
     }
 
     .layout-topbar-actions {

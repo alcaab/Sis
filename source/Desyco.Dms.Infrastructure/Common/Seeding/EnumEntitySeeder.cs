@@ -109,7 +109,7 @@ public abstract partial class EnumEntitySeeder<TEntity, TEnum>(ApplicationDbCont
         // Capitalize the first letter if it's not already
         if (result.Length > 0 && char.IsLower(result[0]))
         {
-            result = char.ToUpper(result[0]) + result.Substring(1);
+            result = char.ToUpper(result[0]) + result[1..];
         }
 
         return result;

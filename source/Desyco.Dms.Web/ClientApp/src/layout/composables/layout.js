@@ -39,15 +39,15 @@ export function useLayout() {
     };
 
     const toggleMenu = () => {
-        if (layoutConfig.menuMode === 'overlay') {
-            layoutState.overlayMenuActive = !layoutState.overlayMenuActive;
-        }
-
-        if (window.innerWidth > 991) {
-            layoutState.staticMenuDesktopInactive = !layoutState.staticMenuDesktopInactive;
-        } else {
-            layoutState.staticMenuMobileActive = !layoutState.staticMenuMobileActive;
-        }
+        // if (layoutConfig.menuMode === 'overlay') {
+        //     layoutState.overlayMenuActive = !layoutState.overlayMenuActive;
+        // }
+        //
+        // if (window.innerWidth > 991) {
+        //     layoutState.staticMenuDesktopInactive = !layoutState.staticMenuDesktopInactive;
+        // } else {
+        //     layoutState.staticMenuMobileActive = !layoutState.staticMenuMobileActive;
+        // }
     };
 
     const isSidebarActive = computed(() => layoutState.overlayMenuActive || layoutState.staticMenuMobileActive);

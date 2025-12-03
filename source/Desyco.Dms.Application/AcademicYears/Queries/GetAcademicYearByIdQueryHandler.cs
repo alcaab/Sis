@@ -12,12 +12,8 @@ public class GetAcademicYearByIdQueryHandler(IAcademicYearRepository academicYea
     {
         var academicYear = await academicYearRepository.GetByIdAsync(request.Id, cancellationToken);
         
-        if (academicYear == null)
-        {
+        return academicYear == null ? throw
             // TODO: Handle not found exception, possibly a custom NotFoundException
-            throw new Exception($"AcademicYear with Id {request.Id} not found.");
-        }
-
-        return mapper.Map(academicYear);
+            new Exception($"AcademicYear with Id {request.Id} not found.") : mapper.Map(academicYear);
     }
 }
