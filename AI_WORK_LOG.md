@@ -1,5 +1,5 @@
 # Bitácora de Desarrollo - Proyecto SGD (Desyco.Dms)
-**Última actualización:** 28 de Noviembre, 2025
+**Última actualización:** 6 de Diciembre, 2025
 **Estado:** En desarrollo activo (Backend/Infraestructura)
 
 ## 1. Contexto del Proyecto
@@ -118,11 +118,25 @@ Se reemplazó **Swagger UI** con **Scalar UI** para una documentación de API m�
 *   **Corrección:** Se restauró la configuración de la relación FK en `TranslationConfiguration.cs` para `LanguageId` (sin propiedad de navegación).
 *   **Corrección:** Se eliminó un comentario en línea inapropiado en `LanguageEntity.cs`.
 
+### O. Actualización de AcademicYearEntity con Status (Enum)
+Se modificó `AcademicYearEntity` para utilizar un `enum` para el estado del período lectivo, reemplazando la propiedad `IsActive`.
+
+*   **Entidades y Enums Creados:**
+    *   `source/Desyco.Dms.Domain/AcademicYears/AcademicYearStatus.cs`: Enum con `Upcoming`, `Current`, `Closed`.
+    *   `source/Desyco.Dms.Domain/AcademicYears/AcademicYearStatusEntity.cs`: Entidad de catálogo para el enum, implementando `ITranslationKey`.
+*   **Modificaciones de Entidades y DTOs:**
+    *   `source/Desyco.Dms.Domain/AcademicYears/AcademicYearEntity.cs`: Se eliminó `IsActive` y se añadió `Status` (tipo `AcademicYearStatus`) con un valor por defecto de `Upcoming`.
+    *   `source/Desyco.Dms.Application/AcademicYears/DTOs/AcademicYearDto.cs`: Se actualizó el DTO para reemplazar `IsActive` con `Status`.
+*   **Configuración de Infraestructura:**
+    *   `source/Desyco.Dms.Infrastructure/AcademicYears/AcademicYearStatusConfiguration.cs`: Configuración de EF Core para `AcademicYearStatusEntity`.
+    *   `source/Desyco.Dms.Infrastructure/AcademicYears/AcademicYearConfiguration.cs`: Se añadió la relación `HasOne` para la nueva propiedad `Status`.
+*   **Seeding:**
+    *   `source/Desyco.Dms.Infrastructure/Seeders/AcademicYearStatusSeeder.cs`: Se creó el seeder para poblar la tabla `AcademicYearStatus`.
+*   **Migración:**
+    *   Se generó y aplicó la migración `AddAcademicYearStatus`. La migración fue modificada manualmente para asegurar la inserción de los valores del `enum` en la tabla `AcademicYearStatus` antes de añadir la columna `Status` y la llave foránea en `AcademicYear`, con un valor por defecto de `Upcoming` (1) para las filas existentes.
+
 ## 3. Instrucciones para la Próxima Sesión
-1.  **Ejecutar la Aplicación:** Iniciar el proyecto Web (`dotnet run --project source/Desyco.Dms.Web/Desyco.Dms.Web.csproj`).
-2.  **Explorar Scalar UI:** Navegar a `/scalar/v1` para ver la documentación de la API versionada.
-3.  **Probar Endpoints:** Verificar que la ruta `/api/v1/academic-years` funciona correctamente.
-4.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
+1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
 ## 4. Rutas Clave
 *   **Web/API:** `source/Desyco.Dms.Web`

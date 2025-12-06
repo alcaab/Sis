@@ -1,3 +1,5 @@
+using Desyco.Dms.Domain.AcademicYears;
+
 namespace Desyco.Dms.Application.AcademicYears.DTOs;
 
 public record AcademicYearDto
@@ -10,5 +12,5 @@ public record AcademicYearDto
     
     public DateOnly? EndDate { get; init; }
     
-    public bool IsActive { get; init; }
+    public AcademicYearStatus Status { get; init; }
 }

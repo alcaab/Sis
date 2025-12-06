@@ -11,5 +11,5 @@ public class AcademicYearEntity : EntityBase<int>
 
     public DateOnly? EndDate { get; set; }
 
-    public bool IsActive { get; set; }
+    public AcademicYearStatus Status { get; set; } = AcademicYearStatus.Upcoming;
 }

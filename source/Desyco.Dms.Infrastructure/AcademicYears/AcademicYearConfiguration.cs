@@ -12,5 +12,10 @@ public class AcademicYearConfiguration : IEntityTypeConfiguration<AcademicYearEn
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Name).HasMaxLength(50);
+        
+        builder.HasOne<AcademicYearStatusEntity>()
+            .WithMany()
+            .HasForeignKey(x => x.Status)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
