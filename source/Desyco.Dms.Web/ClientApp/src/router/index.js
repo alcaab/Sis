@@ -1,7 +1,9 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import AcademicYear from '@/views/school/years-days-times/AcademicYear.vue';
 
-const router = createRouter({
+let router;
+router = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -12,6 +14,18 @@ const router = createRouter({
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue')
+                },
+                {
+                    path: '/school-settings',
+                    name: 'school-settings',
+                    component: () => import('@/views/school/SchoolSettings.vue'),
+                    children: [
+                        {
+                            path: 'academic-year',
+                            name: 'academic-year',
+                            component: AcademicYear
+                        }
+                    ]
                 },
                 {
                     path: '/uikit/formlayout',

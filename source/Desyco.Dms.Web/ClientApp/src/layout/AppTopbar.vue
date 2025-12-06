@@ -4,7 +4,6 @@ import AppConfigurator from './AppConfigurator.vue';
 import { ref } from 'vue';
 
 const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
-
 const items = ref([
     {
         label: 'Home',
@@ -12,7 +11,36 @@ const items = ref([
     },
     {
         label: 'Admin',
-        icon: 'pi pi-star'
+        icon: 'pi pi-star',
+        items: [
+            {
+                label: 'School Settings',
+                icon: 'pi pi-bolt',
+                route: '/school-settings'
+            },
+            {
+                label: 'Blocks',
+                icon: 'pi pi-server'
+            },
+            {
+                label: 'UI Kit',
+                icon: 'pi pi-pencil'
+            },
+            {
+                label: 'Templates',
+                icon: 'pi pi-palette',
+                items: [
+                    {
+                        label: 'Apollo',
+                        icon: 'pi pi-palette'
+                    },
+                    {
+                        label: 'Ultima',
+                        icon: 'pi pi-palette'
+                    }
+                ]
+            }
+        ]
     },
     {
         label: 'Assess',
@@ -20,7 +48,8 @@ const items = ref([
         items: [
             {
                 label: 'Components',
-                icon: 'pi pi-bolt'
+                icon: 'pi pi-bolt',
+                route: '/school-settings'
             },
             {
                 label: 'Blocks',
@@ -85,7 +114,21 @@ const items = ref([
             </router-link>
         </div>
         <div class="layout-topbar-menubar">
-            <Menubar :model="items" />
+            <Menubar :model="items">
+                <template #item="{ item, props, hasSubmenu }">
+                    <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                        <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                            <span :class="item.icon" />
+                            <span class="ml-2">{{ item.label }}</span>
+                        </a>
+                    </router-link>
+                    <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                        <span :class="item.icon" />
+                        <span class="ml-2">{{ item.label }}</span>
+                        <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
+                    </a>
+                </template>
+            </Menubar>
         </div>
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">

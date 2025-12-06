@@ -2,7 +2,7 @@
 
 .layout-sidebar {
     position: fixed;
-    width: 20rem;
+    width: 24rem;
     height: calc(100vh - 8rem);
     z-index: 997;
     overflow-y: auto;
@@ -66,7 +66,7 @@
             outline: 0 none;
             color: var(--text-color);
             cursor: pointer;
-            padding: 0.75rem 1rem;
+            padding: 0.4rem 1rem;
             border-radius: var(--content-border-radius);
             transition:
                 background-color var(--element-transition-duration),

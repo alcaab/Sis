@@ -1,0 +1,52 @@
+{
+    "schoolSettings": {
+        "assess": {
+            "title": "EVALUACIÓN",
+            "formalAssessmentSettings": "Configuración de evaluación formal",
+            "manageExternalAssessments": "Gestionar evaluaciones externas",
+            "manageGradeScales": "Gestionar escalas de calificación",
+            "markbookSettings": "Configuración del libro de calificaciones",
+            "trackingSettings": "Configuración de seguimiento"
+        },
+        "groupings": {
+            "title": "AGRUPACIONES",
+            "manageDepartments": "Gestionar departamentos",
+            "manageFormGroups": "Gestionar grupos de clase",
+            "manageHouses": "Gestionar casas",
+            "manageYearGroups": "Gestionar grupos de año"
+        },
+        "learn": {
+            "title": "APRENDIZAJE",
+            "activitySettings": "Configuración de actividades",
+            "librarySettings": "Configuración de biblioteca",
+            "plannerSettings": "Configuración de agenda",
+            "resourceSettings": "Configuración de recursos"
+        },
+        "other": {
+            "title": "OTROS",
+            "dashboardSettings": "Configuración del tablero",
+            "emailSummarySettings": "Configuración de resúmenes por correo",
+            "facilitySettings": "Configuración de instalaciones",
+            "financeSettings": "Configuración financiera",
+            "manageFacilities": "Gestionar instalaciones",
+            "manageFileExtensions": "Gestionar extensiones de archivo",
+            "messengerSettings": "Configuración de mensajería"
+        },
+        "people": {
+            "title": "PERSONAS",
+            "admissionsSettings": "Configuración de admisiones",
+            "attendanceSettings": "Configuración de asistencia",
+            "behaviourSettings": "Configuración de conducta",
+            "individualNeedsSettings": "Configuración de necesidades individuales",
+            "manageAlertLevels": "Gestionar niveles de alerta",
+            "manageMedicalConditions": "Gestionar condiciones médicas"
+        },
+        "yearsDaysTimes": {
+            "title": "AÑOS, DÍAS Y HORARIOS",
+            "daysOfTheWeek": "Días de la semana",
+            "manageSchoolYears": "Gestionar años escolares",
+            "manageSpecialDays": "Gestionar días especiales",
+            "manageTerms": "Gestionar periodos lectivos"
+        }
+    }
+}

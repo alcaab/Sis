@@ -1,0 +1,52 @@
+{
+    "schoolSettings": {
+        "assess": {
+            "title": "ASSESS",
+            "formalAssessmentSettings": "Formal Assessment Settings",
+            "manageExternalAssessments": "Manage External Assessments",
+            "manageGradeScales": "Manage Grading Scales",
+            "markbookSettings": "Gradebook Settings",
+            "trackingSettings": "Tracking Settings"
+        },
+        "groupings": {
+            "title": "GROUPINGS",
+            "manageDepartments": "Manage Departments",
+            "manageFormGroups": "Manage Homerooms",
+            "manageHouses": "Manage Houses",
+            "manageYearGroups": "Manage Grade Levels"
+        },
+        "learn": {
+            "title": "LEARN",
+            "activitySettings": "Activity Settings",
+            "librarySettings": "Library Settings",
+            "plannerSettings": "Planner Settings",
+            "resourceSettings": "Resource Settings"
+        },
+        "other": {
+            "title": "OTHER",
+            "dashboardSettings": "Dashboard Settings",
+            "emailSummarySettings": "Email Summary Settings",
+            "facilitySettings": "Facility Settings",
+            "financeSettings": "Finance Settings",
+            "manageFacilities": "Manage Facilities",
+            "manageFileExtensions": "Manage File Extensions",
+            "messengerSettings": "Messenger Settings"
+        },
+        "people": {
+            "title": "PEOPLE",
+            "admissionsSettings": "Admissions Settings",
+            "attendanceSettings": "Attendance Settings",
+            "behaviourSettings": "Behavior Settings",
+            "individualNeedsSettings": "Individual Needs Settings",
+            "manageAlertLevels": "Manage Alert Levels",
+            "manageMedicalConditions": "Manage Medical Conditions"
+        },
+        "yearsDaysTimes": {
+            "title": "YEARS, DAYS & TIMES",
+            "daysOfTheWeek": "Days of the Week",
+            "manageSchoolYears": "Manage School Years",
+            "manageSpecialDays": "Manage Special Days",
+            "manageTerms": "Manage Terms"
+        }
+    }
+}
