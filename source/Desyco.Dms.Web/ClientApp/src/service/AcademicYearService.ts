@@ -2,8 +2,8 @@ import api from './api';
 import type { AcademicYearDto, CreateAcademicYearDto, UpdateAcademicYearDto } from '@/types/academic-year';
 import type { QueryResult } from '@/types/common';
 import type { AxiosResponse } from 'axios';
-import { QueryStringBuilder } from "@/utils/queryOptions/queryStringBuilder.ts";
-import { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels.ts";
+import { QueryStringBuilder } from "@/utils/queryOptions/queryStringBuilder";
+import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels";
 
 const BASE_ROUTE = '/academic-years';
 
