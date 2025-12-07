@@ -5,19 +5,7 @@ export type FilterBuilder<T> = {
 export type FilterBuilderProp<T> = null extends T ? FilterBuilderType<T> & FilterNullable : FilterBuilderType<T>;
 
 export type FilterBuilderType<T> =
-    T extends Array<infer R>
-        ? FilterCollection<R>
-        : T extends string
-          ? FilterString
-          : T extends number
-            ? FilterNumber
-            : T extends boolean
-              ? FilterBoolean
-              : T extends Date
-                ? FilterDate
-                : T extends object
-                  ? FilterBuilder<T>
-                  : never;
+    T extends Array<infer R> ? FilterCollection<R> : T extends string ? FilterString : T extends number ? FilterNumber : T extends boolean ? FilterBoolean : T extends Date ? FilterDate : T extends object ? FilterBuilder<T> : never;
 
 export interface StringOptions {
     caseInsensitive?: boolean;

@@ -14,6 +14,7 @@ declare module 'vue' {
     Calendar: typeof import('primevue/calendar')['default']
     Chart: typeof import('primevue/chart')['default']
     Column: typeof import('primevue/column')['default']
+    ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Dialog: typeof import('primevue/dialog')['default']
     FeaturesWidget: typeof import('./src/components/landing/FeaturesWidget.vue')['default']

@@ -177,6 +177,27 @@ Se añadió un sistema de breadcrumbs dinámico para mejorar la navegación del 
 *   **Composable `useBreadcrumbs`:** Se creó `source/Desyco.Dms.Web/ClientApp/src/layout/composables/useBreadcrumbs.ts`. Este composable escucha los cambios de ruta y genera dinámicamente un array de elementos de breadcrumb basados en la información `meta` de las rutas.
 *   **Integración en Layout:** Se añadió el componente `<Breadcrumb :home="home" :model="items" class="mb-4" />` a `source/Desyco.Dms.Web/ClientApp/src/layout/AppLayout.vue`, asegurando que aparezca de forma consistente en la parte superior de la sección de contenido de cada página.
 
+### U. Integración Profunda de OData en Frontend
+Se implementó una arquitectura robusta para manejar consultas OData desde la UI.
+*   **Utilidades:**
+    *   `useDataTableUtils.ts`: Composable que centraliza la conversión de eventos de PrimeVue (`page`, `sort`, `filter`) a un objeto `RequestParamsPayload`.
+    *   `useDebounce.ts`: Composable para mejorar el rendimiento de la búsqueda global.
+    *   `QueryStringBuilder.ts`: Utilidad para transformar `RequestParamsPayload` en cadenas de consulta OData válidas.
+*   **Refactorización de `AcademicYear.vue`:**
+    *   Se delegó la lógica de paginación y filtrado a `useDataTableUtils`.
+    *   Se eliminó la construcción manual de query strings.
+    *   Se implementó `useDebounce` para la búsqueda.
+*   **Actualización de Capa de Servicio:**
+    *   `AcademicYearService.ts` ahora acepta `RequestParamsPayload` y utiliza `QueryStringBuilder` para construir la URL.
+    *   `academicYearStore.ts` se actualizó para manejar los tipos correctos.
+
+### V. Mejoras Adicionales de UX y Robustez en `AcademicYear.vue`
+Se aplicaron las siguientes sugerencias para mejorar la experiencia de usuario y la calidad del código:
+*   **Feedback Visual:** Se agregó un estado de carga (`isSaving`) a los botones de "Guardar" y "Eliminar" en los diálogos para indicar al usuario que una operación está en curso.
+*   **Manejo de Errores Mejorado:** Los mensajes de error ahora intentan extraer información más detallada de la respuesta de la API (`error.response?.data?.message`) para ofrecer un feedback más útil al usuario.
+*   **Manejo de Fechas:** Se refinó la lógica de conversión de fechas en los formularios. Ahora los objetos `Date` se utilizan para el `v-model` del componente `Calendar` y se transforman a strings ISO (YYYY-MM-DD) solo al enviar los datos al backend, mitigando posibles problemas de zona horaria y formato.
+*   **Diálogo de Confirmación Estándar:** Se refactorizó la confirmación de eliminación para utilizar el `ConfirmationService` y el componente `<ConfirmDialog>` de PrimeVue, eliminando un diálogo manual y estandarizando la experiencia.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { AcademicYearService } from '@/service/AcademicYearService';
 import type { AcademicYearDto, CreateAcademicYearDto, UpdateAcademicYearDto } from '@/types/academic-year';
-import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels.ts";
+import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModels.ts';
 
 export const useAcademicYearStore = defineStore('academicYear', () => {
     const academicYears = ref<AcademicYearDto[]>([]);

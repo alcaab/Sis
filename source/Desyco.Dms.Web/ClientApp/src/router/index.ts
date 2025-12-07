@@ -2,8 +2,7 @@ import AppLayout from '@/layout/AppLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import AcademicYear from '@/views/school/years-days-times/AcademicYear.vue';
 
-let router;
-router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {

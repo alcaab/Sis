@@ -53,14 +53,14 @@ export function makeQuery(qd: QueryDescriptor): KeyValue<string>[] {
         });
     }
 
-  if (qd.search != null) {
-    params.push({
-      key: '$search',
-      value: `${qd.search}`
-    });
-  }
+    if (qd.search != null) {
+        params.push({
+            key: '$search',
+            value: `${qd.search}`
+        });
+    }
 
-  return params;
+    return params;
 }
 
 export function makeQueryParentheses(query: string): string {
@@ -74,13 +74,7 @@ export function makeQueryParentheses(query: string): string {
 export function makeRelationQuery(rqd: QueryDescriptor): string {
     let expand: string = rqd.key || '';
 
-    if (
-        rqd.filters.length ||
-        rqd.orderby.length ||
-        rqd.skip != null ||
-        rqd.take != null ||
-        rqd.count != false
-    ) {
+    if (rqd.filters.length || rqd.orderby.length || rqd.skip != null || rqd.take != null || rqd.count != false) {
         expand += `(`;
 
         const operators = [];

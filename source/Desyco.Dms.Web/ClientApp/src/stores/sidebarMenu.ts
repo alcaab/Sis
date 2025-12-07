@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { MenuItem } from "primevue/menuitem";
+import { MenuItem } from 'primevue/menuitem';
 
 export const useSidebarMenuStore = defineStore('sidebarMenu', () => {
     const menu = ref<MenuItem[]>([

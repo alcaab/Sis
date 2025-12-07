@@ -1,23 +1,22 @@
 import { ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export function useBreadcrumbs() {
     const route = useRoute();
-    const router = useRouter();
 
     const home = ref({
         icon: 'pi pi-home',
-        to: '/',
+        to: '/'
     });
     const items = ref();
 
     const generateBreadcrumbs = () => {
         const breadcrumbItems = [];
         // Add "Home" if needed, but it's set in `home` ref
-        // breadcrumbItems.push({ label: 'Home', to: '/' }); 
+        // breadcrumbItems.push({ label: 'Home', to: '/' });
 
         // Filter out routes that don't have a breadcrumb meta
-        const matchedRoutes = route.matched.filter(match => match.meta && match.meta.breadcrumb);
+        const matchedRoutes = route.matched.filter((match) => match.meta && match.meta.breadcrumb);
 
         for (const match of matchedRoutes) {
             const breadcrumbLabel = match.meta.breadcrumb;
