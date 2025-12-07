@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { MenuItem } from "primevue/menuitem";
 
 export const useSidebarMenuStore = defineStore('sidebarMenu', () => {
-    const menu = ref([
+    const menu = ref<MenuItem[]>([
         {
             label: 'Home',
             items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
@@ -154,7 +155,7 @@ export const useSidebarMenuStore = defineStore('sidebarMenu', () => {
         }
     ]);
 
-    const setMenu = (newMenu) => {
+    const setMenu = (newMenu: MenuItem[]) => {
         menu.value = newMenu;
     };
 

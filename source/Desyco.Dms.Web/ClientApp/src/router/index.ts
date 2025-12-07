@@ -19,11 +19,17 @@ router = createRouter({
                     path: '/school-settings',
                     name: 'school-settings',
                     component: () => import('@/views/school/SchoolSettings.vue'),
+                    meta: {
+                        breadcrumb: 'School Settings'
+                    },
                     children: [
                         {
                             path: 'academic-year',
                             name: 'academic-year',
-                            component: AcademicYear
+                            component: AcademicYear,
+                            meta: {
+                                breadcrumb: 'Academic Years'
+                            }
                         }
                     ]
                 },

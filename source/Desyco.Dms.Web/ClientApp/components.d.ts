@@ -9,8 +9,13 @@ declare module 'vue' {
   export interface GlobalComponents {
     BestSellingWidget: typeof import('./src/components/dashboard/BestSellingWidget.vue')['default']
     BlockViewer: typeof import('./src/components/BlockViewer.vue')['default']
+    Breadcrumb: typeof import('primevue/breadcrumb')['default']
+    Button: typeof import('primevue/button')['default']
+    Calendar: typeof import('primevue/calendar')['default']
+    Chart: typeof import('primevue/chart')['default']
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    Dialog: typeof import('primevue/dialog')['default']
     FeaturesWidget: typeof import('./src/components/landing/FeaturesWidget.vue')['default']
     FloatingConfigurator: typeof import('./src/components/FloatingConfigurator.vue')['default']
     FooterWidget: typeof import('./src/components/landing/FooterWidget.vue')['default']
@@ -19,6 +24,7 @@ declare module 'vue' {
     IconField: typeof import('primevue/iconfield')['default']
     InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    Menu: typeof import('primevue/menu')['default']
     Menubar: typeof import('primevue/menubar')['default']
     NotificationsWidget: typeof import('./src/components/dashboard/NotificationsWidget.vue')['default']
     PricingWidget: typeof import('./src/components/landing/PricingWidget.vue')['default']
@@ -28,7 +34,9 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SelectButton: typeof import('primevue/selectbutton')['default']
     StatsWidget: typeof import('./src/components/dashboard/StatsWidget.vue')['default']
+    Tag: typeof import('primevue/tag')['default']
     Toast: typeof import('primevue/toast')['default']
+    Toolbar: typeof import('primevue/toolbar')['default']
     TopbarWidget: typeof import('./src/components/landing/TopbarWidget.vue')['default']
   }
   export interface ComponentCustomProperties {

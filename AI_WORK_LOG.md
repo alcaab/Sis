@@ -135,6 +135,48 @@ Se modificó `AcademicYearEntity` para utilizar un `enum` para el estado del per
 *   **Migración:**
     *   Se generó y aplicó la migración `AddAcademicYearStatus`. La migración fue modificada manualmente para asegurar la inserción de los valores del `enum` en la tabla `AcademicYearStatus` antes de añadir la columna `Status` y la llave foránea en `AcademicYear`, con un valor por defecto de `Upcoming` (1) para las filas existentes.
 
+### P. Implementación de AcademicYear en ClientApp (Frontend)
+Se implementó la gestión de Años Académicos en el frontend (`ClientApp`).
+
+*   **Store (Pinia):**
+    *   Se creó `source/Desyco.Dms.Web/ClientApp/src/stores/academicYearStore.ts` para manejar el estado (`academicYears`, `loading`, `totalRecords`) y las acciones (CRUD) utilizando `AcademicYearService`.
+*   **Componente (Vue):**
+    *   Se reescribió `source/Desyco.Dms.Web/ClientApp/src/views/school/years-days-times/AcademicYear.vue`.
+    *   **UI:** Se implementó un `DataTable` con paginación "lazy" (server-side), ordenamiento y filtrado simple. Se añadieron diálogos para creación/edición y confirmación de borrado.
+    *   **Estilos:** Se utilizaron clases de **Tailwind CSS** para el layout, reemplazando PrimeFlex.
+    *   **Integración:** Se conectó con el store y se manejaron los estados de carga y notificaciones (`Toast`).
+*   **Verificación:**
+    *   Se confirmó que `AcademicYearService.ts` y los tipos en `types/academic-year.ts` estaban alineados con el backend.
+    *   Se verificó la ruta de la API (`/api/v1/academic-years`), la cual coincide con la configuración de `axios` y el controlador versionado.
+
+### Q. Configuración de Proxy en Frontend
+Se configuró el proxy de desarrollo en Vite para redirigir las peticiones de API al backend local.
+*   **Archivo:** `source/Desyco.Dms.Web/ClientApp/vite.config.ts`.
+*   **Configuración:**
+    *   Puerto del servidor de desarrollo: `5173`.
+    *   Proxy `/api`: Redirige a `https://localhost:5001` (Backend).
+    *   Proxy `/scalar`: Redirige a `https://localhost:5001` (Documentación API).
+    *   Opciones: `changeOrigin: true`, `secure: false` (para aceptar certificados auto-firmados de desarrollo).
+
+### R. Corrección en Modelo de Datos Frontend
+Se corrigió un error de mapeo en la respuesta de la API que impedía cargar el DataTable.
+*   **Problema:** La interfaz `QueryResult<T>` definía la propiedad como `list`, pero la API retornaba `results`.
+*   **Corrección:**
+    *   Se actualizó `source/Desyco.Dms.Web/ClientApp/src/types/common.ts`: `list` -> `results`.
+    *   Se actualizó `source/Desyco.Dms.Web/ClientApp/src/stores/academicYearStore.ts` para consumir `response.data.results`.
+
+### S. Mejora de UX/UI en AcademicYear.vue
+Se optimizó el diseño de la vista de gestión de Años Académicos para ser más práctico y visualmente limpio.
+*   **Cabecera Unificada:** Se eliminó el componente `Toolbar` externo.
+*   **Acciones Integradas:** El título, el buscador y el botón "New" (ahora primario) se integraron en una sola fila dentro del encabezado de la tabla (`DataTable #header`).
+*   **Estilos:** Se aplicaron clases de utilidad de Tailwind (`flex`, `gap`, `w-full`) para asegurar un diseño responsivo y campos de formulario que ocupan todo el ancho en los diálogos modales.
+
+### T. Implementación de Breadcrumbs
+Se añadió un sistema de breadcrumbs dinámico para mejorar la navegación del usuario.
+*   **Configuración de Rutas:** Se modificó `source/Desyco.Dms.Web/ClientApp/src/router/index.ts` para añadir la propiedad `meta: { breadcrumb: '...' }` a las rutas relevantes (`/school-settings`, `/school-settings/academic-year`), permitiendo al sistema identificar los nombres de los elementos en el breadcrumb.
+*   **Composable `useBreadcrumbs`:** Se creó `source/Desyco.Dms.Web/ClientApp/src/layout/composables/useBreadcrumbs.ts`. Este composable escucha los cambios de ruta y genera dinámicamente un array de elementos de breadcrumb basados en la información `meta` de las rutas.
+*   **Integración en Layout:** Se añadió el componente `<Breadcrumb :home="home" :model="items" class="mb-4" />` a `source/Desyco.Dms.Web/ClientApp/src/layout/AppLayout.vue`, asegurando que aparezca de forma consistente en la parte superior de la sección de contenido de cada página.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

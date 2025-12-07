@@ -2,25 +2,32 @@ import api from './api';
 import type { AcademicYearDto, CreateAcademicYearDto, UpdateAcademicYearDto } from '@/types/academic-year';
 import type { QueryResult } from '@/types/common';
 import type { AxiosResponse } from 'axios';
+import { QueryStringBuilder } from "@/utils/queryOptions/queryStringBuilder.ts";
+import { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels.ts";
+
+const BASE_ROUTE = '/academic-years';
 
 export const AcademicYearService = {
-    getAcademicYears(params?: any): Promise<AxiosResponse<QueryResult<AcademicYearDto>>> {
-        return api.get<QueryResult<AcademicYearDto>>('/academic-years', { params });
+
+    getAcademicYears(requestParams?: RequestParamsPayload): Promise<AxiosResponse<QueryResult<AcademicYearDto>>> {
+        const queryString = QueryStringBuilder.buildQueryOptionsString(requestParams);
+
+        return api.get<QueryResult<AcademicYearDto>>(`${BASE_ROUTE}${queryString}`);
     },
 
     getAcademicYear(id: number): Promise<AxiosResponse<AcademicYearDto>> {
-        return api.get<AcademicYearDto>(`/academic-years/${id}`);
+        return api.get<AcademicYearDto>(`${BASE_ROUTE}/${id}`);
     },
 
     createAcademicYear(academicYear: CreateAcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
-        return api.post<AcademicYearDto>('/academic-years', academicYear);
+        return api.post<AcademicYearDto>(BASE_ROUTE, academicYear);
     },
 
     updateAcademicYear(id: number, academicYear: UpdateAcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
-        return api.put<AcademicYearDto>(`/academic-years/${id}`, academicYear);
+        return api.put<AcademicYearDto>(`${BASE_ROUTE}/${id}`, academicYear);
     },
 
     deleteAcademicYear(id: number): Promise<AxiosResponse<void>> {
-        return api.delete<void>(`/academic-years/${id}`);
+        return api.delete<void>(`${BASE_ROUTE}/${id}`);
     }
 };
