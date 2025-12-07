@@ -195,8 +195,17 @@ Se implementó una arquitectura robusta para manejar consultas OData desde la UI
 Se aplicaron las siguientes sugerencias para mejorar la experiencia de usuario y la calidad del código:
 *   **Feedback Visual:** Se agregó un estado de carga (`isSaving`) a los botones de "Guardar" y "Eliminar" en los diálogos para indicar al usuario que una operación está en curso.
 *   **Manejo de Errores Mejorado:** Los mensajes de error ahora intentan extraer información más detallada de la respuesta de la API (`error.response?.data?.message`) para ofrecer un feedback más útil al usuario.
-*   **Manejo de Fechas:** Se refinó la lógica de conversión de fechas en los formularios. Ahora los objetos `Date` se utilizan para el `v-model` del componente `Calendar` y se transforman a strings ISO (YYYY-MM-DD) solo al enviar los datos al backend, mitigando posibles problemas de zona horaria y formato.
+*   **Manejo de Fechas:** Se refinó la lógica de conversión de fechas en los formularios. Ahora los objetos `Date` se utilizan para el `v-model` del componente `Calendar` y se transforman a strings ISO (YYYY-MM-DD) solo al enviar los datos al backend, mitigando posibles problemas de formato o zona horaria.
 *   **Diálogo de Confirmación Estándar:** Se refactorizó la confirmación de eliminación para utilizar el `ConfirmationService` y el componente `<ConfirmDialog>` de PrimeVue, eliminando un diálogo manual y estandarizando la experiencia.
+
+### W. Corrección de Estilo y Linting
+Se ejecutó el comando de linting y se resolvieron los errores detectados para asegurar la calidad del código.
+*   **Configuración ESLint:** Se instaló `@vue/eslint-config-typescript` y se actualizó `.eslintrc.cjs` para soportar correctamente el análisis de archivos TypeScript.
+*   **Correcciones:**
+    *   `AppLayout.vue`: Se corrigió una advertencia de variable no utilizada asegurando el uso correcto del composable `useBreadcrumbs`.
+    *   `useBreadcrumbs.ts`: Se eliminaron importaciones y variables no utilizadas (`router`).
+    *   `router/index.ts`: Se cambió la declaración de `router` de `let` a `const`.
+*   **Formato:** Se aplicaron correcciones automáticas de estilo (`--fix`) en todo el frontend.
 
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).

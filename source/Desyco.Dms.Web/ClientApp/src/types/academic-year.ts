@@ -5,24 +5,9 @@ export enum AcademicYearStatus {
 }
 
 export interface AcademicYearDto {
-    id: number;
+    id?: number;
     name: string;
-    startDate?: string | null;
-    endDate?: string | null;
-    status: AcademicYearStatus;
-}
-
-export interface CreateAcademicYearDto {
-    name: string;
-    startDate?: string | null;
-    endDate?: string | null;
-    status: AcademicYearStatus;
-}
-
-export interface UpdateAcademicYearDto {
-    id: number;
-    name: string;
-    startDate?: string | null;
-    endDate?: string | null;
+    startDate?: Date | string | null;
+    endDate?: Date | string | null;
     status: AcademicYearStatus;
 }

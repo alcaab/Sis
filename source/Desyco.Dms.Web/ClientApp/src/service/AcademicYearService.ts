@@ -1,5 +1,5 @@
 import api from './api';
-import type { AcademicYearDto, CreateAcademicYearDto, UpdateAcademicYearDto } from '@/types/academic-year';
+import type { AcademicYearDto } from '@/types/academic-year';
 import type { QueryResult } from '@/types/common';
 import type { AxiosResponse } from 'axios';
 import { QueryStringBuilder } from '@/utils/queryOptions/queryStringBuilder';
@@ -18,11 +18,11 @@ export const AcademicYearService = {
         return api.get<AcademicYearDto>(`${BASE_ROUTE}/${id}`);
     },
 
-    createAcademicYear(academicYear: CreateAcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
+    createAcademicYear(academicYear: AcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
         return api.post<AcademicYearDto>(BASE_ROUTE, academicYear);
     },
 
-    updateAcademicYear(id: number, academicYear: UpdateAcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
+    updateAcademicYear(id: number, academicYear: AcademicYearDto): Promise<AxiosResponse<AcademicYearDto>> {
         return api.put<AcademicYearDto>(`${BASE_ROUTE}/${id}`, academicYear);
     },
 

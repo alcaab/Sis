@@ -105,7 +105,6 @@ const saveAcademicYear = async () => {
 const editAcademicYear = (item: AcademicYearDto) => {
     academicYear.value = { ...item };
 
-    // Date handling: Convert string dates from DTO to Date objects for Calendar component
     if (academicYear.value.startDate) {
         academicYear.value.startDate = new Date(academicYear.value.startDate);
     }
@@ -196,7 +195,7 @@ const getStatusSeverity = (status: AcademicYearStatus) => {
                             <InputIcon>
                                 <i class="pi pi-search" />
                             </InputIcon>
-                            <InputText v-model="inputValue" placeholder="Search..." @keydown.enter="onFilter" class="w-full md:w-auto" />
+                            <InputText v-model="inputValue" placeholder="Search..." @keydown.enter="onSearch" class="w-full md:w-auto" />
                         </IconField>
                         <Button label="New" icon="pi pi-plus" @click="openNew" />
                     </div>
@@ -236,11 +235,11 @@ const getStatusSeverity = (status: AcademicYearStatus) => {
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="startDate" class="font-bold">Start Date</label>
-                    <Calendar id="startDate" v-model="academicYear.startDate" showIcon dateFormat="yy-mm-dd" fluid />
+                    <Calendar id="startDate" :v-model="academicYear.startDate" showIcon dateFormat="yy-mm-dd" fluid />
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="endDate" class="font-bold">End Date</label>
-                    <Calendar id="endDate" v-model="academicYear.endDate" showIcon dateFormat="yy-mm-dd" fluid />
+                    <Calendar id="endDate" :v-model="academicYear.endDate" showIcon dateFormat="yy-mm-dd" fluid />
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="status" class="font-bold">Status</label>

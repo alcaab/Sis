@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { AcademicYearService } from '@/service/AcademicYearService';
-import type { AcademicYearDto, CreateAcademicYearDto, UpdateAcademicYearDto } from '@/types/academic-year';
-import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModels.ts';
+import type { AcademicYearDto } from '@/types/academic-year';
+import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModels';
 
 export const useAcademicYearStore = defineStore('academicYear', () => {
     const academicYears = ref<AcademicYearDto[]>([]);
@@ -22,7 +22,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
         }
     }
 
-    async function createAcademicYear(data: CreateAcademicYearDto) {
+    async function createAcademicYear(data: AcademicYearDto) {
         loading.value = true;
         try {
             await AcademicYearService.createAcademicYear(data);
@@ -35,7 +35,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
         }
     }
 
-    async function updateAcademicYear(id: number, data: UpdateAcademicYearDto) {
+    async function updateAcademicYear(id: number, data: AcademicYearDto) {
         loading.value = true;
         try {
             await AcademicYearService.updateAcademicYear(id, data);
