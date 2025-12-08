@@ -1,4 +1,7 @@
 using Autofac;
+using Desyco.Dms.Application.Common.Behaviours;
+using FluentValidation;
+using Desyco.Mediator;
 
 namespace Desyco.Dms.Application;
 
@@ -11,7 +14,16 @@ public class ApplicationModule : Module
             .Where(t => t.Name.EndsWith("Mapper"))
             .AsSelf()
             .SingleInstance();
-            
-        // Aquí puedes añadir más registros específicos de Application
+
+        // Register all FluentValidation Validators found in the assembly
+        builder.RegisterAssemblyTypes(typeof(ApplicationModule).Assembly)
+            .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
+
+        // Register ValidationBehaviour in the MediatR pipeline
+        builder.RegisterGeneric(typeof(ValidationBehaviour<,>))
+            .As(typeof(IPipelineBehavior<,>))
+            .InstancePerLifetimeScope();
     }
 }

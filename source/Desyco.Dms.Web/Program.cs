@@ -9,6 +9,7 @@ using Serilog.Exceptions;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Desyco.Dms.Web.Infrastructure.Exceptions;
 
 const string CorsPolicy = "_allowedOrigins";
 
@@ -39,6 +40,8 @@ builder.Logging.AddSerilog(Log.Logger);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureServices(builder.Configuration, builder.Environment);
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); // Register custom exception handler
+builder.Services.AddProblemDetails(); // Required for IExceptionHandler
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
@@ -89,6 +92,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSwagger();
+
+app.UseExceptionHandler(); // Use the registered GlobalExceptionHandler
 
 app.MapScalarApiReference(options =>
 {

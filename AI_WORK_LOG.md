@@ -287,6 +287,35 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     *   Se añadió una nueva prop opcional `hint?: string;` a `defineProps`.
     *   Se agregó un `<small v-if="hint" ... >` en el template para renderizar el texto de ayuda debajo del campo de entrada y antes del mensaje de error, utilizando la clase `text-surface-500` para su estilo.
 
+### AK. Implementación de Global Exception Handler (Backend)
+*   **Objetivo:** Capturar y estandarizar las respuestas de error en el backend, especialmente para `ValidationException`.
+*   **Acción:** Se implementó un `GlobalExceptionHandler` basado en `IExceptionHandler` de .NET 8.
+*   **Archivos:**
+    *   `source/Desyco.Dms.Web/Infrastructure/Exceptions/GlobalExceptionHandler.cs`: Captura `ValidationException` y la transforma en una respuesta `ProblemDetails` (HTTP 400), y maneja otras excepciones con HTTP 500.
+    *   `source/Desyco.Dms.Web/Program.cs`:
+        *   Se añadió `builder.Services.AddExceptionHandler<GlobalExceptionHandler>()`.
+        *   Se añadió `builder.Services.AddProblemDetails()`.
+        *   Se agregó `app.UseExceptionHandler()` al pipeline de middleware.
+        *   Se corrigió un typo `HttpHttpContextAccessor` por `HttpContextAccessor`.
+
+### AL. Configuración Autofac para Validación (ApplicationModule)
+*   **Objetivo:** Automatizar la inyección de dependencias para los validadores y conectar el pipeline de MediatR.
+*   **Acción:** Se actualizó `source/Desyco.Dms.Application/ApplicationModule.cs`.
+    *   Se añadió el registro automático de todos los tipos que implementan `IValidator<>` (FluentValidation) encontrados en el ensamblado.
+    *   Se registró `ValidationBehaviour<,>` como `IPipelineBehavior<,>`, integrándolo en el pipeline de ejecución de MediatR.
+
+### AM. Implementación de Arquitectura de Validación (Backend)
+*   **Objetivo:** Establecer un sistema robusto para validar comandos antes de su ejecución y manejar errores de forma consistente.
+*   **Tecnologías:** FluentValidation + MediatR Pipeline Behavior + .NET 8 IExceptionHandler.
+*   **Componentes Creados/Modificados:**
+    1.  `Application/Common/Exceptions/ValidationException.cs`: Excepción personalizada para agrupar fallos de validación.
+    2.  `Application/Common/Behaviours/ValidationBehaviour.cs`: Pipeline Behavior que intercepta comandos, ejecuta validadores inyectados y lanza la excepción si hay errores.
+    3.  `Web/Infrastructure/Exceptions/GlobalExceptionHandler.cs`: Captura la `ValidationException` y retorna una respuesta HTTP 400 estándar (ProblemDetails).
+    4.  `Application/AcademicYears/Commands/CreateAcademicYearCommandValidator.cs`: Implementación de reglas para crear años académicos (Nombre requerido, Fechas coherentes).
+    5.  `ApplicationModule.cs`: Configuración de Autofac para escanear/registrar validadores y el behavior automáticamente.
+    6.  `Program.cs`: Registro de `GlobalExceptionHandler` y `SwaggerGen` (corrección de error).
+*   **Refactorización:** Se aplicaron constructores primarios (C# 12) en las nuevas clases.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
