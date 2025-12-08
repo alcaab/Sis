@@ -234,6 +234,11 @@ Se añadió un script `format` en `package.json` para ejecutar Prettier, permiti
 ### AA. Reversión de Transiciones de Ruta
 Se intentó implementar transiciones `fade-in` en `AppLayout.vue` y `SchoolSettings.vue`. Sin embargo, debido a problemas con la renderización de rutas anidadas (vistas desapareciendo), se decidió revertir estos cambios para mantener la estabilidad de la navegación mientras se investiga una solución más robusta.
 
+### AB. Optimización de Búsqueda (Debounce)
+Se implementó una lógica de debounce reutilizable para mejorar el rendimiento de la búsqueda en listas.
+*   **Utilidad `useDebounce.ts`:** Se refactorizó para exportar una función de utilidad estándar que envuelve callbacks con un temporizador (`setTimeout`), simplificando su uso y eliminando dependencias reactivas complejas.
+*   **Integración en `AcademicYear.vue`:** Se aplicó esta utilidad al campo de búsqueda global, asegurando que las peticiones a la API solo se realicen después de que el usuario deje de escribir, manteniendo el código del componente limpio.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

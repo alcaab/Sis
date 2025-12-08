@@ -7,7 +7,7 @@ export enum AcademicYearStatus {
 export interface AcademicYearDto {
     id?: number;
     name: string;
-    startDate?: Date | string | null;
-    endDate?: Date | string | null;
+    startDate: Date | string | null;
+    endDate: Date | string | null;
     status: AcademicYearStatus;
 }

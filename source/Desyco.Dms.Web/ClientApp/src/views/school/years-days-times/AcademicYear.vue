@@ -8,6 +8,7 @@ import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModel
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { useDataTableUtils } from '@/utils/useDataTableUtils';
+import { useDebounce } from '@/utils/useDebounce';
 
 const router = useRouter();
 const store = useAcademicYearStore();
@@ -29,15 +30,23 @@ const lazyParams = ref({
     sortOrder: -1
 });
 
-onMounted(() => onSearch());
+onMounted(() => {
+    onSearch();
+});
 
 function handlePagination(event: RequestParamsPayload) {
     store.fetchAcademicYears(event);
 }
 
+// Manual refresh
 const onSearch = () => {
     dt.value.filter({});
 };
+
+// Debounced search for input
+const onDebouncedSearch = useDebounce(() => {
+    onSearch();
+}, 600);
 
 const openNew = () => {
     router.push({ name: 'academic-year-create' });
@@ -124,9 +133,7 @@ const getStatusSeverity = (status: AcademicYearStatus) => {
                         <InputIcon>
                             <i class="pi pi-search" />
                         </InputIcon>
-                        <InputText v-model="filters['global'].value"
-                                   @keydown.enter="onSearch" placeholder="Search..."
-                                   class="w-full md:w-auto" />
+                        <InputText v-model="filters['global'].value" placeholder="Search..." @input="onDebouncedSearch" class="w-full md:w-auto" />
                     </IconField>
                     <Button label="New" icon="pi pi-plus" @click="openNew" />
                 </div>
