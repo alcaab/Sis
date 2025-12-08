@@ -245,6 +245,13 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     *   Se eliminó `.nullable()` de los campos de fecha.
     *   Se añadió `.typeError('Start/End Date is required')` para capturar explícitamente el caso de valor `null` como error de tipo y mostrar el mensaje adecuado.
 
+### AD. Reestructuración de Carpetas Frontend (Academic Years)
+*   **Cambio:** Se movieron las vistas relacionadas con `AcademicYear` a una carpeta dedicada para mejorar la organización.
+*   **Ubicación Antigua:** `source/Desyco.Dms.Web/ClientApp/src/views/school/years-days-times/`
+*   **Ubicación Nueva:** `source/Desyco.Dms.Web/ClientApp/src/views/school/academic-years/`
+*   **Archivos Movidos:** `AcademicYear.vue`, `AcademicYearCreate.vue`, `AcademicYearEdit.vue`, `AcademicYearForm.vue`.
+*   **Actualizaciones:** Se actualizaron las importaciones en `router/index.ts` para reflejar la nueva ruta.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

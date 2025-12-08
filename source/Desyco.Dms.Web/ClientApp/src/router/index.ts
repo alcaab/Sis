@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AcademicYear from '@/views/school/years-days-times/AcademicYear.vue';
+import AcademicYear from '@/views/school/academic-years/AcademicYear.vue';
 import AppLayout from '@/layout/AppLayout.vue';
 
 const router = createRouter({
@@ -33,7 +33,7 @@ const router = createRouter({
                         {
                             path: 'academic-year/create',
                             name: 'academic-year-create',
-                            component: () => import('@/views/school/years-days-times/AcademicYearCreate.vue'),
+                            component: () => import('@/views/school/academic-years/AcademicYearCreate.vue'),
                             meta: {
                                 breadcrumb: 'Create Academic Year'
                             }
@@ -41,7 +41,7 @@ const router = createRouter({
                         {
                             path: 'academic-year/:id/edit',
                             name: 'academic-year-edit',
-                            component: () => import('@/views/school/years-days-times/AcademicYearEdit.vue'),
+                            component: () => import('@/views/school/academic-years/AcademicYearEdit.vue'),
                             meta: {
                                 breadcrumb: 'Edit Academic Year'
                             }
