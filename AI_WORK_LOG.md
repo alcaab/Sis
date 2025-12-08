@@ -252,6 +252,17 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
 *   **Archivos Movidos:** `AcademicYear.vue`, `AcademicYearCreate.vue`, `AcademicYearEdit.vue`, `AcademicYearForm.vue`.
 *   **Actualizaciones:** Se actualizaron las importaciones en `router/index.ts` para reflejar la nueva ruta.
 
+### AE. Refactorización de Rutas Frontend (Módulos)
+*   **Objetivo:** Evitar que `router/index.ts` crezca descontroladamente y mejorar la mantenibilidad.
+*   **Acción:** Se extrajeron las rutas de `SchoolSettings` a su propio archivo de módulo.
+*   **Nuevo Archivo:** `source/Desyco.Dms.Web/ClientApp/src/router/modules/school.ts`.
+*   **Actualización:** `router/index.ts` ahora importa y propaga (`...schoolRoutes`) las rutas desde el módulo.
+
+### AF. Implementación de Lazy Loading en Rutas
+*   **Objetivo:** Mejorar el rendimiento de carga inicial de la aplicación, evitando cargar componentes de rutas que no son visitadas.
+*   **Acción:** Se modificó `source/Desyco.Dms.Web/ClientApp/src/router/modules/school.ts` para que `AcademicYear.vue` se cargue de forma perezosa (`lazy loading`) en lugar de estáticamente.
+*   **Cambio:** La importación estática de `AcademicYear.vue` fue removida, y su uso en la definición de la ruta `academic-year-list` ahora utiliza una función `import()` dinámica.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

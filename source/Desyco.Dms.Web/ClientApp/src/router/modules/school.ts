@@ -1,5 +1,4 @@
 import type { RouteRecordRaw } from 'vue-router';
-import AcademicYear from '@/views/school/academic-years/AcademicYear.vue';
 
 const schoolRoutes: RouteRecordRaw[] = [
     {
@@ -13,7 +12,7 @@ const schoolRoutes: RouteRecordRaw[] = [
             {
                 path: 'academic-year',
                 name: 'academic-year-list',
-                component: AcademicYear,
+                component: () => import('@/views/school/academic-years/AcademicYear.vue'),
                 meta: {
                     breadcrumb: 'Academic Years'
                 }
