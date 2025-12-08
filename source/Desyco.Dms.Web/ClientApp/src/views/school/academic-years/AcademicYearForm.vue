@@ -30,8 +30,7 @@ const { defineField, handleSubmit, resetForm, errors } = useForm<AcademicYearDto
         name: '',
         status: AcademicYearStatus.Upcoming,
         startDate: null,
-        endDate: null,
-        ...props.initialData
+        endDate: null
     }
 });
 
@@ -39,6 +38,20 @@ const [name] = defineField('name');
 const [startDate] = defineField('startDate');
 const [endDate] = defineField('endDate');
 const [status] = defineField('status');
+
+const parseLocalDate = (dateVal: string | Date | null | undefined): Date | null => {
+    if (!dateVal) return null;
+    if (dateVal instanceof Date) return dateVal;
+    
+    // Handle YYYY-MM-DD string to prevent UTC conversion issues
+    const strVal = dateVal.toString();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(strVal)) {
+        const [year, month, day] = strVal.split('-').map(Number);
+        return new Date(year, month - 1, day);
+    }
+    
+    return new Date(dateVal);
+};
 
 // Watch for initialData changes to repopulate form
 watch(
@@ -50,8 +63,8 @@ watch(
                     id: newVal.id,
                     name: newVal.name || '',
                     status: newVal.status ?? AcademicYearStatus.Upcoming,
-                    startDate: newVal.startDate instanceof Date ? newVal.startDate : typeof newVal.startDate === 'string' && newVal.startDate ? new Date(newVal.startDate) : null,
-                    endDate: newVal.endDate instanceof Date ? newVal.endDate : typeof newVal.endDate === 'string' && newVal.endDate ? new Date(newVal.endDate) : null
+                    startDate: parseLocalDate(newVal.startDate),
+                    endDate: parseLocalDate(newVal.endDate)
                 }
             });
         }

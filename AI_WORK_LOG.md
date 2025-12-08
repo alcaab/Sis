@@ -263,6 +263,12 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
 *   **Acción:** Se modificó `source/Desyco.Dms.Web/ClientApp/src/router/modules/school.ts` para que `AcademicYear.vue` se cargue de forma perezosa (`lazy loading`) en lugar de estáticamente.
 *   **Cambio:** La importación estática de `AcademicYear.vue` fue removida, y su uso en la definición de la ruta `academic-year-list` ahora utiliza una función `import()` dinámica.
 
+### AG. Corrección de Fechas en Calendar (Zona Horaria)
+*   **Problema:** Al editar un año académico, el componente `Calendar` de PrimeVue no reconocía correctamente la fecha seleccionada en el popup, debido a problemas de conversión `string` -> `Date` y desplazamientos de zona horaria (UTC vs Local).
+*   **Solución:** Se implementó una función auxiliar `parseLocalDate` en `AcademicYearForm.vue`.
+    *   Esta función detecta cadenas formato `YYYY-MM-DD` y construye el objeto `Date` usando el constructor local `new Date(year, monthIndex, day)`, evitando la conversión automática a UTC que restaba un día.
+    *   Se eliminó la inicialización directa con `...props.initialData` en `useForm` para garantizar que todos los datos pasen por la lógica de transformación del `watch`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
