@@ -63,7 +63,7 @@
 </script>
 
 <template>
-    <div class="w-full">
+    <div class="w-full animate fade-in">
         <AcademicYearForm
             :isEditing="true"
             :loading="loading"

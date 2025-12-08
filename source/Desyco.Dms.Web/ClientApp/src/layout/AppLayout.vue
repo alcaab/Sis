@@ -62,7 +62,7 @@
 
 <template>
     <div
-        class="layout-wrapper"
+        class="layout-wrapper animate fade-in"
         :class="containerClass"
     >
         <app-topbar></app-topbar>
