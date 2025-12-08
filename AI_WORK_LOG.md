@@ -273,6 +273,14 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
 *   **Problema:** El componente `Calendar` de PrimeVue está deprecated a partir de la versión 4.
 *   **Solución:** Se reemplazó el uso de `<Calendar>` por `<DatePicker>` en `source/Desyco.Dms.Web/ClientApp/src/views/school/academic-years/AcademicYearForm.vue` para los campos `startDate` y `endDate`. Esto alinea la aplicación con las últimas directrices de PrimeVue v4.
 
+### AI. Corrección de Sincronización DatePicker (Proxies)
+*   **Problema:** El componente `DatePicker` de PrimeVue no mostraba la fecha seleccionada en el popup si el valor subyacente (`v-model`) era un `string` (ej. "2025-01-01"), aunque el input mostrara el texto correctamente.
+*   **Solución:**
+    *   Se crearon propiedades computadas (`startDateProxy`, `endDateProxy`) en `AcademicYearForm.vue`.
+    *   El `get` de estos proxies utiliza `parseLocalDate` para garantizar que el `DatePicker` siempre reciba un objeto `Date` real, independientemente de cómo `vee-validate` almacene el estado interno.
+    *   El `set` actualiza directamente el campo de `vee-validate`.
+    *   Esto asegura una sincronización bidireccional robusta entre el formulario y el componente visual.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

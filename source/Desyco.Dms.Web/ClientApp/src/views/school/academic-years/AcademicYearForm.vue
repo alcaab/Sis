@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import { watch } from 'vue';
+import { watch, computed } from 'vue';
 import { AcademicYearStatus, type AcademicYearDto } from '@/types/academic-year';
 import FormField from '@/components/common/FormField.vue';
 import { useForm } from 'vee-validate';
@@ -53,6 +52,20 @@ const parseLocalDate = (dateVal: string | Date | null | undefined): Date | null 
     return new Date(dateVal);
 };
 
+const startDateProxy = computed({
+    get: () => parseLocalDate(startDate.value),
+    set: (val) => {
+        startDate.value = val;
+    }
+});
+
+const endDateProxy = computed({
+    get: () => parseLocalDate(endDate.value),
+    set: (val) => {
+        endDate.value = val;
+    }
+});
+
 // Watch for initialData changes to repopulate form
 watch(
     () => props.initialData,
@@ -97,11 +110,11 @@ const handleCancel = () => {
             </FormField>
 
             <FormField label="Start Date" id="startDate" required :error="errors.startDate">
-                <DatePicker id="startDate" v-model="startDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.startDate" />
+                <DatePicker id="startDate" v-model="startDateProxy" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.startDate" />
             </FormField>
 
             <FormField label="End Date" id="endDate" required :error="errors.endDate">
-                <DatePicker id="endDate" v-model="endDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.endDate" />
+                <DatePicker id="endDate" v-model="endDateProxy" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.endDate" />
             </FormField>
 
             <FormField label="Status" id="status" required :error="errors.status">
