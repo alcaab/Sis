@@ -24,11 +24,13 @@ function convertToPrimeVueFilters({ filters }: DataTableSortEvent): Filters {
 
 function transformLazyLoadParams(event: DataTableSortEvent): RequestParamsPayload {
     const sorts = convertToPrimeVueSort(event);
+    const filters: any = event.filters;
     return {
         skip: event.first,
         take: event.rows,
         sorts,
-        filters: event.filters as Filters
+        filters,
+        search: filters['global'] ? filters['global'].value : null
     };
 }
 
