@@ -231,6 +231,9 @@ Se completó la refactorización del módulo `AcademicYear` cambiando de un enfo
 ### Z. Script de Formato con Prettier
 Se añadió un script `format` en `package.json` para ejecutar Prettier, permitiendo un formato de código consistente en todo el proyecto.
 
+### AA. Reversión de Transiciones de Ruta
+Se intentó implementar transiciones `fade-in` en `AppLayout.vue` y `SchoolSettings.vue`. Sin embargo, debido a problemas con la renderización de rutas anidadas (vistas desapareciendo), se decidió revertir estos cambios para mantener la estabilidad de la navegación mientras se investiga una solución más robusta.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
