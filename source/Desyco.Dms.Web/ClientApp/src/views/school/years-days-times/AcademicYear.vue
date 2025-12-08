@@ -154,18 +154,18 @@ const getStatusSeverity = (status: AcademicYearStatus) => {
                 <Tag :value="getStatusLabel(slotProps.data.status)" :severity="getStatusSeverity(slotProps.data.status)" />
             </template>
         </Column>
-                                <Column :exportable="false" style="min-width: 8rem">
-                                    <template #header>
-                                        <div class="flex justify-end w-full">Actions</div>
-                                    </template>
-                                    <template #body="slotProps">
-                                        <div class="flex justify-end gap-2">
-                                            <Button icon="pi pi-pencil" outlined rounded @click="editAcademicYear(slotProps.data)" />
-                                            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteAcademicYear(slotProps.data)" />
-                                        </div>
-                                    </template>
-                                </Column>
-                            <template #paginatorstart>
+        <Column :exportable="false" style="min-width: 8rem">
+            <template #header>
+                <div class="flex justify-end w-full">Actions</div>
+            </template>
+            <template #body="slotProps">
+                <div class="flex justify-end gap-2">
+                    <Button icon="pi pi-pencil" outlined rounded @click="editAcademicYear(slotProps.data)" />
+                    <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteAcademicYear(slotProps.data)" />
+                </div>
+            </template>
+        </Column>
+        <template #paginatorstart>
             <Button type="button" icon="pi pi-refresh" text @click="onSearch" />
         </template>
     </DataTable>

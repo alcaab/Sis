@@ -228,6 +228,9 @@ Se completó la refactorización del módulo `AcademicYear` cambiando de un enfo
     *   Indicadores visuales (*) para campos obligatorios.
     *   Manejo robusto de tipos de fecha (Date vs string) para compatibilidad con PrimeVue Calendar.
 
+### Z. Script de Formato con Prettier
+Se añadió un script `format` en `package.json` para ejecutar Prettier, permitiendo un formato de código consistente en todo el proyecto.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
