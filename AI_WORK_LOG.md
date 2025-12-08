@@ -281,6 +281,12 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     *   El `set` actualiza directamente el campo de `vee-validate`.
     *   Esto asegura una sincronización bidireccional robusta entre el formulario y el componente visual.
 
+### AJ. Modificación de Componente FormField (Hint Text)
+*   **Objetivo:** Permitir la inclusión de un texto explicativo opcional (hint) en los campos de formulario para mejorar la usabilidad.
+*   **Acción:** Se modificó `source/Desyco.Dms.Web/ClientApp/src/components/common/FormField.vue`.
+    *   Se añadió una nueva prop opcional `hint?: string;` a `defineProps`.
+    *   Se agregó un `<small v-if="hint" ... >` en el template para renderizar el texto de ayuda debajo del campo de entrada y antes del mensaje de error, utilizando la clase `text-surface-500` para su estilo.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
