@@ -1,3 +1,4 @@
+<script setup lang="ts">
 import { watch, computed } from 'vue';
 import { AcademicYearStatus, type AcademicYearDto } from '@/types/academic-year';
 import FormField from '@/components/common/FormField.vue';
