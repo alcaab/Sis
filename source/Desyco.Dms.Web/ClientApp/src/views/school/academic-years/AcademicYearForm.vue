@@ -42,14 +42,14 @@ const [status] = defineField('status');
 const parseLocalDate = (dateVal: string | Date | null | undefined): Date | null => {
     if (!dateVal) return null;
     if (dateVal instanceof Date) return dateVal;
-    
+
     // Handle YYYY-MM-DD string to prevent UTC conversion issues
     const strVal = dateVal.toString();
     if (/^\d{4}-\d{2}-\d{2}$/.test(strVal)) {
         const [year, month, day] = strVal.split('-').map(Number);
         return new Date(year, month - 1, day);
     }
-    
+
     return new Date(dateVal);
 };
 
@@ -97,11 +97,11 @@ const handleCancel = () => {
             </FormField>
 
             <FormField label="Start Date" id="startDate" required :error="errors.startDate">
-                <Calendar id="startDate" v-model="startDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.startDate" />
+                <DatePicker id="startDate" v-model="startDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.startDate" />
             </FormField>
 
             <FormField label="End Date" id="endDate" required :error="errors.endDate">
-                <Calendar id="endDate" v-model="endDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.endDate" />
+                <DatePicker id="endDate" v-model="endDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.endDate" />
             </FormField>
 
             <FormField label="Status" id="status" required :error="errors.status">

@@ -269,6 +269,10 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     *   Esta función detecta cadenas formato `YYYY-MM-DD` y construye el objeto `Date` usando el constructor local `new Date(year, monthIndex, day)`, evitando la conversión automática a UTC que restaba un día.
     *   Se eliminó la inicialización directa con `...props.initialData` en `useForm` para garantizar que todos los datos pasen por la lógica de transformación del `watch`.
 
+### AH. Actualización de Componente PrimeVue Calendar a DatePicker
+*   **Problema:** El componente `Calendar` de PrimeVue está deprecated a partir de la versión 4.
+*   **Solución:** Se reemplazó el uso de `<Calendar>` por `<DatePicker>` en `source/Desyco.Dms.Web/ClientApp/src/views/school/academic-years/AcademicYearForm.vue` para los campos `startDate` y `endDate`. Esto alinea la aplicación con las últimas directrices de PrimeVue v4.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
