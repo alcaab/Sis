@@ -1,6 +1,6 @@
-import AppLayout from '@/layout/AppLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import AcademicYear from '@/views/school/years-days-times/AcademicYear.vue';
+import AppLayout from '@/layout/AppLayout.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -24,10 +24,26 @@ const router = createRouter({
                     children: [
                         {
                             path: 'academic-year',
-                            name: 'academic-year',
+                            name: 'academic-year-list',
                             component: AcademicYear,
                             meta: {
                                 breadcrumb: 'Academic Years'
+                            }
+                        },
+                        {
+                            path: 'academic-year/create',
+                            name: 'academic-year-create',
+                            component: () => import('@/views/school/years-days-times/AcademicYearCreate.vue'),
+                            meta: {
+                                breadcrumb: 'Create Academic Year'
+                            }
+                        },
+                        {
+                            path: 'academic-year/:id/edit',
+                            name: 'academic-year-edit',
+                            component: () => import('@/views/school/years-days-times/AcademicYearEdit.vue'),
+                            meta: {
+                                breadcrumb: 'Edit Academic Year'
                             }
                         }
                     ]

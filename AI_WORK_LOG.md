@@ -214,6 +214,20 @@ Se realizó una refactorización importante para simplificar el manejo de tipos 
 *   **Corrección de Errores:** Se solucionó un error de sintaxis crítico en `academicYearStore.ts` causado por contenido duplicado durante la edición anterior.
 *   **Verificación:** Se confirmó que el proyecto pasa todas las reglas de linting sin errores.
 
+### Y. Transición a Page-Driven UI y Mejoras de Formulario
+Se completó la refactorización del módulo `AcademicYear` cambiando de un enfoque basado en modales (Dialog-driven) a páginas dedicadas (Page-driven), mejorando la usabilidad y navegabilidad.
+
+*   **Nuevos Componentes:**
+    *   `AcademicYearForm.vue`: Componente reutilizable con diseño horizontal, validación visual de campos requeridos y manejo tipado de fechas.
+    *   `AcademicYearCreate.vue`: Vista envolvente para la creación.
+    *   `AcademicYearEdit.vue`: Vista envolvente para la edición (carga de datos por ID).
+*   **Refactorización de Lista:** `AcademicYear.vue` se simplificó para ser una vista de solo lectura con navegación y eliminación.
+*   **Rutas:** Se actualizaron las rutas en `router/index.ts` para soportar `/create` y `/:id/edit`.
+*   **UX/UI:**
+    *   Alineación a la derecha de botones y cabecera en la columna de acciones.
+    *   Indicadores visuales (*) para campos obligatorios.
+    *   Manejo robusto de tipos de fecha (Date vs string) para compatibilidad con PrimeVue Calendar.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

@@ -78,8 +78,8 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHsts();
-    app.UseDefaultFiles();
-    app.UseStaticFiles();
+    //app.UseDefaultFiles();
+    //app.UseStaticFiles();
 }
 
 app.UseHttpsRedirection();

@@ -1,13 +1,11 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
-import { useBreadcrumbs } from '@/layout/composables/useBreadcrumbs';
 import { computed, ref, watch } from 'vue';
 import AppFooter from './AppFooter.vue';
 import AppSidebar from './AppSidebar.vue';
 import AppTopbar from './AppTopbar.vue';
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
-const { home, items } = useBreadcrumbs();
 
 const outsideClickListener = ref(null);
 
@@ -63,7 +61,6 @@ function isOutsideClicked(event) {
         <app-sidebar></app-sidebar>
         <div class="layout-main-container">
             <div class="layout-main">
-                <Breadcrumb :home="home" :model="items" class="mb-4" />
                 <router-view></router-view>
             </div>
             <app-footer></app-footer>
