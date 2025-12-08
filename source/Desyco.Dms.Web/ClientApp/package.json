@@ -6,7 +6,8 @@
         "build": "vue-tsc --noEmit && vite build",
         "type-check": "vue-tsc --noEmit",
         "preview": "vite preview",
-        "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore"
+        "lint": "eslint --fix . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
+        "format": "prettier --write ."
     },
     "dependencies": {
         "@primeuix/themes": "^1.0.0",
