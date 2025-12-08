@@ -13,7 +13,9 @@ public class GetAllAcademicYearsQueryHandler(IAcademicYearRepository academicYea
         CancellationToken cancellationToken = default)
     {
         var result =
-            await academicYearRepository.GetResultListAsync(request.QueryOptions, null,
+            await academicYearRepository.GetResultListAsync(
+                request.QueryOptions,
+                (e,searchTerm) => e.Name.StartsWith(searchTerm),
                 cancellationToken);
         
         return mapper.Map(result);

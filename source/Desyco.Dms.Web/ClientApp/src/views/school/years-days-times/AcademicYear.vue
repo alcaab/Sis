@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAcademicYearStore } from '@/stores/academicYearStore';
 import { AcademicYearStatus, type AcademicYearDto } from '@/types/academic-year';
@@ -8,12 +8,10 @@ import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModel
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { useDataTableUtils } from '@/utils/useDataTableUtils';
-import { useDebounce } from '@/utils/useDebounce';
 
 const router = useRouter();
 const store = useAcademicYearStore();
 const { paginate } = useDataTableUtils(handlePagination);
-const { inputValue, debouncedValue } = useDebounce('', 750);
 const toast = useToast();
 const confirm = useConfirm();
 
@@ -40,11 +38,6 @@ function handlePagination(event: RequestParamsPayload) {
 const onSearch = () => {
     dt.value.filter({});
 };
-
-watch(debouncedValue, (newValue) => {
-    filters.value['global'].value = newValue;
-    onSearch();
-});
 
 const openNew = () => {
     router.push({ name: 'academic-year-create' });
@@ -131,7 +124,9 @@ const getStatusSeverity = (status: AcademicYearStatus) => {
                         <InputIcon>
                             <i class="pi pi-search" />
                         </InputIcon>
-                        <InputText v-model="inputValue" placeholder="Search..." @keydown.enter="onSearch" class="w-full md:w-auto" />
+                        <InputText v-model="filters['global'].value"
+                                   @keydown.enter="onSearch" placeholder="Search..."
+                                   class="w-full md:w-auto" />
                     </IconField>
                     <Button label="New" icon="pi pi-plus" @click="openNew" />
                 </div>
