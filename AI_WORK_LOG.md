@@ -316,6 +316,12 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     6.  `Program.cs`: Registro de `GlobalExceptionHandler` y `SwaggerGen` (corrección de error).
 *   **Refactorización:** Se aplicaron constructores primarios (C# 12) en las nuevas clases.
 
+### AP. Mejora de UX en Edición (BlockUI)
+*   **Objetivo:** Evitar interacciones con el formulario mientras se cargan los datos iniciales en la vista de edición.
+*   **Acción:** Se modificó `source/Desyco.Dms.Web/ClientApp/src/views/school/academic-years/AcademicYearEdit.vue`.
+    *   Se implementó el componente `<BlockUI>` de PrimeVue envolviendo al formulario.
+    *   Se añadió un estado `fetchingData` que se activa durante `loadData()` y bloquea la UI mostrando un `<ProgressSpinner>`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

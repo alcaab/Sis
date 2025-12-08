@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BestSellingWidget: typeof import('./src/components/dashboard/BestSellingWidget.vue')['default']
+    BlockUI: typeof import('primevue/blockui')['default']
     BlockViewer: typeof import('./src/components/BlockViewer.vue')['default']
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     Button: typeof import('primevue/button')['default']
@@ -31,6 +32,7 @@ declare module 'vue' {
     Menubar: typeof import('primevue/menubar')['default']
     NotificationsWidget: typeof import('./src/components/dashboard/NotificationsWidget.vue')['default']
     PricingWidget: typeof import('./src/components/landing/PricingWidget.vue')['default']
+    ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RecentSalesWidget: typeof import('./src/components/dashboard/RecentSalesWidget.vue')['default']
     RevenueStreamWidget: typeof import('./src/components/dashboard/RevenueStreamWidget.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
