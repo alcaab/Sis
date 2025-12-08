@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useAcademicYearStore } from '@/stores/academicYearStore';
-import { AcademicYearStatus, type AcademicYearDto, type CreateAcademicYearDto, type UpdateAcademicYearDto } from '@/types/academic-year';
+import { AcademicYearStatus, type AcademicYearDto } from '@/types/academic-year';
 import { FilterMatchMode } from '@primevue/core/api';
 import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModels.ts';
 import { useToast } from 'primevue/usetoast';
@@ -13,7 +13,7 @@ const store = useAcademicYearStore();
 const { paginate } = useDataTableUtils(handlePagination);
 const { inputValue, debouncedValue } = useDebounce('', 750);
 const toast = useToast();
-const confirm = useConfirm(); // Initialized
+const confirm = useConfirm();
 
 const dt = ref();
 const academicYearDialog = ref(false);
@@ -72,7 +72,6 @@ const saveAcademicYear = async () => {
 
     if (academicYear.value.name?.trim()) {
         try {
-            // Date handling: Convert Date objects to YYYY-MM-DD string for API
             const payload = { ...academicYear.value };
             if (payload.startDate instanceof Date) {
                 payload.startDate = payload.startDate.toISOString().split('T')[0];
@@ -82,10 +81,10 @@ const saveAcademicYear = async () => {
             }
 
             if (payload.id) {
-                await store.updateAcademicYear(payload.id, payload as UpdateAcademicYearDto);
+                await store.updateAcademicYear(payload.id, payload as AcademicYearDto);
                 toast.add({ severity: 'success', summary: 'Successful', detail: 'Academic Year Updated', life: 3000 });
             } else {
-                await store.createAcademicYear(payload as CreateAcademicYearDto);
+                await store.createAcademicYear(payload as AcademicYearDto);
                 toast.add({ severity: 'success', summary: 'Successful', detail: 'Academic Year Created', life: 3000 });
             }
             academicYearDialog.value = false;

@@ -207,6 +207,13 @@ Se ejecutó el comando de linting y se resolvieron los errores detectados para a
     *   `router/index.ts`: Se cambió la declaración de `router` de `let` a `const`.
 *   **Formato:** Se aplicaron correcciones automáticas de estilo (`--fix`) en todo el frontend.
 
+### X. Simplificación de Tipos y Refactorización Final
+Se realizó una refactorización importante para simplificar el manejo de tipos en el frontend.
+*   **Unificación de DTOs:** Se consolidaron las interfaces `AcademicYearDto`, `CreateAcademicYearDto` y `UpdateAcademicYearDto` en una única interfaz `AcademicYearDto` (con `id` opcional). Esto reduce la duplicación de código y facilita el mantenimiento.
+*   **Actualización de Capas:** Se actualizaron `AcademicYearService.ts`, `academicYearStore.ts` y `AcademicYear.vue` para utilizar el tipo unificado.
+*   **Corrección de Errores:** Se solucionó un error de sintaxis crítico en `academicYearStore.ts` causado por contenido duplicado durante la edición anterior.
+*   **Verificación:** Se confirmó que el proyecto pasa todas las reglas de linting sin errores.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
