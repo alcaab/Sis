@@ -1,7 +1,7 @@
 export enum AcademicYearStatus {
     Upcoming = 1,
     Current = 2,
-    Closed = 3
+    Closed = 3,
 }
 
 export interface AcademicYearDto {

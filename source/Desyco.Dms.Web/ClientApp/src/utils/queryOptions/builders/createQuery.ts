@@ -1,8 +1,8 @@
-import type { QueryDescriptor, QueryObject } from '../models';
-import { createFilter } from './createFilter';
-import { createOrderby } from './createOrderby';
-import { createPaginate } from './createPaginate';
-import { makeQuery } from './queryBuilder';
+import type { QueryDescriptor, QueryObject } from "../models";
+import { createFilter } from "./createFilter";
+import { createOrderby } from "./createOrderby";
+import { createPaginate } from "./createPaginate";
+import { makeQuery } from "./queryBuilder";
 
 type IExpression = { _get: () => string };
 type FilterMethods = object;
@@ -17,7 +17,7 @@ export interface IQueryBuilder {
     filter(key: string, exp: (builder: FilterMethods) => IExpression): IQueryBuilder;
     filter(exp: (filter: RecursiveFilterProxy) => IExpression): IQueryBuilder;
 
-    orderBy(key: string, order?: 'asc' | 'desc'): IQueryBuilder;
+    orderBy(key: string, order?: "asc" | "desc"): IQueryBuilder;
     orderBy(exp: (builder: OrderByProxy) => OrderByProxy): IQueryBuilder;
 
     paginate(pagesize: number, page: number): IQueryBuilder;
@@ -37,7 +37,7 @@ export function createQueryDescriptor(key?: string): QueryDescriptor {
         count: false,
         filters: [],
         orderby: [],
-        search: undefined
+        search: undefined,
     };
 }
 
@@ -50,13 +50,13 @@ export function createQuery(descriptor: QueryDescriptor): IQueryBuilder {
         count() {
             return createQuery({
                 ...descriptor,
-                count: true
+                count: true,
             });
         },
         search(searchTerm: string) {
             return createQuery({
                 ...descriptor,
-                search: searchTerm
+                search: searchTerm,
             });
         },
         toObject(): QueryObject {
@@ -68,8 +68,8 @@ export function createQuery(descriptor: QueryDescriptor): IQueryBuilder {
         toString(): string {
             return makeQuery(descriptor)
                 .map((p) => `${p.key}=${p.value}`)
-                .join('&');
+                .join("&");
         },
-        _fluent: true
+        _fluent: true,
     };
 }

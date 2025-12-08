@@ -1,4 +1,4 @@
-import type { QueryDescriptor } from '../models';
+import type { QueryDescriptor } from "../models";
 
 export interface KeyValue<T> {
     key: string;
@@ -14,49 +14,49 @@ export function makeQuery(qd: QueryDescriptor): KeyValue<string>[] {
     if (qd.filters.length) {
         if (qd.filters.length > 1) {
             params.push({
-                key: '$filter',
-                value: `${qd.filters.map(makeQueryParentheses).join(' and ')}`
+                key: "$filter",
+                value: `${qd.filters.map(makeQueryParentheses).join(" and ")}`,
             });
         } else {
             params.push({
-                key: '$filter',
-                value: `${qd.filters.join()}`
+                key: "$filter",
+                value: `${qd.filters.join()}`,
             });
         }
     }
 
     if (qd.orderby.length) {
         params.push({
-            key: '$orderby',
-            value: `${qd.orderby.join(', ')}`
+            key: "$orderby",
+            value: `${qd.orderby.join(", ")}`,
         });
     }
 
     if (qd.skip != null) {
         params.push({
-            key: '$skip',
-            value: `${qd.skip}`
+            key: "$skip",
+            value: `${qd.skip}`,
         });
     }
 
     if (qd.take != null) {
         params.push({
-            key: '$top',
-            value: `${qd.take}`
+            key: "$top",
+            value: `${qd.take}`,
         });
     }
 
     if (qd.count == true) {
         params.push({
-            key: '$count',
-            value: `true`
+            key: "$count",
+            value: `true`,
         });
     }
 
     if (qd.search != null) {
         params.push({
-            key: '$search',
-            value: `${qd.search}`
+            key: "$search",
+            value: `${qd.search}`,
         });
     }
 
@@ -64,7 +64,7 @@ export function makeQuery(qd: QueryDescriptor): KeyValue<string>[] {
 }
 
 export function makeQueryParentheses(query: string): string {
-    if (query.indexOf(' or ') > -1 || query.indexOf(' and ') > -1) {
+    if (query.indexOf(" or ") > -1 || query.indexOf(" and ") > -1) {
         return `(${query})`;
     }
 
@@ -72,7 +72,7 @@ export function makeQueryParentheses(query: string): string {
 }
 
 export function makeRelationQuery(rqd: QueryDescriptor): string {
-    let expand: string = rqd.key || '';
+    let expand: string = rqd.key || "";
 
     if (rqd.filters.length || rqd.orderby.length || rqd.skip != null || rqd.take != null || rqd.count != false) {
         expand += `(`;
@@ -92,18 +92,18 @@ export function makeRelationQuery(rqd: QueryDescriptor): string {
         }
 
         if (rqd.orderby.length) {
-            operators.push(`$orderby=${rqd.orderby.join(',')}`);
+            operators.push(`$orderby=${rqd.orderby.join(",")}`);
         }
 
         if (rqd.filters.length) {
             if (rqd.filters.length > 1) {
-                operators.push(`$filter=${rqd.filters.map(makeQueryParentheses).join(' and ')}`);
+                operators.push(`$filter=${rqd.filters.map(makeQueryParentheses).join(" and ")}`);
             } else {
                 operators.push(`$filter=${rqd.filters.join()}`);
             }
         }
 
-        expand += operators.join(';') + ')';
+        expand += operators.join(";") + ")";
     }
 
     return expand;

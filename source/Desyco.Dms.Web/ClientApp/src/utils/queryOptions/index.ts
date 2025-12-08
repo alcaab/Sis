@@ -1,5 +1,5 @@
-import { createQuery, createQueryDescriptor } from './builders';
-import type { queryOptions } from './models';
+import { createQuery, createQueryDescriptor } from "./builders";
+import type { queryOptions } from "./models";
 
 export function queryOptionsFilter<T>(): queryOptions<T> {
     const defaultDescriptor = createQueryDescriptor();
@@ -7,5 +7,5 @@ export function queryOptionsFilter<T>(): queryOptions<T> {
     return createQuery(defaultDescriptor);
 }
 
-export * from './models';
+export * from "./models";
 export default queryOptionsFilter;

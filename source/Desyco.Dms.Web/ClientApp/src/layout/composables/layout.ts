@@ -1,11 +1,11 @@
-import { computed, reactive } from 'vue';
+import { computed, reactive } from "vue";
 
 const layoutConfig = reactive({
-    preset: 'Aura',
-    primary: 'emerald',
+    preset: "Aura",
+    primary: "emerald",
     surface: null,
     darkTheme: false,
-    menuMode: 'static'
+    menuMode: "static",
 });
 
 const layoutState = reactive({
@@ -15,7 +15,7 @@ const layoutState = reactive({
     configSidebarVisible: false,
     staticMenuMobileActive: false,
     menuHoverActive: false,
-    activeMenuItem: null
+    activeMenuItem: null,
 });
 
 export function useLayout() {
@@ -35,7 +35,7 @@ export function useLayout() {
 
     const executeDarkModeToggle = () => {
         layoutConfig.darkTheme = !layoutConfig.darkTheme;
-        document.documentElement.classList.toggle('app-dark');
+        document.documentElement.classList.toggle("app-dark");
     };
 
     const toggleMenu = () => {
@@ -67,6 +67,6 @@ export function useLayout() {
         getPrimary,
         getSurface,
         setActiveMenuItem,
-        toggleDarkMode
+        toggleDarkMode,
     };
 }

@@ -1,5 +1,5 @@
-import type { FilterBuilder, FilterBuilderProp, FilterExpression } from './queryFilter';
-import type { OrderBy, OrderByBuilder, OrderByExpression } from './queryOrderby';
+import type { FilterBuilder, FilterBuilderProp, FilterExpression } from "./queryFilter";
+import type { OrderBy, OrderByBuilder, OrderByExpression } from "./queryOrderby";
 
 export interface queryOptions<T> {
     count(): queryOptions<T>;
@@ -8,7 +8,7 @@ export interface queryOptions<T> {
 
     filter<TKey extends keyof T>(key: TKey, exp: (x: FilterBuilderProp<T[TKey]>) => FilterExpression): queryOptions<T>;
 
-    orderBy<TKey extends keyof T>(key: TKey, order?: 'asc' | 'desc'): queryOptions<T>;
+    orderBy<TKey extends keyof T>(key: TKey, order?: "asc" | "desc"): queryOptions<T>;
 
     orderBy(exp: (ob: OrderByBuilder<T>) => OrderBy | OrderByExpression): queryOptions<T>;
 

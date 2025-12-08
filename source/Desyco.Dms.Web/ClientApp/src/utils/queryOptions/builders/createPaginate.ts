@@ -1,5 +1,5 @@
-import type { QueryDescriptor } from '../models';
-import { createQuery } from './createQuery';
+import type { QueryDescriptor } from "../models";
+import { createQuery } from "./createQuery";
 
 interface PaginationOptions {
     page: number;
@@ -13,11 +13,11 @@ export function createPaginate(descriptor: QueryDescriptor) {
     function paginate(sizeOrOptions: number | PaginationOptions, page?: number): ReturnType<typeof createQuery> {
         let data: PaginationOptions;
 
-        if (typeof sizeOrOptions === 'number') {
+        if (typeof sizeOrOptions === "number") {
             data = {
                 page: page!,
                 pagesize: sizeOrOptions,
-                count: true
+                count: true,
             };
         } else {
             data = sizeOrOptions;
@@ -30,7 +30,7 @@ export function createPaginate(descriptor: QueryDescriptor) {
             ...descriptor,
             take: data.pagesize,
             skip: data.page,
-            count: data.count
+            count: data.count,
         };
 
         if (!queryDescriptor.skip) {

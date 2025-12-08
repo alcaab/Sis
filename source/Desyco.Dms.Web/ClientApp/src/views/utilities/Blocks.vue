@@ -1,12 +1,12 @@
 <script setup>
-import BlockViewer from '@/components/BlockViewer.vue';
-import { ref } from 'vue';
+    import BlockViewer from "@/components/BlockViewer.vue";
+    import { ref } from "vue";
 
-const password = ref('');
-const checked1 = ref(true);
+    const password = ref("");
+    const checked1 = ref(true);
 
-const blocksCode = {
-    hero: `<div class="relative min-h-160 lg:min-h-0 bg-surface-0 dark:bg-surface-900 flex lg:flex-row flex-col">
+    const blocksCode = {
+        hero: `<div class="relative min-h-160 lg:min-h-0 bg-surface-0 dark:bg-surface-900 flex lg:flex-row flex-col">
     <div class="flex lg:flex lg:flex-row flex-col justify-center md:justify-normal h-full flex-1">
         <div class="relative flex-1 z-20 flex items-center justify-center">
             <div class="flex items-center justify-center h-full">
@@ -39,7 +39,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    feature: `<div class="bg-surface-0 dark:bg-surface-950 px-6 md:px-12 lg:px-20 py-20 text-center">
+        feature: `<div class="bg-surface-0 dark:bg-surface-950 px-6 md:px-12 lg:px-20 py-20 text-center">
     <div class="flex flex-col gap-6">
         <div class="flex flex-col items-center gap-4">
             <div class="font-bold text-3xl leading-tight">
@@ -107,7 +107,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    pricing: `<div class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
+        pricing: `<div class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
         <div class="flex flex-col gap-4 items-center justify-center mb-12">
             <div class="text-surface-900 dark:text-surface-0 font-bold text-4xl lg:text-5xl text-center leading-tight">Pricing Plans</div>
             <div class="text-surface-500 dark:text-surface-400 text-lg text-center leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
@@ -213,7 +213,7 @@ const blocksCode = {
         </div>
     </div>`,
 
-    cta: ` <div class="bg-surface-0 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
+        cta: ` <div class="bg-surface-0 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
     <div class="text-surface-700 dark:text-surface-100 text-center flex flex-col items-center gap-4">
         <div class="text-primary font-bold text-lg leading-tight"><i class="pi pi-discord text-lg! leading-none!" />&nbsp;POWERED BY DISCORD</div>
         <div class="text-surface-900 dark:text-surface-0 font-bold text-4xl leading-tight">Join our design community</div>
@@ -222,7 +222,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    banner: `<div class="pb-20 bg-surface-0 dark:bg-surface-950">
+        banner: `<div class="pb-20 bg-surface-0 dark:bg-surface-950">
     <div class="bg-surface-900 text-surface-100 py-4 px-6 lg:px-20 flex justify-between items-center flex-wrap">
         <div class="font-bold">🔥 Hot Deals!</div>
         <div class="inline-flex gap-1 items-center">
@@ -233,7 +233,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    'page-heading': `<div class="bg-surface-0 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
+        "page-heading": `<div class="bg-surface-0 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
     <ul class="list-none p-0 m-0 flex items-center font-medium mb-5">
         <li>
             <a class="text-surface-500 dark:text-surface-300 no-underline leading-normal cursor-pointer">Application</a>
@@ -270,7 +270,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    stats: `<div class="bg-surface-50 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
+        stats: `<div class="bg-surface-50 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         <div class="bg-surface-0 dark:bg-surface-900 shadow-sm p-5 rounded-2xl">
             <div class="flex justify-between gap-4">
@@ -337,7 +337,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    'sign-in': ` <div class="bg-surface-0 dark:bg-surface-900 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-xl mx-auto flex flex-col gap-8">
+        "sign-in": ` <div class="bg-surface-0 dark:bg-surface-900 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-xl mx-auto flex flex-col gap-8">
     <div class="flex flex-col items-center gap-4">
         <div class="flex items-center gap-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" width="33" height="32" viewBox="0 0 33 32" fill="none">
@@ -382,7 +382,7 @@ const blocksCode = {
     </Button>
 </div>`,
 
-    'description-list': `<div class="bg-surface-0 dark:bg-surface-950 px-8 md:px-20 py-12 md:py-20 lg:px-80">
+        "description-list": `<div class="bg-surface-0 dark:bg-surface-950 px-8 md:px-20 py-12 md:py-20 lg:px-80">
     <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2 pb-4">
             <div class="font-semibold text-xl text-surface-900 dark:text-surface-0 leading-tight">Movie Information</div>
@@ -461,7 +461,7 @@ const blocksCode = {
     </div>
 </div>`,
 
-    card: `<div class="bg-surface-50 dark:bg-surface-950">
+        card: `<div class="bg-surface-50 dark:bg-surface-950">
     <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-2xl flex flex-col gap-4">
         <div class="flex gap-4">
             <div class="flex flex-col gap-2 flex-1">
@@ -474,7 +474,7 @@ const blocksCode = {
         </div>
     </div>
 </div>`,
-    glass: `<div
+        glass: `<div
         class="px-6 py-20 md:px-20 lg:px-80 flex items-center justify-center backdrop-blur-3xl bg-cover! bg-center! bg-no-repeat!"
         style="background-image: url('https://fqjltiegiezfetthbags.supabase.co/storage/v1/object/public/block.images/blocks/signin/signin-glass.jpg')"
     >
@@ -515,47 +515,72 @@ const blocksCode = {
             </div>
             <a class="text-white/80 cursor-pointer hover:text-white/90">Forgot Password?</a>
         </div>
-    </div>`
-};
+    </div>`,
+    };
 </script>
 
 <template>
     <div>
         <!-- Page Hero Section -->
-        <div class="bg-surface-0 dark:bg-surface-900 border border-surface rounded-xl p-8 bg-[url('/demo/images/blocks/landing-blocks.jpg')] dark:bg-[url('/demo/images/blocks/landing-blocks-dark.jpg')] bg-cover bg-no-repeat h-[440px] flex mb-8">
+        <div
+            class="bg-surface-0 dark:bg-surface-900 border border-surface rounded-xl p-8 bg-[url('/demo/images/blocks/landing-blocks.jpg')] dark:bg-[url('/demo/images/blocks/landing-blocks-dark.jpg')] bg-cover bg-no-repeat h-[440px] flex mb-8"
+        >
             <div class="flex flex-col gap-4 items-center sm:items-start justify-center sm:max-w-144">
                 <span class="bg-surface-950 text-white px-2 py-1 font-bold rounded-md text-sm">TailwindCSS v4</span>
                 <div class="flex items-center gap-4">
                     <span class="font-bold text-4xl text-surface-950 dark:text-surface-0">PrimeBlocks</span>
                 </div>
                 <p class="text-surface-700 dark:text-surface-300 text-lg text-center sm:text-start">
-                    Ready-to-use UI blocks for building beautiful applications. A comprehensive collection of components designed to speed up your development process.
+                    Ready-to-use UI blocks for building beautiful applications. A comprehensive collection of components
+                    designed to speed up your development process.
                 </p>
                 <div class="flex gap-2">
-                    <Button label="Explore Blocks" as="a" href="https://primeblocks.org" target="_blank" rel="noopener noreferrer" />
+                    <Button
+                        label="Explore Blocks"
+                        as="a"
+                        href="https://primeblocks.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    />
                 </div>
             </div>
         </div>
 
         <!-- Blocks Showcase -->
-        <BlockViewer header="Hero" :code="blocksCode.hero" free>
+        <BlockViewer
+            header="Hero"
+            :code="blocksCode.hero"
+            free
+        >
             <div class="relative min-h-160 lg:min-h-0 bg-surface-0 dark:bg-surface-900 flex lg:flex-row flex-col">
                 <div class="flex lg:flex lg:flex-row flex-col justify-center md:justify-normal h-full flex-1">
                     <div class="relative flex-1 z-20 flex items-center justify-center">
                         <div class="flex items-center justify-center h-full">
                             <div class="w-full max-w-2xl px-6 py-12 lg:p-12 xl:p-16 text-center lg:text-left">
-                                <h1 class="text-4xl xl:text-5xl font-bold text-surface-0 lg:text-surface-900 dark:text-surface-0 mb-6 leading-tight!">
+                                <h1
+                                    class="text-4xl xl:text-5xl font-bold text-surface-0 lg:text-surface-900 dark:text-surface-0 mb-6 leading-tight!"
+                                >
                                     <span class="block">Create the screens your</span>
                                     <span class="block text-primary">visitors deserve to see</span>
                                 </h1>
 
-                                <p class="text-surface-0/90 lg:text-surface-700 dark:text-surface-200 text-xl leading-normal mb-8 max-w-xl lg:max-w-none">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                <p
+                                    class="text-surface-0/90 lg:text-surface-700 dark:text-surface-200 text-xl leading-normal mb-8 max-w-xl lg:max-w-none"
+                                >
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua.
                                 </p>
 
                                 <div class="flex items-center gap-4 justify-center lg:justify-start">
-                                    <Button label="Learn More" type="button" />
-                                    <Button label="Live Demo" type="button" outlined />
+                                    <Button
+                                        label="Learn More"
+                                        type="button"
+                                    />
+                                    <Button
+                                        label="Live Demo"
+                                        type="button"
+                                        outlined
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -563,14 +588,22 @@ const blocksCode = {
 
                     <div class="absolute lg:relative inset-0 lg:inset-auto flex-1">
                         <div class="absolute lg:hidden inset-0 bg-surface-900/60 dark:bg-surface-900/80 z-10" />
-                        <img src="https://fqjltiegiezfetthbags.supabase.co/storage/v1/render/image/public/block.images/blocks/hero/hero-1.png" alt="hero-1" class="h-full w-full object-cover xl:[clip-path:polygon(12%_0,100%_0%,100%_100%,0_100%)]" />
+                        <img
+                            src="https://fqjltiegiezfetthbags.supabase.co/storage/v1/render/image/public/block.images/blocks/hero/hero-1.png"
+                            alt="hero-1"
+                            class="h-full w-full object-cover xl:[clip-path:polygon(12%_0,100%_0%,100%_100%,0_100%)]"
+                        />
                     </div>
                 </div>
             </div>
         </BlockViewer>
 
         <!-- Feature Block -->
-        <BlockViewer header="Feature" :code="blocksCode.feature" free>
+        <BlockViewer
+            header="Feature"
+            :code="blocksCode.feature"
+            free
+        >
             <div class="bg-surface-0 dark:bg-surface-950 px-6 md:px-12 lg:px-20 py-20 text-center">
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col items-center gap-4">
@@ -578,61 +611,108 @@ const blocksCode = {
                             <span class="text-surface-900 dark:text-surface-0">One Product, </span>
                             <span class="text-primary-500 dark:text-primary-400">Many Solutions</span>
                         </div>
-                        <div class="text-surface-500 dark:text-surface-400 leading-tight">Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna.</div>
+                        <div class="text-surface-500 dark:text-surface-400 leading-tight">
+                            Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna.
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
-                                <i class="pi pi-desktop text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
+                                <i
+                                    class="pi pi-desktop text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400"
+                                />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">Built for Developers</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    Built for Developers
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                    fugiat nulla pariatur.
+                                </p>
                             </div>
                         </div>
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
                                 <i class="pi pi-lock text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">End-to-End Encryption</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Risus nec feugiat in fermentum posuere urna nec. Posuere sollicitudin aliquam ultrices sagittis.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    End-to-End Encryption
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Risus nec feugiat in fermentum posuere urna nec. Posuere sollicitudin aliquam
+                                    ultrices sagittis.
+                                </p>
                             </div>
                         </div>
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
-                                <i class="pi pi-face-smile text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
+                                <i
+                                    class="pi pi-face-smile text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400"
+                                />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">Easy to Use</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Ornare suspendisse sed nisi lacus sed viverra tellus. Neque volutpat ac tincidunt vitae semper.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    Easy to Use
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Ornare suspendisse sed nisi lacus sed viverra tellus. Neque volutpat ac tincidunt
+                                    vitae semper.
+                                </p>
                             </div>
                         </div>
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
                                 <i class="pi pi-globe text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">Fast & Global Support</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    Fast & Global Support
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus.
+                                </p>
                             </div>
                         </div>
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
                                 <i class="pi pi-github text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">Open Source</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Nec tincidunt praesent semper feugiat. Sed adipiscing diam donec adipiscing tristique risus nec feugiat.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    Open Source
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Nec tincidunt praesent semper feugiat. Sed adipiscing diam donec adipiscing
+                                    tristique risus nec feugiat.
+                                </p>
                             </div>
                         </div>
                         <div class="w-full rounded-md p-4">
-                            <span class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto">
+                            <span
+                                class="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-0 dark:bg-surface-800 shadow mx-auto"
+                            >
                                 <i class="pi pi-shield text-2xl! lg:text-3xl! text-primary-500 dark:text-primary-400" />
                             </span>
                             <div class="flex flex-col gap-1">
-                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">Trusted Security</div>
-                                <p class="text-surface-500 dark:text-surface-400 leading-normal">Mattis rhoncus urna neque viverra justo nec ultrices. Id cursus metus aliquam eleifend.</p>
+                                <div class="text-surface-900 dark:text-surface-0 text-xl font-medium leading-tight">
+                                    Trusted Security
+                                </div>
+                                <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                    Mattis rhoncus urna neque viverra justo nec ultrices. Id cursus metus aliquam
+                                    eleifend.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -641,14 +721,29 @@ const blocksCode = {
         </BlockViewer>
 
         <!-- Glassmorphism Card Block -->
-        <BlockViewer header="Card" :code="blocksCode.glass" free>
+        <BlockViewer
+            header="Card"
+            :code="blocksCode.glass"
+            free
+        >
             <div
                 class="px-6 py-20 md:px-20 lg:px-80 flex items-center justify-center backdrop-blur-3xl bg-cover! bg-center! bg-no-repeat!"
-                style="background-image: url('https://fqjltiegiezfetthbags.supabase.co/storage/v1/object/public/block.images/blocks/signin/signin-glass.jpg')"
+                style="
+                    background-image: url(&quot;https://fqjltiegiezfetthbags.supabase.co/storage/v1/object/public/block.images/blocks/signin/signin-glass.jpg&quot;);
+                "
             >
-                <div class="px-8 md:px-12 lg:px-20 py-12 flex flex-col items-center gap-12 w-full backdrop-blur-2xl rounded-2xl bg-white/10 border border-white/10 max-w-xl">
+                <div
+                    class="px-8 md:px-12 lg:px-20 py-12 flex flex-col items-center gap-12 w-full backdrop-blur-2xl rounded-2xl bg-white/10 border border-white/10 max-w-xl"
+                >
                     <div class="flex flex-col items-center gap-4 w-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" width="33" height="32" viewBox="0 0 33 32" fill="none">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-14 w-14"
+                            width="33"
+                            height="32"
+                            viewBox="0 0 33 32"
+                            fill="none"
+                        >
                             <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
@@ -668,14 +763,25 @@ const blocksCode = {
                         <div class="flex flex-col gap-6 w-full">
                             <IconField>
                                 <InputIcon class="pi pi-user text-white/70!" />
-                                <InputText type="text" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Username" />
+                                <InputText
+                                    type="text"
+                                    class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!"
+                                    placeholder="Username"
+                                />
                             </IconField>
                             <IconField>
                                 <InputIcon class="pi pi-lock text-white/70!" />
-                                <InputText type="password" class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!" placeholder="Password" />
+                                <InputText
+                                    type="password"
+                                    class="appearance-none! border! border-white/10! w-full! outline-0! bg-white/10! text-white! placeholder:text-white/70! rounded-3xl! shadow-sm!"
+                                    placeholder="Password"
+                                />
                             </IconField>
                         </div>
-                        <Button label="Sign In" class="w-full! rounded-3xl! bg-surface-950! border! border-surface-950! text-white! hover:bg-surface-950/80!" />
+                        <Button
+                            label="Sign In"
+                            class="w-full! rounded-3xl! bg-surface-950! border! border-surface-950! text-white! hover:bg-surface-950/80!"
+                        />
                     </div>
                     <a class="text-white/80 cursor-pointer hover:text-white/90">Forgot Password?</a>
                 </div>
@@ -683,146 +789,262 @@ const blocksCode = {
         </BlockViewer>
 
         <!-- Pricing Block -->
-        <BlockViewer header="Pricing" :code="blocksCode.pricing" free>
+        <BlockViewer
+            header="Pricing"
+            :code="blocksCode.pricing"
+            free
+        >
             <div class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
                 <div class="flex flex-col gap-4 items-center justify-center mb-12">
-                    <div class="text-surface-900 dark:text-surface-0 font-bold text-4xl lg:text-5xl text-center leading-tight">Pricing Plans</div>
-                    <div class="text-surface-500 dark:text-surface-400 text-lg text-center leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
+                    <div
+                        class="text-surface-900 dark:text-surface-0 font-bold text-4xl lg:text-5xl text-center leading-tight"
+                    >
+                        Pricing Plans
+                    </div>
+                    <div class="text-surface-500 dark:text-surface-400 text-lg text-center leading-normal">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.
+                    </div>
                 </div>
 
                 <div class="flex lg:flex-row flex-col gap-8 max-w-7xl mx-auto">
-                    <div class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6">
+                    <div
+                        class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6"
+                    >
                         <div class="flex flex-col gap-2">
-                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">Basic</h4>
-                            <p class="text-surface-500 dark:text-surface-400 leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</p>
+                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">
+                                Basic
+                            </h4>
+                            <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.
+                            </p>
                         </div>
 
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-700" />
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight">$9</span>
-                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight">per month</span>
+                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight"
+                                >$9</span
+                            >
+                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight"
+                                >per month</span
+                            >
                         </div>
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-600" />
                         <ul class="list-none flex flex-col gap-4 flex-1">
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Arcu vitae elementum </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Arcu vitae elementum
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Dui faucibus in ornare </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Dui faucibus in ornare
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Morbi tincidunt augue </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Morbi tincidunt augue
+                                </span>
                             </li>
                         </ul>
-                        <Button label="Buy Now" rounded class="w-full" />
+                        <Button
+                            label="Buy Now"
+                            rounded
+                            class="w-full"
+                        />
                     </div>
-                    <div class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6">
+                    <div
+                        class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6"
+                    >
                         <div class="flex flex-col gap-2">
-                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">Premium</h4>
-                            <p class="text-surface-500 dark:text-surface-400 leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</p>
+                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">
+                                Premium
+                            </h4>
+                            <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.
+                            </p>
                         </div>
 
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-700" />
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight">$29</span>
-                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight">per month</span>
+                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight"
+                                >$29</span
+                            >
+                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight"
+                                >per month</span
+                            >
                         </div>
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-600" />
                         <ul class="list-none flex flex-col gap-4 flex-1">
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Arcu vitae elementum </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Arcu vitae elementum
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Dui faucibus in ornare </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Dui faucibus in ornare
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Morbi tincidunt augue </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Morbi tincidunt augue
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Duis ultricies lacus sed </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Duis ultricies lacus sed
+                                </span>
                             </li>
                         </ul>
-                        <Button label="Buy Now" rounded class="w-full" />
+                        <Button
+                            label="Buy Now"
+                            rounded
+                            class="w-full"
+                        />
                     </div>
-                    <div class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6">
+                    <div
+                        class="w-full flex-1 p-8 flex rounded-2xl flex-col bg-surface-0 dark:bg-surface-800 shadow-sm gap-6"
+                    >
                         <div class="flex flex-col gap-2">
-                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">Enterprise</h4>
-                            <p class="text-surface-500 dark:text-surface-400 leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</p>
+                            <h4 class="text-surface-900 dark:text-surface-0 font-medium text-xl leading-tight">
+                                Enterprise
+                            </h4>
+                            <p class="text-surface-500 dark:text-surface-400 leading-normal">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.
+                            </p>
                         </div>
 
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-700" />
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight">$49</span>
-                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight">per month</span>
+                            <span class="font-bold text-3xl text-surface-900 dark:text-surface-0 leading-tight"
+                                >$49</span
+                            >
+                            <span class="font-medium text-surface-500 dark:text-surface-400 leading-tight"
+                                >per month</span
+                            >
                         </div>
                         <div class="w-full h-px bg-surface-200 dark:bg-surface-600" />
                         <ul class="list-none flex flex-col gap-4 flex-1">
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Arcu vitae elementum </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Arcu vitae elementum
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Dui faucibus in ornare </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Dui faucibus in ornare
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Morbi tincidunt augue </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Morbi tincidunt augue
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Duis ultricies lacus sed </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Duis ultricies lacus sed
+                                </span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <i class="pi pi-check-circle text-lg! text-green-500" />
-                                <span class="text-surface-800 dark:text-surface-100 leading-tight"> Imperdiet proin </span>
+                                <span class="text-surface-800 dark:text-surface-100 leading-tight">
+                                    Imperdiet proin
+                                </span>
                             </li>
                         </ul>
-                        <Button label="Buy Now" rounded class="w-full" />
+                        <Button
+                            label="Buy Now"
+                            rounded
+                            class="w-full"
+                        />
                     </div>
                 </div>
             </div>
         </BlockViewer>
 
         <!-- Call to Action Block -->
-        <BlockViewer header="Call to Action" :code="blocksCode.cta" free>
+        <BlockViewer
+            header="Call to Action"
+            :code="blocksCode.cta"
+            free
+        >
             <div class="bg-surface-0 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
                 <div class="text-surface-700 dark:text-surface-100 text-center flex flex-col items-center gap-4">
-                    <div class="text-primary font-bold text-lg leading-tight"><i class="pi pi-discord text-lg! leading-none!" />&nbsp;POWERED BY DISCORD</div>
-                    <div class="text-surface-900 dark:text-surface-0 font-bold text-4xl leading-tight">Join our design community</div>
-                    <div class="text-surface-700 dark:text-surface-100 text-xl leading-normal">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
-                    <Button label="Join Now" icon="pi pi-discord" rounded class="mt-4" />
+                    <div class="text-primary font-bold text-lg leading-tight">
+                        <i class="pi pi-discord text-lg! leading-none!" />&nbsp;POWERED BY DISCORD
+                    </div>
+                    <div class="text-surface-900 dark:text-surface-0 font-bold text-4xl leading-tight">
+                        Join our design community
+                    </div>
+                    <div class="text-surface-700 dark:text-surface-100 text-xl leading-normal">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.
+                    </div>
+                    <Button
+                        label="Join Now"
+                        icon="pi pi-discord"
+                        rounded
+                        class="mt-4"
+                    />
                 </div>
             </div>
         </BlockViewer>
 
         <!-- Banner Block -->
-        <BlockViewer header="Banner" :code="blocksCode.banner" containerClass="bg-surface-0 dark:bg-surface-950" free>
+        <BlockViewer
+            header="Banner"
+            :code="blocksCode.banner"
+            containerClass="bg-surface-0 dark:bg-surface-950"
+            free
+        >
             <div class="pb-20 bg-surface-0 dark:bg-surface-950">
-                <div class="bg-surface-900 text-surface-100 py-4 px-6 lg:px-20 flex justify-between items-center flex-wrap">
+                <div
+                    class="bg-surface-900 text-surface-100 py-4 px-6 lg:px-20 flex justify-between items-center flex-wrap"
+                >
                     <div class="font-bold">🔥 Hot Deals!</div>
                     <div class="inline-flex gap-1 items-center">
-                        <span class="hidden lg:flex leading-normal">Libero voluptatum atque exercitationem praesentium provident odit.</span>
-                        <a class="text-surface-0 underline font-bold" href="#">Learn More</a>
+                        <span class="hidden lg:flex leading-normal"
+                            >Libero voluptatum atque exercitationem praesentium provident odit.</span
+                        >
+                        <a
+                            class="text-surface-0 underline font-bold"
+                            href="#"
+                            >Learn More</a
+                        >
                     </div>
-                    <Button icon="pi pi-times" text rounded severity="secondary" class="text-surface-0! hover:bg-surface-500/20!" />
+                    <Button
+                        icon="pi pi-times"
+                        text
+                        rounded
+                        severity="secondary"
+                        class="text-surface-0! hover:bg-surface-500/20!"
+                    />
                 </div>
             </div>
         </BlockViewer>
 
         <!-- Page Heading Block -->
-        <BlockViewer header="Page Heading" :code="blocksCode['page-heading']" free>
+        <BlockViewer
+            header="Page Heading"
+            :code="blocksCode['page-heading']"
+            free
+        >
             <div class="bg-surface-0 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
                 <ul class="list-none p-0 m-0 flex items-center font-medium mb-5">
                     <li>
-                        <a class="text-surface-500 dark:text-surface-300 no-underline leading-normal cursor-pointer">Application</a>
+                        <a class="text-surface-500 dark:text-surface-300 no-underline leading-normal cursor-pointer"
+                            >Application</a
+                        >
                     </li>
                     <li class="px-2">
                         <i class="pi pi-angle-right text-surface-500 dark:text-surface-300 text-sm! leading-normal!" />
@@ -850,24 +1072,45 @@ const blocksCode = {
                         </div>
                     </div>
                     <div class="mt-6 md:mt-0 flex items-center">
-                        <Button label="Add" class="mr-3" outlined icon="pi pi-user-plus" />
-                        <Button label="Save Changes" icon="pi pi-check" class="whitespace-nowrap" />
+                        <Button
+                            label="Add"
+                            class="mr-3"
+                            outlined
+                            icon="pi pi-user-plus"
+                        />
+                        <Button
+                            label="Save Changes"
+                            icon="pi pi-check"
+                            class="whitespace-nowrap"
+                        />
                     </div>
                 </div>
             </div>
         </BlockViewer>
 
         <!-- Stats Block -->
-        <BlockViewer header="Stats" :code="blocksCode.stats" free>
+        <BlockViewer
+            header="Stats"
+            :code="blocksCode.stats"
+            free
+        >
             <div class="bg-surface-50 dark:bg-surface-950 px-6 py-8 md:px-12 lg:px-20">
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                     <div class="bg-surface-0 dark:bg-surface-900 shadow-sm p-5 rounded-2xl">
                         <div class="flex justify-between gap-4">
                             <div class="flex flex-col gap-2">
-                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight">Messages</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!">152</div>
+                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight"
+                                    >Messages</span
+                                >
+                                <div
+                                    class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!"
+                                >
+                                    152
+                                </div>
                             </div>
-                            <div class="flex items-center justify-center bg-linear-to-b from-cyan-400 dark:from-cyan-300 to-cyan-600 dark:to-cyan-500 rounded-lg w-10 h-10">
+                            <div
+                                class="flex items-center justify-center bg-linear-to-b from-cyan-400 dark:from-cyan-300 to-cyan-600 dark:to-cyan-500 rounded-lg w-10 h-10"
+                            >
                                 <i class="pi pi-envelope text-surface-0 dark:text-surface-900 text-xl! leading-none!" />
                             </div>
                         </div>
@@ -880,11 +1123,21 @@ const blocksCode = {
                     <div class="bg-surface-0 dark:bg-surface-900 shadow-sm p-5 rounded-2xl">
                         <div class="flex justify-between gap-4">
                             <div class="flex flex-col gap-2">
-                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight">Check-ins</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!">532</div>
+                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight"
+                                    >Check-ins</span
+                                >
+                                <div
+                                    class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!"
+                                >
+                                    532
+                                </div>
                             </div>
-                            <div class="flex items-center justify-center bg-linear-to-b from-orange-400 dark:from-orange-300 to-orange-600 dark:to-orange-500 rounded-lg w-10 h-10">
-                                <i class="pi pi-map-marker text-surface-0 dark:text-surface-900 text-xl! leading-none!" />
+                            <div
+                                class="flex items-center justify-center bg-linear-to-b from-orange-400 dark:from-orange-300 to-orange-600 dark:to-orange-500 rounded-lg w-10 h-10"
+                            >
+                                <i
+                                    class="pi pi-map-marker text-surface-0 dark:text-surface-900 text-xl! leading-none!"
+                                />
                             </div>
                         </div>
                         <div class="mt-4">
@@ -896,10 +1149,18 @@ const blocksCode = {
                     <div class="bg-surface-0 dark:bg-surface-900 shadow-sm p-5 rounded-2xl">
                         <div class="flex justify-between gap-4">
                             <div class="flex flex-col gap-2">
-                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight">Files Synced</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!">28.441</div>
+                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight"
+                                    >Files Synced</span
+                                >
+                                <div
+                                    class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!"
+                                >
+                                    28.441
+                                </div>
                             </div>
-                            <div class="flex items-center justify-center bg-linear-to-b from-slate-400 dark:from-slate-300 to-slate-600 dark:to-slate-500 rounded-lg w-10 h-10">
+                            <div
+                                class="flex items-center justify-center bg-linear-to-b from-slate-400 dark:from-slate-300 to-slate-600 dark:to-slate-500 rounded-lg w-10 h-10"
+                            >
                                 <i class="pi pi-file text-surface-0 dark:text-surface-900 text-xl! leading-none!" />
                             </div>
                         </div>
@@ -911,10 +1172,18 @@ const blocksCode = {
                     <div class="bg-surface-0 dark:bg-surface-900 shadow-sm p-5 rounded-2xl">
                         <div class="flex justify-between gap-4">
                             <div class="flex flex-col gap-2">
-                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight">Users Online</span>
-                                <div class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!">25.660</div>
+                                <span class="text-surface-700 dark:text-surface-300 font-normal leading-tight"
+                                    >Users Online</span
+                                >
+                                <div
+                                    class="text-surface-900 dark:text-surface-0 font-semibold text-2xl! leading-tight!"
+                                >
+                                    25.660
+                                </div>
                             </div>
-                            <div class="flex items-center justify-center bg-linear-to-b from-violet-400 dark:from-violet-300 to-violet-600 dark:to-violet-500 rounded-lg w-10 h-10">
+                            <div
+                                class="flex items-center justify-center bg-linear-to-b from-violet-400 dark:from-violet-300 to-violet-600 dark:to-violet-500 rounded-lg w-10 h-10"
+                            >
                                 <i class="pi pi-users text-surface-0 dark:text-surface-900 text-xl! leading-none!" />
                             </div>
                         </div>
@@ -928,12 +1197,28 @@ const blocksCode = {
         </BlockViewer>
 
         <!-- Sign-In Block -->
-        <BlockViewer header="Sign-In" :code="blocksCode['sign-in']" containerClass="" free>
-            <div class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20 flex items-center justify-center">
-                <div class="bg-surface-0 dark:bg-surface-900 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-xl mx-auto flex flex-col gap-8">
+        <BlockViewer
+            header="Sign-In"
+            :code="blocksCode['sign-in']"
+            containerClass=""
+            free
+        >
+            <div
+                class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20 flex items-center justify-center"
+            >
+                <div
+                    class="bg-surface-0 dark:bg-surface-900 p-8 md:p-12 shadow-sm rounded-2xl w-full max-w-xl mx-auto flex flex-col gap-8"
+                >
                     <div class="flex flex-col items-center gap-4">
                         <div class="flex items-center gap-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" width="33" height="32" viewBox="0 0 33 32" fill="none">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-14 w-14"
+                                width="33"
+                                height="32"
+                                viewBox="0 0 33 32"
+                                fill="none"
+                            >
                                 <path
                                     fill-rule="evenodd"
                                     clip-rule="evenodd"
@@ -943,32 +1228,76 @@ const blocksCode = {
                             </svg>
                         </div>
                         <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="text-surface-900 dark:text-surface-0 text-2xl font-semibold leading-tight text-center w-full">Welcome Back</div>
+                            <div
+                                class="text-surface-900 dark:text-surface-0 text-2xl font-semibold leading-tight text-center w-full"
+                            >
+                                Welcome Back
+                            </div>
                             <div class="text-center w-full">
-                                <span class="text-surface-700 dark:text-surface-200 leading-normal">Don't have an account?</span>
-                                <a class="text-primary font-medium ml-1 cursor-pointer hover:text-primary-emphasis">Create today!</a>
+                                <span class="text-surface-700 dark:text-surface-200 leading-normal"
+                                    >Don't have an account?</span
+                                >
+                                <a class="text-primary font-medium ml-1 cursor-pointer hover:text-primary-emphasis"
+                                    >Create today!</a
+                                >
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-6 w-full">
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="email1" class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Email Address</label>
-                            <InputText id="email1" type="text" placeholder="Email address" class="w-full px-3 py-2 shadow-sm rounded-lg" />
+                            <label
+                                for="email1"
+                                class="text-surface-900 dark:text-surface-0 font-medium leading-normal"
+                                >Email Address</label
+                            >
+                            <InputText
+                                id="email1"
+                                type="text"
+                                placeholder="Email address"
+                                class="w-full px-3 py-2 shadow-sm rounded-lg"
+                            />
                         </div>
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="password1" class="text-surface-900 dark:text-surface-0 font-medium leading-normal">Password</label>
+                            <label
+                                for="password1"
+                                class="text-surface-900 dark:text-surface-0 font-medium leading-normal"
+                                >Password</label
+                            >
 
-                            <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true" :feedback="false" input-class="w-full!" />
+                            <Password
+                                id="password1"
+                                v-model="password"
+                                placeholder="Password"
+                                :toggleMask="true"
+                                :feedback="false"
+                                input-class="w-full!"
+                            />
                         </div>
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-0">
+                        <div
+                            class="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-3 sm:gap-0"
+                        >
                             <div class="flex items-center gap-2">
-                                <Checkbox id="rememberme1" v-model="checked1" :binary="true" />
-                                <label for="rememberme1" class="text-surface-900 dark:text-surface-0 leading-normal">Remember me</label>
+                                <Checkbox
+                                    id="rememberme1"
+                                    v-model="checked1"
+                                    :binary="true"
+                                />
+                                <label
+                                    for="rememberme1"
+                                    class="text-surface-900 dark:text-surface-0 leading-normal"
+                                    >Remember me</label
+                                >
                             </div>
-                            <a class="text-primary font-medium cursor-pointer hover:text-primary-emphasis">Forgot your password?</a>
+                            <a class="text-primary font-medium cursor-pointer hover:text-primary-emphasis"
+                                >Forgot your password?</a
+                            >
                         </div>
                     </div>
-                    <Button label="Sign In" icon="pi pi-user" class="w-full py-2 rounded-lg flex justify-center items-center gap-2">
+                    <Button
+                        label="Sign In"
+                        icon="pi pi-user"
+                        class="w-full py-2 rounded-lg flex justify-center items-center gap-2"
+                    >
                         <template #icon>
                             <i class="pi pi-user text-base! leading-normal!" />
                         </template>
@@ -978,12 +1307,20 @@ const blocksCode = {
         </BlockViewer>
 
         <!-- Description List Block -->
-        <BlockViewer header="Description List" :code="blocksCode['description-list']" free>
+        <BlockViewer
+            header="Description List"
+            :code="blocksCode['description-list']"
+            free
+        >
             <div class="bg-surface-0 dark:bg-surface-950 px-8 md:px-20 py-12 md:py-20 lg:px-80">
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2 pb-4">
-                        <div class="font-semibold text-xl text-surface-900 dark:text-surface-0 leading-tight">Movie Information</div>
-                        <div class="text-surface-500 dark:text-surface-300 text-base leading-tight">Morbi tristique blandit turpis. In viverra ligula id nulla hendrerit rutrum.</div>
+                        <div class="font-semibold text-xl text-surface-900 dark:text-surface-0 leading-tight">
+                            Movie Information
+                        </div>
+                        <div class="text-surface-500 dark:text-surface-300 text-base leading-tight">
+                            Morbi tristique blandit turpis. In viverra ligula id nulla hendrerit rutrum.
+                        </div>
                     </div>
 
                     <div class="border-t border-surface-200 dark:border-surface-700" />
@@ -991,27 +1328,24 @@ const blocksCode = {
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-col md:flex-row gap-4">
                             <div class="flex items-center gap-4 flex-1">
-                                <div class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight">Title</div>
-                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">Heat</div>
-                            </div>
-                            <div class="flex justify-end">
-                                <Button icon="pi pi-pen-to-square" rounded outlined severity="secondary" icon-only class="shrink-0" />
-                            </div>
-                        </div>
-
-                        <div class="border-t border-surface-200 dark:border-surface-700" />
-
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <div class="flex items-center gap-4 flex-1">
-                                <div class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight">Genre</div>
-                                <div class="flex-1 flex flex-wrap gap-2">
-                                    <Chip label="Crime" severity="secondary" />
-                                    <Chip label="Drama" severity="secondary" />
-                                    <Chip label="Thriller" severity="secondary" />
+                                <div
+                                    class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight"
+                                >
+                                    Title
+                                </div>
+                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">
+                                    Heat
                                 </div>
                             </div>
                             <div class="flex justify-end">
-                                <Button icon="pi pi-pen-to-square" rounded outlined severity="secondary" icon-only class="shrink-0" />
+                                <Button
+                                    icon="pi pi-pen-to-square"
+                                    rounded
+                                    outlined
+                                    severity="secondary"
+                                    icon-only
+                                    class="shrink-0"
+                                />
                             </div>
                         </div>
 
@@ -1019,11 +1353,35 @@ const blocksCode = {
 
                         <div class="flex flex-col md:flex-row gap-4">
                             <div class="flex items-center gap-4 flex-1">
-                                <div class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight">Director</div>
-                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">Michael Mann</div>
+                                <div
+                                    class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight"
+                                >
+                                    Genre
+                                </div>
+                                <div class="flex-1 flex flex-wrap gap-2">
+                                    <Chip
+                                        label="Crime"
+                                        severity="secondary"
+                                    />
+                                    <Chip
+                                        label="Drama"
+                                        severity="secondary"
+                                    />
+                                    <Chip
+                                        label="Thriller"
+                                        severity="secondary"
+                                    />
+                                </div>
                             </div>
                             <div class="flex justify-end">
-                                <Button icon="pi pi-pen-to-square" rounded outlined severity="secondary" icon-only class="shrink-0" />
+                                <Button
+                                    icon="pi pi-pen-to-square"
+                                    rounded
+                                    outlined
+                                    severity="secondary"
+                                    icon-only
+                                    class="shrink-0"
+                                />
                             </div>
                         </div>
 
@@ -1031,11 +1389,49 @@ const blocksCode = {
 
                         <div class="flex flex-col md:flex-row gap-4">
                             <div class="flex items-center gap-4 flex-1">
-                                <div class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight">Writer</div>
-                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">Michael Mann</div>
+                                <div
+                                    class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight"
+                                >
+                                    Director
+                                </div>
+                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">
+                                    Michael Mann
+                                </div>
                             </div>
                             <div class="flex justify-end">
-                                <Button icon="pi pi-pen-to-square" rounded outlined severity="secondary" icon-only class="shrink-0" />
+                                <Button
+                                    icon="pi pi-pen-to-square"
+                                    rounded
+                                    outlined
+                                    severity="secondary"
+                                    icon-only
+                                    class="shrink-0"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="border-t border-surface-200 dark:border-surface-700" />
+
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex items-center gap-4 flex-1">
+                                <div
+                                    class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight"
+                                >
+                                    Writer
+                                </div>
+                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-tight">
+                                    Michael Mann
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <Button
+                                    icon="pi pi-pen-to-square"
+                                    rounded
+                                    outlined
+                                    severity="secondary"
+                                    icon-only
+                                    class="shrink-0"
+                                />
                             </div>
                         </div>
 
@@ -1043,11 +1439,25 @@ const blocksCode = {
 
                         <div class="flex flex-col md:flex-row gap-4">
                             <div class="flex items-start gap-4 flex-1">
-                                <div class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight">Plot</div>
-                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-normal">A group of professional bank robbers start to feel the heat from police when they unknowingly leave a clue at their latest heist.</div>
+                                <div
+                                    class="w-[140px] text-surface-900 dark:text-surface-0 font-medium text-base leading-tight"
+                                >
+                                    Plot
+                                </div>
+                                <div class="flex-1 text-surface-900 dark:text-surface-0 text-base leading-normal">
+                                    A group of professional bank robbers start to feel the heat from police when they
+                                    unknowingly leave a clue at their latest heist.
+                                </div>
                             </div>
                             <div class="flex justify-end">
-                                <Button icon="pi pi-pen-to-square" rounded outlined severity="secondary" icon-only class="shrink-0" />
+                                <Button
+                                    icon="pi pi-pen-to-square"
+                                    rounded
+                                    outlined
+                                    severity="secondary"
+                                    icon-only
+                                    class="shrink-0"
+                                />
                             </div>
                         </div>
 
@@ -1058,17 +1468,27 @@ const blocksCode = {
         </BlockViewer>
 
         <!-- Card Block -->
-        <BlockViewer header="Card" :code="blocksCode.card" free>
+        <BlockViewer
+            header="Card"
+            :code="blocksCode.card"
+            free
+        >
             <div class="bg-surface-50 dark:bg-surface-950 px-6 py-20 md:px-12 lg:px-20">
                 <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-2xl flex flex-col gap-4">
                     <div class="flex gap-4">
                         <div class="flex flex-col gap-2 flex-1">
-                            <div class="text-2xl leading-tight font-semibold text-surface-900 dark:text-surface-0">Card Title</div>
-                            <div class="text-base leading-tight text-surface-500 dark:text-surface-300">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
+                            <div class="text-2xl leading-tight font-semibold text-surface-900 dark:text-surface-0">
+                                Card Title
+                            </div>
+                            <div class="text-base leading-tight text-surface-500 dark:text-surface-300">
+                                Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-1">
-                        <div class="flex-1 border-2 border-dashed border-surface-200 dark:border-surface-700 rounded-lg h-[150px]" />
+                        <div
+                            class="flex-1 border-2 border-dashed border-surface-200 dark:border-surface-700 rounded-lg h-[150px]"
+                        />
                     </div>
                 </div>
             </div>

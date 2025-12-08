@@ -701,7 +701,9 @@
         },
         {
             "icon": {
-                "paths": ["M1023.989 512c0 282.763-229.226 511.989-511.989 511.989s-511.989-229.226-511.989-511.989c0-282.763 229.226-511.989 511.989-511.989s511.989 229.226 511.989 511.989z"],
+                "paths": [
+                    "M1023.989 512c0 282.763-229.226 511.989-511.989 511.989s-511.989-229.226-511.989-511.989c0-282.763 229.226-511.989 511.989-511.989s511.989 229.226 511.989 511.989z"
+                ],
                 "attrs": [{}],
                 "isMulticolor": false,
                 "isMulticolor2": false,
@@ -2310,7 +2312,16 @@
             "iconIdx": 126
         },
         {
-            "icon": { "paths": ["M0.001 0.001h480v480h-480zM543.999 0.001h480v480h-480zM0.001 543.999h480v480h-480zM543.999 543.999h480v480h-480z"], "attrs": [{}], "tags": ["microsoft"], "grid": 16, "isMulticolor": false, "isMulticolor2": false },
+            "icon": {
+                "paths": [
+                    "M0.001 0.001h480v480h-480zM543.999 0.001h480v480h-480zM0.001 543.999h480v480h-480zM543.999 543.999h480v480h-480z"
+                ],
+                "attrs": [{}],
+                "tags": ["microsoft"],
+                "grid": 16,
+                "isMulticolor": false,
+                "isMulticolor2": false
+            },
             "attrs": [{}],
             "properties": { "order": 161, "id": 46, "name": "microsoft", "prevSize": 80, "code": 59784 },
             "setIdx": 0,
@@ -4306,7 +4317,9 @@
         },
         {
             "icon": {
-                "paths": ["M967.085 568.886h-910.171c-31.417 0-56.886-25.469-56.886-56.886s25.469-56.886 56.886-56.886v0h910.171c31.417 0 56.886 25.469 56.886 56.886s-25.469 56.886-56.886 56.886v0z"],
+                "paths": [
+                    "M967.085 568.886h-910.171c-31.417 0-56.886-25.469-56.886-56.886s25.469-56.886 56.886-56.886v0h910.171c31.417 0 56.886 25.469 56.886 56.886s-25.469 56.886-56.886 56.886v0z"
+                ],
                 "attrs": [{}],
                 "tags": ["minus"],
                 "grid": 16,
@@ -4339,7 +4352,9 @@
         },
         {
             "icon": {
-                "paths": ["M1024 512c0 282.769-229.231 512-512 512s-512-229.231-512-512c0-282.769 229.231-512 512-512s512 229.231 512 512z"],
+                "paths": [
+                    "M1024 512c0 282.769-229.231 512-512 512s-512-229.231-512-512c0-282.769 229.231-512 512-512s512 229.231 512 512z"
+                ],
                 "attrs": [{}],
                 "tags": ["circle-on", "deprecate"],
                 "grid": 16,
@@ -4719,7 +4734,13 @@
         }
     ],
     "height": 1024,
-    "metadata": { "name": "primeicons", "url": "https://github.com/primefaces/primeicons", "designer": "", "license": "MIT", "licenseURL": "https://opensource.org/licenses/MIT" },
+    "metadata": {
+        "name": "primeicons",
+        "url": "https://github.com/primefaces/primeicons",
+        "designer": "",
+        "license": "MIT",
+        "licenseURL": "https://opensource.org/licenses/MIT"
+    },
     "preferences": {
         "showGlyphs": true,
         "showQuickUse": true,
@@ -4747,11 +4768,24 @@
             "showVersion": true,
             "includeMetadata": true
         },
-        "imagePref": { "prefix": "pi-", "png": true, "useClassSelector": true, "color": 0, "bgColor": 16777215, "classSelector": ".icon", "height": 32, "columns": 16, "margin": 16, "name": "icomoon" },
+        "imagePref": {
+            "prefix": "pi-",
+            "png": true,
+            "useClassSelector": true,
+            "color": 0,
+            "bgColor": 16777215,
+            "classSelector": ".icon",
+            "height": 32,
+            "columns": 16,
+            "margin": 16,
+            "name": "icomoon"
+        },
         "historySize": 50,
         "showCodes": true,
         "gridSize": 16,
-        "quickUsageToken": { "PrimeIcons": "NTQ3YTNmNDcyNzcwZTk0M2UzYzcxODljOTAyZTYyODEjMSMxNjYyOTc4NjMyIyMjNTU3N2Y2ZGJiZTc3" },
+        "quickUsageToken": {
+            "PrimeIcons": "NTQ3YTNmNDcyNzcwZTk0M2UzYzcxODljOTAyZTYyODEjMSMxNjYyOTc4NjMyIyMjNTU3N2Y2ZGJiZTc3"
+        },
         "showGrid": true
     }
 }

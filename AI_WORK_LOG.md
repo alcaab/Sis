@@ -322,6 +322,16 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
     *   Se implementó el componente `<BlockUI>` de PrimeVue envolviendo al formulario.
     *   Se añadió un estado `fetchingData` que se activa durante `loadData()` y bloquea la UI mostrando un `<ProgressSpinner>`.
 
+### AQ. Componente Reusable TableActions y Optimización de Carga/Borrado
+*   **Objetivo:** Centralizar la lógica de botones de acción (editar/eliminar) en las tablas y mejorar el feedback visual al usuario.
+*   **Acciones:**
+    1.  **Creación de `TableActions.vue`:**
+        *   Ubicación: `source/Desyco.Dms.Web/ClientApp/src/components/common/TableActions.vue`.
+        *   Funcionalidad: Componente genérico con props `id`, `canEdit`, `canDelete`, `loading` y `slots` para acciones adicionales a izquierda/derecha.
+    2.  **Integración en `AcademicYear.vue`:**
+        *   Se reemplazaron los botones de editar y eliminar hardcodeados en la columna de acciones con `<TableActions>`.
+        *   **Optimización de Carga/Borrado:** Se añadió la variable reactiva `deletingItemId` en `AcademicYear.vue` para rastrear qué elemento específico se está eliminando. Esto permite que el spinner de carga del botón "eliminar" solo se active para la fila correspondiente, en lugar de bloquear todas las acciones de borrado de la tabla.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

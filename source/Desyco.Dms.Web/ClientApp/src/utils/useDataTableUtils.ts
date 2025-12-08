@@ -1,11 +1,11 @@
-﻿import type { Filter, Filters, RequestParamsPayload, Sort } from '@/utils/queryOptions/queryOptionModels';
-import type { DataTableSortEvent } from 'primevue/datatable';
-import { unref } from 'vue';
+﻿import type { Filter, Filters, RequestParamsPayload, Sort } from "@/utils/queryOptions/queryOptionModels";
+import type { DataTableSortEvent } from "primevue/datatable";
+import { unref } from "vue";
 
 function convertToPrimeVueSort({ sortField, sortOrder }: DataTableSortEvent): Sort[] {
     if (!sortField) return [];
     function direction(order: number) {
-        return order === -1 ? 'asc' : 'desc';
+        return order === -1 ? "asc" : "desc";
     }
     return [{ field: sortField as string, order: direction(sortOrder ?? 0) }];
 }
@@ -30,7 +30,7 @@ function transformLazyLoadParams(event: DataTableSortEvent): RequestParamsPayloa
         take: event.rows,
         sorts,
         filters,
-        search: filters['global'] ? filters['global'].value : null
+        search: filters["global"] ? filters["global"].value : null,
     };
 }
 
@@ -47,7 +47,7 @@ export function useLazyLoadParams(initialArgs?: DataTableSortEvent) {
         get args() {
             return args;
         },
-        updateArgs
+        updateArgs,
     };
 }
 
@@ -62,6 +62,6 @@ export function useDataTableUtils(callback: (event: RequestParamsPayload) => voi
     return {
         paginate,
         convertToPrimeVueFilters,
-        convertToPrimeVueSort
+        convertToPrimeVueSort,
     };
 }

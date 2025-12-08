@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { AcademicYearService } from '@/service/AcademicYearService';
-import type { AcademicYearDto } from '@/types/academic-year';
-import type { RequestParamsPayload } from '@/utils/queryOptions/queryOptionModels';
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { AcademicYearService } from "@/service/AcademicYearService";
+import type { AcademicYearDto } from "@/types/academic-year";
+import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels";
 
-export const useAcademicYearStore = defineStore('academicYear', () => {
+export const useAcademicYearStore = defineStore("academicYear", () => {
     const academicYears = ref<AcademicYearDto[]>([]);
     const totalRecords = ref(0);
     const loading = ref(false);
@@ -16,7 +16,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
             academicYears.value = response.data.results;
             totalRecords.value = response.data.count || 0;
         } catch (error) {
-            console.error('Failed to fetch academic years', error);
+            console.error("Failed to fetch academic years", error);
         } finally {
             loading.value = false;
         }
@@ -28,7 +28,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
             await AcademicYearService.createAcademicYear(data);
             await fetchAcademicYears();
         } catch (error) {
-            console.error('Failed to create academic year', error);
+            console.error("Failed to create academic year", error);
             throw error;
         } finally {
             loading.value = false;
@@ -41,7 +41,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
             await AcademicYearService.updateAcademicYear(id, data);
             await fetchAcademicYears();
         } catch (error) {
-            console.error('Failed to update academic year', error);
+            console.error("Failed to update academic year", error);
             throw error;
         } finally {
             loading.value = false;
@@ -54,7 +54,7 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
             await AcademicYearService.deleteAcademicYear(id);
             await fetchAcademicYears();
         } catch (error) {
-            console.error('Failed to delete academic year', error);
+            console.error("Failed to delete academic year", error);
             throw error;
         } finally {
             loading.value = false;
@@ -68,6 +68,6 @@ export const useAcademicYearStore = defineStore('academicYear', () => {
         fetchAcademicYears,
         createAcademicYear,
         updateAcademicYear,
-        deleteAcademicYear
+        deleteAcademicYear,
     };
 });

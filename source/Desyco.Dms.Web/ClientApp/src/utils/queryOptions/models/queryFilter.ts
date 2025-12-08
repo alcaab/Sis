@@ -5,7 +5,19 @@ export type FilterBuilder<T> = {
 export type FilterBuilderProp<T> = null extends T ? FilterBuilderType<T> & FilterNullable : FilterBuilderType<T>;
 
 export type FilterBuilderType<T> =
-    T extends Array<infer R> ? FilterCollection<R> : T extends string ? FilterString : T extends number ? FilterNumber : T extends boolean ? FilterBoolean : T extends Date ? FilterDate : T extends object ? FilterBuilder<T> : never;
+    T extends Array<infer R>
+        ? FilterCollection<R>
+        : T extends string
+          ? FilterString
+          : T extends number
+            ? FilterNumber
+            : T extends boolean
+              ? FilterBoolean
+              : T extends Date
+                ? FilterDate
+                : T extends object
+                  ? FilterBuilder<T>
+                  : never;
 
 export interface StringOptions {
     caseInsensitive?: boolean;
@@ -21,7 +33,7 @@ export interface FilterExpression {
 export interface FilterDate {
     inTimeSpan(y: number, m?: number, d?: number, h?: number, mm?: number): FilterExpression;
     isSame(d: string | Date | FilterDate): FilterExpression;
-    isSame(d: number | Date | FilterDate, g: 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second'): FilterExpression;
+    isSame(d: number | Date | FilterDate, g: "year" | "month" | "day" | "hour" | "minute" | "second"): FilterExpression;
     isAfter(d: string | Date | FilterDate): FilterExpression;
     isAfterOrEqual(d: string | Date | FilterDate): FilterExpression;
     isBefore(d: string | Date | FilterDate): FilterExpression;

@@ -1,12 +1,12 @@
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 export function useBreadcrumbs() {
     const route = useRoute();
 
     const home = ref({
-        icon: 'pi pi-home',
-        to: '/'
+        icon: "pi pi-home",
+        to: "/",
     });
     const items = ref();
 
@@ -30,7 +30,7 @@ export function useBreadcrumbs() {
 
             breadcrumbItems.push({
                 label: breadcrumbLabel as string,
-                to: path
+                to: path,
             });
         }
         items.value = breadcrumbItems;
@@ -42,7 +42,7 @@ export function useBreadcrumbs() {
         () => {
             generateBreadcrumbs();
         },
-        { immediate: true } // Generate immediately on component mount
+        { immediate: true }, // Generate immediately on component mount
     );
 
     return { home, items };
