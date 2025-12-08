@@ -102,9 +102,8 @@ const handleCancel = () => {
 </script>
 
 <template>
-    <div class="card">
+    <div class="p-2">
         <div class="font-semibold text-xl mb-6">{{ isEditing ? 'Edit' : 'Create' }} Academic Year</div>
-
         <form @submit="onSubmit" class="flex flex-col gap-4">
             <FormField label="Name" id="name" required :error="errors.name">
                 <InputText id="name" v-model="name" class="w-full" :invalid="!!errors.name" />

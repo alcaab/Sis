@@ -13,7 +13,6 @@ const store = useAcademicYearStore();
 const toast = useToast();
 
 const loading = ref(false);
-const fetchingData = ref(false);
 const initialData = ref<Partial<AcademicYearDto>>({});
 const id = Number(route.params.id);
 
@@ -26,7 +25,6 @@ onMounted(async () => {
 });
 
 const loadData = async () => {
-    fetchingData.value = true;
     try {
         const response = await AcademicYearService.getAcademicYear(id);
         initialData.value = response.data;
@@ -34,8 +32,6 @@ const loadData = async () => {
         console.error(error);
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load data', life: 3000 });
         router.push({ name: 'academic-year-list' }).then();
-    } finally {
-        fetchingData.value = false;
     }
 };
 
@@ -68,11 +64,6 @@ const handleCancel = () => {
 
 <template>
     <div class="w-full">
-        <BlockUI :blocked="fetchingData">
-            <div v-if="fetchingData" class="flex justify-center items-center absolute inset-0 z-50">
-                <ProgressSpinner />
-            </div>
-            <AcademicYearForm :isEditing="true" :loading="loading" :initialData="initialData" @submit="handleUpdate" @cancel="handleCancel" />
-        </BlockUI>
+        <AcademicYearForm :isEditing="true" :loading="loading" :initialData="initialData" @submit="handleUpdate" @cancel="handleCancel" />
     </div>
 </template>
