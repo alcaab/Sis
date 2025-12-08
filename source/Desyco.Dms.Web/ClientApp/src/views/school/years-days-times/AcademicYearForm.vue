@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import { AcademicYearStatus, type AcademicYearDto } from '@/types/academic-year';
 import FormField from '@/components/common/FormField.vue';
-import { useRouter } from 'vue-router'; // Necesario para el router.push en handleCancel
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
+import { toTypedSchema } from '@vee-validate/yup';
 
 const props = defineProps<{
     initialData?: Partial<AcademicYearDto>;
@@ -12,54 +14,63 @@ const props = defineProps<{
 
 const emit = defineEmits(['submit', 'cancel']);
 
-const router = useRouter(); // Inicializar router
+const schema = toTypedSchema(
+    yup.object({
+        id: yup.number().optional(),
+        name: yup.string().required('Name is required'),
+        startDate: yup.date().typeError('Start Date is required').required('Start Date is required'),
+        endDate: yup.date().typeError('End Date is required').required('End Date is required'),
+        status: yup.number().required('Status is required')
+    })
+);
 
-interface FormState extends Omit<AcademicYearDto, 'startDate' | 'endDate'> {
-    id?: number;
-    startDate: Date | null;
-    endDate: Date | null;
-}
-
-const form = ref<FormState>({
-    name: '',
-    status: AcademicYearStatus.Upcoming,
-    startDate: null,
-    endDate: null
+const { defineField, handleSubmit, resetForm, errors } = useForm<AcademicYearDto>({
+    validationSchema: schema,
+    initialValues: {
+        name: '',
+        status: AcademicYearStatus.Upcoming,
+        startDate: null,
+        endDate: null,
+        ...props.initialData
+    }
 });
 
-const submitted = ref(false);
+const [name] = defineField('name');
+const [startDate] = defineField('startDate');
+const [endDate] = defineField('endDate');
+const [status] = defineField('status');
 
-// Watch for initialData changes to populate the form
+// Watch for initialData changes to repopulate form
 watch(
     () => props.initialData,
     (newVal) => {
         if (newVal) {
-            form.value.id = newVal.id;
-            form.value.name = newVal.name || '';
-            form.value.status = newVal.status ?? AcademicYearStatus.Upcoming;
-            form.value.startDate = newVal.startDate instanceof Date ? newVal.startDate : typeof newVal.startDate === 'string' && newVal.startDate ? new Date(newVal.startDate) : null;
-            form.value.endDate = newVal.endDate instanceof Date ? newVal.endDate : typeof newVal.endDate === 'string' && newVal.endDate ? new Date(newVal.endDate) : null;
+            resetForm({
+                values: {
+                    id: newVal.id,
+                    name: newVal.name || '',
+                    status: newVal.status ?? AcademicYearStatus.Upcoming,
+                    startDate: newVal.startDate instanceof Date ? newVal.startDate : typeof newVal.startDate === 'string' && newVal.startDate ? new Date(newVal.startDate) : null,
+                    endDate: newVal.endDate instanceof Date ? newVal.endDate : typeof newVal.endDate === 'string' && newVal.endDate ? new Date(newVal.endDate) : null
+                }
+            });
         }
     },
     { immediate: true, deep: true }
 );
 
-const statuses = ref([
+const statuses = [
     { label: 'Upcoming', value: AcademicYearStatus.Upcoming },
     { label: 'Current', value: AcademicYearStatus.Current },
     { label: 'Closed', value: AcademicYearStatus.Closed }
-]);
+];
 
-const handleSubmit = () => {
-    submitted.value = true;
-
-    if (form.value.name?.trim() && form.value.startDate && form.value.endDate && form.value.status !== undefined) {
-        emit('submit', form.value);
-    }
-};
+const onSubmit = handleSubmit((values) => {
+    emit('submit', values);
+});
 
 const handleCancel = () => {
-    router.back(); // Volver a la página anterior
+    emit('cancel');
 };
 </script>
 
@@ -67,21 +78,21 @@ const handleCancel = () => {
     <div class="card">
         <div class="font-semibold text-xl mb-6">{{ isEditing ? 'Edit' : 'Create' }} Academic Year</div>
 
-        <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
-            <FormField label="Name" id="name" required :error="submitted && !form.name ? 'Name is required.' : ''">
-                <InputText id="name" v-model="form.name" class="w-full" :invalid="submitted && !form.name" />
+        <form @submit="onSubmit" class="flex flex-col gap-4">
+            <FormField label="Name" id="name" required :error="errors.name">
+                <InputText id="name" v-model="name" class="w-full" :invalid="!!errors.name" />
             </FormField>
 
-            <FormField label="Start Date" id="startDate" required :error="submitted && !form.startDate ? 'Start Date is required.' : ''">
-                <Calendar id="startDate" v-model="form.startDate" showIcon dateFormat="yy-mm-dd" :invalid="submitted && !form.startDate" />
+            <FormField label="Start Date" id="startDate" required :error="errors.startDate">
+                <Calendar id="startDate" v-model="startDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.startDate" />
             </FormField>
 
-            <FormField label="End Date" id="endDate" required :error="submitted && !form.endDate ? 'End Date is required.' : ''">
-                <Calendar id="endDate" v-model="form.endDate" showIcon dateFormat="yy-mm-dd" :invalid="submitted && !form.endDate" />
+            <FormField label="End Date" id="endDate" required :error="errors.endDate">
+                <Calendar id="endDate" v-model="endDate" showIcon dateFormat="yy-mm-dd" :invalid="!!errors.endDate" />
             </FormField>
 
-            <FormField label="Status" id="status" required :error="submitted && form.status === undefined ? 'Status is required.' : ''">
-                <SelectButton v-model="form.status" :options="statuses" optionLabel="label" optionValue="value" class="w-full md:w-auto" :invalid="submitted && form.status === undefined" />
+            <FormField label="Status" id="status" required :error="errors.status">
+                <SelectButton v-model="status" :options="statuses" optionLabel="label" optionValue="value" class="w-full md:w-auto" :invalid="!!errors.status" />
             </FormField>
 
             <div class="flex justify-end gap-2 mt-4">

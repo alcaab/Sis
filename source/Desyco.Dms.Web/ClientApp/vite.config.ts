@@ -9,7 +9,7 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
     optimizeDeps: {
-        noDiscovery: true
+        include: ['yup', 'vee-validate', '@vee-validate/yup', 'tiny-case', 'property-expr']
     },
     plugins: [
         vue(),

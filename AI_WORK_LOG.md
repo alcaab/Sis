@@ -239,6 +239,12 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
 *   **Utilidad `useDebounce.ts`:** Se refactorizó para exportar una función de utilidad estándar que envuelve callbacks con un temporizador (`setTimeout`), simplificando su uso y eliminando dependencias reactivas complejas.
 *   **Integración en `AcademicYear.vue`:** Se aplicó esta utilidad al campo de búsqueda global, asegurando que las peticiones a la API solo se realicen después de que el usuario deje de escribir, manteniendo el código del componente limpio.
 
+### AC. Corrección de Validación de Fechas en Frontend (Yup)
+*   **Problema:** La validación de Yup no marcaba como requeridos los campos de fecha (`startDate`, `endDate`) cuando el valor era `null`.
+*   **Solución:** Se modificó el esquema de validación en `source/Desyco.Dms.Web/ClientApp/src/views/school/years-days-times/AcademicYearForm.vue`.
+    *   Se eliminó `.nullable()` de los campos de fecha.
+    *   Se añadió `.typeError('Start/End Date is required')` para capturar explícitamente el caso de valor `null` como error de tipo y mostrar el mensaje adecuado.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
