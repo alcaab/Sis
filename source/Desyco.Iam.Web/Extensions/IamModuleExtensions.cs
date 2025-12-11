@@ -1,5 +1,6 @@
 using System.Text;
 using Desyco.Iam.Contracts.Interfaces;
+using Desyco.Iam.Infrastructure.Authentication.Permissions; // Added this line
 using Desyco.Iam.Infrastructure.Authentication.Services;
 using Desyco.Iam.Infrastructure.Authentication.Settings;
 using Desyco.Iam.Infrastructure.Persistence.Context;
@@ -60,7 +61,8 @@ public static class IamModuleExtensions
         // 5. Register Services
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IIdentityService, IdentityService>();
-        services.AddScoped<FeatureSeeder>(); // Register FeatureSeeder
+        services.AddScoped<FeatureSeeder>();
+        services.AddScoped<IPermissionService, PermissionService>(); // Register PermissionService
 
         return services;
     }
