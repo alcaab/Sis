@@ -1,0 +1,16 @@
+namespace Desyco.Iam.Infrastructure.Persistence.Entities;
+
+public class Feature
+{
+    public Guid Id { get; set; }
+
+    public string Code { get; set; } = null!; // Ej: "AcademicYears"
+
+    public string Description { get; set; } = null!; // translationKey, Ej: "feature.academicyears.description"
+
+    public string? Group { get; set; } // Ej: "Configuración Académica"
+
+    public int Order { get; set; }
+
+    // Navigation properties for claims if needed, not directly here.
+}

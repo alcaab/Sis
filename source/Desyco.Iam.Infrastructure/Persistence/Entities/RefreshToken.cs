@@ -1,11 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Desyco.Iam.Infrastructure.Persistence.Entities;
 
 public class RefreshToken
 {
-    [Key]
     public Guid Id { get; set; }
 
     public string Token { get; set; } = null!;
@@ -22,6 +18,5 @@ public class RefreshToken
 
     public Guid UserId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
     public ApplicationUser User { get; set; } = null!;
 }
