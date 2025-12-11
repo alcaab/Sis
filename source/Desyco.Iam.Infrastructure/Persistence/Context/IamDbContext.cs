@@ -4,35 +4,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Desyco.Iam.Infrastructure.Persistence.Context;
 
-public class IamDbContext(DbContextOptions<IamDbContext> options) : IdentityDbContext<
-    ApplicationUser, 
-    ApplicationRole, 
-    Guid, 
-    ApplicationUserClaim, 
-    ApplicationUserRole, 
-    ApplicationUserLogin, 
-    ApplicationRoleClaim, 
-    ApplicationUserToken>(options)
-{
-    protected override void OnModelCreating(ModelBuilder builder)
+    public class IamDbContext(DbContextOptions<IamDbContext> options) : IdentityDbContext<
+        ApplicationUser, 
+        ApplicationRole, 
+        Guid, 
+        ApplicationUserClaim, 
+        ApplicationUserRole, 
+        ApplicationUserLogin, 
+        ApplicationRoleClaim, 
+        ApplicationUserToken>(options)
     {
-        base.OnModelCreating(builder);
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        // Definir esquema por defecto
-        builder.HasDefaultSchema("dls");
-
-        // Customizar nombres de tablas
-        builder.Entity<ApplicationUser>(b =>
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            b.ToTable("Users");
-        });
+            base.OnModelCreating(builder);
 
-        builder.Entity<ApplicationRole>(b =>
-        {
-            b.ToTable("Roles");
-        });
+            // Definir esquema por defecto
+            builder.HasDefaultSchema("dls");
 
-        builder.Entity<ApplicationUserClaim>(b =>
+            // Customizar nombres de tablas
+            builder.Entity<ApplicationUser>(b =>
+            {
+                b.ToTable("Users");
+            });
+
+            builder.Entity<ApplicationRole>(b =>
+            {
+                b.ToTable("Roles");
+            });
+            
+            builder.Entity<RefreshToken>(b =>
+            {
+                b.ToTable("RefreshTokens");
+            });
+
+            builder.Entity<ApplicationUserClaim>(b =>
         {
             b.ToTable("UserClaims");
         });
