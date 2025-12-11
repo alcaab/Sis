@@ -1,11 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using Desyco.Dms.Application;
+﻿using Desyco.Dms.Application;
 using Desyco.Dms.Domain;
 using Desyco.Dms.Domain.Common;
 using Desyco.Dms.Infrastructure;
 using Desyco.Dms.Web.Infrastructure;
+using Desyco.Iam.Infrastructure.Persistence.Context;
+using Desyco.Iam.Web.Extensions;
 using Hangfire;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Scrima.OData;
 using Scrima.OData.AspNetCore;
@@ -22,7 +23,7 @@ public static class CompositionRoot
         services.ConfigureInfrastructureServices(configuration, environment);
         services.ConfigureHangfireServices(configuration);
         // services.AddWebHandlersFromAssembly(typeof(AppComposition).Assembly);
-        services.ConfigureAuthServices(configuration);
+        services.AddIamModule(configuration);
         services.ConfigureODataQuery();
 
         return services;
@@ -34,20 +35,9 @@ public static class CompositionRoot
         var migrationExecutor = scope.ServiceProvider.GetRequiredService<IMigrationExecutor>();
 
         migrationExecutor.Migrate();
-    }
 
-    private static void ConfigureAuthServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-        var authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-
-        authenticationBuilder.AddJwtBearer(o =>
-            {
-                o.Authority = configuration["Authorization:Authority"];
-                o.Audience = configuration["Authorization:Audience"];
-            }
-        );
+        var iamContext = scope.ServiceProvider.GetRequiredService<IamDbContext>();
+        iamContext.Database.Migrate();
     }
 
     private static void ConfigureHangfireServices(this IServiceCollection services, IConfiguration configuration)

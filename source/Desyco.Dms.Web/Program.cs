@@ -42,7 +42,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureServices(builder.Configuration, builder.Environment);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); // Register custom exception handler
 builder.Services.AddProblemDetails(); // Required for IExceptionHandler
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Desyco.Iam.Web.Extensions.IamModuleExtensions).Assembly);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

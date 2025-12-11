@@ -332,6 +332,28 @@ Se implementó una lógica de debounce reutilizable para mejorar el rendimiento 
         *   Se reemplazaron los botones de editar y eliminar hardcodeados en la columna de acciones con `<TableActions>`.
         *   **Optimización de Carga/Borrado:** Se añadió la variable reactiva `deletingItemId` en `AcademicYear.vue` para rastrear qué elemento específico se está eliminando. Esto permite que el spinner de carga del botón "eliminar" solo se active para la fila correspondiente, en lugar de bloquear todas las acciones de borrado de la tabla.
 
+### AR. Implementación e Integración del Módulo de Identidad (Completo)
+Se finalizó la implementación completa del sistema de autenticación e identidad, abarcando desde la estructura inicial hasta la integración final.
+
+*   **Fase 1: Estructura de Proyectos**
+    *   Se crearon `Desyco.Iam.Contracts` (DTOs compartidos), `Desyco.Iam.Infrastructure` (Persistencia y Lógica) y `Desyco.Iam.Web` (API y Configuración).
+*   **Fase 2: Infraestructura de Datos**
+    *   Implementación de `IamDbContext` heredando de Identity, configurado con el esquema personalizado `dls` y tablas renombradas (ej. `dls.Users`).
+    *   Uso de `Guid` para las claves primarias de usuarios y roles.
+*   **Fase 3: Lógica de Negocio**
+    *   Implementación de `JwtTokenGenerator` para la creación de tokens JWT firmados.
+    *   Implementación de `IdentityService` como fachada para `UserManager` y `SignInManager`.
+*   **Fase 4: Capa de Presentación**
+    *   Desarrollo de `AuthController` con endpoints para Login y Registro.
+    *   Creación del método de extensión `AddIamModule` para centralizar la inyección de dependencias del módulo.
+*   **Fase 5: Integración con Desyco.Dms**
+    *   **Referencias:** `Desyco.Dms.Web` ahora referencia a `Desyco.Iam.Web`.
+    *   **Configuración:** Se agregaron `IamConnection` y `JwtSettings` a `appsettings.Local.json`.
+    *   **Startup:**
+        *   `Program.cs`: Se configuró para descubrir controladores en el ensamblado de `Iam.Web`.
+        *   `CompositionRoot.cs`: Se sustituyó la configuración de auth antigua por `AddIamModule` y se añadió la migración automática de `IamDbContext`.
+    *   **Base de Datos:** Se generó y aplicó la migración `InitialIdentity`, creando las tablas necesarias en el esquema `dls`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 
