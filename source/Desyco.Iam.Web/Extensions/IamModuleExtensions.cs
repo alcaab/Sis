@@ -4,6 +4,7 @@ using Desyco.Iam.Infrastructure.Authentication.Services;
 using Desyco.Iam.Infrastructure.Authentication.Settings;
 using Desyco.Iam.Infrastructure.Persistence.Context;
 using Desyco.Iam.Infrastructure.Persistence.Entities;
+using Desyco.Iam.Infrastructure.Seeders; // Added this line
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,7 @@ public static class IamModuleExtensions
         // 5. Register Services
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<FeatureSeeder>(); // Register FeatureSeeder
 
         return services;
     }

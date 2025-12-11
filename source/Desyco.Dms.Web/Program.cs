@@ -111,6 +111,9 @@ using (var scope = app.Services.CreateScope())
 {
     var seeder = scope.ServiceProvider.GetRequiredService<Desyco.Dms.Infrastructure.Seeders.ApplicationDbSeeder>();
     await seeder.SeedAsync();
+
+    var featureSeeder = scope.ServiceProvider.GetRequiredService<Desyco.Iam.Infrastructure.Seeders.FeatureSeeder>();
+    await featureSeeder.SeedAsync();
 }
 
 app.MapControllers();
