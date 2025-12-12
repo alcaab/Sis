@@ -10,7 +10,8 @@ namespace Desyco.Iam.Infrastructure.Authentication.Permissions;
 
 public class PermissionService(
     IamDbContext dbContext,
-    RoleManager<ApplicationRole> roleManager) : IPermissionService
+    RoleManager<ApplicationRole> roleManager,
+    UserManager<ApplicationUser> userManager) : IPermissionService
 {
     public async Task<List<FeatureDto>> GetAllFeaturesAsync()
     {
@@ -31,7 +32,7 @@ public class PermissionService(
     public async Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId)
     {
         return await dbContext.RoleClaims
-            .Where(rc => rc.RoleId == roleId && rc.FeatureId != null) // Only granular permissions
+            .Where(rc => rc.RoleId == roleId) // Get all role claims, not just granular
             .Select(rc => new RoleClaimDto
             {
                 Id = rc.Id,
@@ -53,13 +54,17 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        // Get existing claims for the role
+        // Get existing claims for the role (including non-granular for preservation)
         var existingClaims = await dbContext.RoleClaims
-            .Where(rc => rc.RoleId == roleId && rc.FeatureId != null)
+            .Where(rc => rc.RoleId == roleId)
             .ToListAsync();
 
-        // Remove old permissions that are no longer granted
-        foreach (var existingClaim in existingClaims)
+        // Separate granular claims
+        var existingGranularClaims = existingClaims.Where(rc => rc.FeatureId != null).ToList();
+        var otherClaims = existingClaims.Where(rc => rc.FeatureId == null).ToList(); // Claims not related to features
+
+        // Remove old granular permissions that are no longer granted
+        foreach (var existingClaim in existingGranularClaims)
         {
             var matchingUpdate = updatedPermissions.FirstOrDefault(up =>
                 up.FeatureId == existingClaim.FeatureId &&
@@ -71,12 +76,12 @@ public class PermissionService(
             }
         }
 
-        // Add new permissions
+        // Add new granular permissions
         foreach (var updatedPermission in updatedPermissions)
         {
             if (updatedPermission.IsGranted)
             {
-                var exists = existingClaims.Any(rc =>
+                var exists = existingGranularClaims.Any(rc =>
                     rc.FeatureId == updatedPermission.FeatureId &&
                     rc.PermissionAction == updatedPermission.Action);
 
@@ -99,36 +104,8 @@ public class PermissionService(
 
         await dbContext.SaveChangesAsync();
     }
-    
-    public async Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action)
-    {
-        // Convert user ID string to Guid
-        if (!Guid.TryParse(userId, out var userGuid)) return false;
-        
-        // Construct the expected Claim Value string (e.g., "Permissions.AcademicYears.Read")
-        // This avoids querying the Features table to get the ID.
-        var permissionClaimValue = $"Permissions.{featureCode}.{action}";
 
-        // Optimized query using LINQ Query Syntax to join Roles without navigation properties
-        // and filtering by ClaimValue (string) instead of FeatureId (Guid)
-        var roleClaimsQuery = 
-            from rc in dbContext.RoleClaims
-            join r in dbContext.Roles on rc.RoleId equals r.Id
-            where userRoles.Contains(r.Name) &&
-                  rc.ClaimValue == permissionClaimValue &&
-                  rc.ClaimType == "Permission"
-            select 1;
-
-        var userClaimsQuery = dbContext.UserClaims
-            .Where(uc => uc.UserId == userGuid &&
-                         uc.ClaimValue == permissionClaimValue &&
-                         uc.ClaimType == "Permission")
-            .Select(_ => 1);
-
-        return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
-    }
-
-    public async Task<RolePermissionSchemaDto> GetRolePermissionSchemaAsync(Guid roleId)
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForRoleAsync(Guid roleId)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
         if (role == null)
@@ -178,17 +155,109 @@ public class PermissionService(
 
             permissionGroups.Add(new PermissionGroupDto
             {
-                GroupName = group.Key ?? "Unassigned",
-                Order = group.First().Order,
+                GroupName = group.Key ?? "Unassigned", // Handle null groups
+                Order = group.First().Order, // Assume first feature's order represents group order
                 Features = featuresInGroup
             });
         }
 
-        return new RolePermissionSchemaDto
+        return new PermissionSchemaDto
         {
-            RoleId = roleId,
-            RoleName = role.Name!,
+            EntityId = roleId,
+            EntityName = role.Name!,
             Groups = permissionGroups
         };
+    }
+    
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId)
+    {
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            throw new ArgumentException($"User with ID {userId} not found.");
+        }
+
+        var allFeatures = await dbContext.Features
+            .OrderBy(f => f.Group)
+            .ThenBy(f => f.Order)
+            .ToListAsync();
+
+        var userClaims = await dbContext.UserClaims
+            .Where(uc => uc.UserId == userId)
+            .ToListAsync();
+
+        var permissionGroups = new List<PermissionGroupDto>();
+
+        foreach (var group in allFeatures.GroupBy(f => f.Group).OrderBy(g => g.Key))
+        {
+            var featuresInGroup = new List<PermissionItemDto>();
+
+            foreach (var feature in group)
+            {
+                var featureClaims = userClaims.Where(uc => uc.FeatureId == feature.Id).ToList();
+
+                var canRead = featureClaims.Any(uc => uc.PermissionAction == PermissionAction.Read);
+                var canWrite = featureClaims.Any(uc => uc.PermissionAction == PermissionAction.Write);
+                var canDelete = featureClaims.Any(uc => uc.PermissionAction == PermissionAction.Delete);
+
+                var customPermissions = featureClaims
+                    .Where(uc => uc.PermissionAction == null || uc.PermissionAction == PermissionAction.None)
+                    .Select(uc => uc.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
+                    .ToList();
+                
+                featuresInGroup.Add(new PermissionItemDto
+                {
+                    FeatureId = feature.Id,
+                    Code = feature.Code,
+                    Description = feature.Description,
+                    Read = canRead,
+                    Write = canWrite,
+                    Delete = canDelete,
+                    CustomPermissions = customPermissions
+                });
+            }
+
+            permissionGroups.Add(new PermissionGroupDto
+            {
+                GroupName = group.Key ?? "Unassigned", // Handle null groups
+                Order = group.First().Order, // Assume first feature's order represents group order
+                Features = featuresInGroup
+            });
+        }
+
+        return new PermissionSchemaDto
+        {
+            EntityId = userId,
+            EntityName = user.Email!, // Use email as user name
+            Groups = permissionGroups
+        };
+    }
+
+    public async Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action)
+    {
+        // Convert user ID string to Guid
+        if (!Guid.TryParse(userId, out var userGuid)) return false;
+        
+        // Construct the expected Claim Value string (e.g., "Permissions.AcademicYears.Read")
+        // This avoids querying the Features table to get the ID.
+        var permissionClaimValue = $"Permissions.{featureCode}.{action}";
+
+        // Optimized query using LINQ Query Syntax to join Roles without navigation properties
+        // and filtering by ClaimValue (string) instead of FeatureId (Guid)
+        var roleClaimsQuery = 
+            from rc in dbContext.RoleClaims
+            join r in dbContext.Roles on rc.RoleId equals r.Id
+            where userRoles.Contains(r.Name) &&
+                  rc.ClaimValue == permissionClaimValue &&
+                  rc.ClaimType == "Permission"
+            select 1;
+
+        var userClaimsQuery = dbContext.UserClaims
+            .Where(uc => uc.UserId == userGuid &&
+                         uc.ClaimValue == permissionClaimValue &&
+                         uc.ClaimType == "Permission")
+            .Select(_ => 1);
+
+        return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
     }
 }

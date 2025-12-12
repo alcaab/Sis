@@ -38,12 +38,21 @@ public class PermissionsController(IPermissionService permissionService) : Contr
         return NoContent();
     }
     
-    [HttpGet("schema/{roleId:guid}")]
+    [HttpGet("schema/role/{roleId:guid}")]
     [Authorize(Policy = Permissions.Security.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<RolePermissionSchemaDto>> GetRolePermissionSchema(Guid roleId)
+    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForRole(Guid roleId)
     {
-        var permissionSchema = await permissionService.GetRolePermissionSchemaAsync(roleId);
+        var permissionSchema = await permissionService.GetPermissionSchemaForRoleAsync(roleId);
+        return Ok(permissionSchema);
+    }
+
+    [HttpGet("schema/user/{userId:guid}")]
+    [Authorize(Policy = Permissions.Security.Read)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForUser(Guid userId)
+    {
+        var permissionSchema = await permissionService.GetPermissionSchemaForUserAsync(userId);
         return Ok(permissionSchema);
     }
 }
