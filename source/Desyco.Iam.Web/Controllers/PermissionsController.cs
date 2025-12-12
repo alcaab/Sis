@@ -37,4 +37,13 @@ public class PermissionsController(IPermissionService permissionService) : Contr
         await permissionService.UpdateRolePermissionsAsync(roleId, permissions);
         return NoContent();
     }
+    
+    [HttpGet("schema/{roleId:guid}")]
+    [Authorize(Policy = Permissions.Security.Read)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<RolePermissionSchemaDto>> GetRolePermissionSchema(Guid roleId)
+    {
+        var permissionSchema = await permissionService.GetRolePermissionSchemaAsync(roleId);
+        return Ok(permissionSchema);
+    }
 }

@@ -127,4 +127,68 @@ public class PermissionService(
 
         return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
     }
+
+    public async Task<RolePermissionSchemaDto> GetRolePermissionSchemaAsync(Guid roleId)
+    {
+        var role = await roleManager.FindByIdAsync(roleId.ToString());
+        if (role == null)
+        {
+            throw new ArgumentException($"Role with ID {roleId} not found.");
+        }
+
+        var allFeatures = await dbContext.Features
+            .OrderBy(f => f.Group)
+            .ThenBy(f => f.Order)
+            .ToListAsync();
+
+        var roleClaims = await dbContext.RoleClaims
+            .Where(rc => rc.RoleId == roleId)
+            .ToListAsync();
+
+        var permissionGroups = new List<PermissionGroupDto>();
+
+        foreach (var group in allFeatures.GroupBy(f => f.Group).OrderBy(g => g.Key))
+        {
+            var featuresInGroup = new List<PermissionItemDto>();
+
+            foreach (var feature in group)
+            {
+                var featureClaims = roleClaims.Where(rc => rc.FeatureId == feature.Id).ToList();
+
+                var canRead = featureClaims.Any(rc => rc.PermissionAction == PermissionAction.Read);
+                var canWrite = featureClaims.Any(rc => rc.PermissionAction == PermissionAction.Write);
+                var canDelete = featureClaims.Any(rc => rc.PermissionAction == PermissionAction.Delete);
+
+                var customPermissions = featureClaims
+                    .Where(rc => rc.PermissionAction == null || rc.PermissionAction == PermissionAction.None)
+                    .Select(rc => rc.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
+                    .ToList();
+                
+                featuresInGroup.Add(new PermissionItemDto
+                {
+                    FeatureId = feature.Id,
+                    Code = feature.Code,
+                    Description = feature.Description,
+                    Read = canRead,
+                    Write = canWrite,
+                    Delete = canDelete,
+                    CustomPermissions = customPermissions
+                });
+            }
+
+            permissionGroups.Add(new PermissionGroupDto
+            {
+                GroupName = group.Key ?? "Unassigned",
+                Order = group.First().Order,
+                Features = featuresInGroup
+            });
+        }
+
+        return new RolePermissionSchemaDto
+        {
+            RoleId = roleId,
+            RoleName = role.Name!,
+            Groups = permissionGroups
+        };
+    }
 }
