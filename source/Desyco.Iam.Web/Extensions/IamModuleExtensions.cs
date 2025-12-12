@@ -1,12 +1,14 @@
 using System.Text;
 using Desyco.Iam.Contracts.Interfaces;
-using Desyco.Iam.Infrastructure.Authentication.Permissions; // Added this line
+using Desyco.Iam.Infrastructure.Authentication.Authorization; // Added
+using Desyco.Iam.Infrastructure.Authentication.Permissions;
 using Desyco.Iam.Infrastructure.Authentication.Services;
 using Desyco.Iam.Infrastructure.Authentication.Settings;
 using Desyco.Iam.Infrastructure.Persistence.Context;
 using Desyco.Iam.Infrastructure.Persistence.Entities;
-using Desyco.Iam.Infrastructure.Seeders; // Added this line
+using Desyco.Iam.Infrastructure.Seeders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization; // Added
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -62,7 +64,11 @@ public static class IamModuleExtensions
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<FeatureSeeder>();
-        services.AddScoped<IPermissionService, PermissionService>(); // Register PermissionService
+        services.AddScoped<IPermissionService, PermissionService>();
+
+        // 6. Register Authorization (Granular Permissions)
+        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
         return services;
     }
