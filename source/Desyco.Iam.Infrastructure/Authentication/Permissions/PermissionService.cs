@@ -18,7 +18,14 @@ public class PermissionService(
         return await dbContext.Features
             .OrderBy(f => f.Group)
             .ThenBy(f => f.Order)
-            .Select(f => new FeatureDto(f.Id, f.Code, f.Description, f.Group, f.Order))
+            .Select(f => new FeatureDto
+            {
+                Id = f.Id,
+                Code = f.Code,
+                Description = f.Description,
+                Group = f.Group,
+                Order = f.Order
+            })
             .ToListAsync();
     }
 
@@ -26,7 +33,16 @@ public class PermissionService(
     {
         return await dbContext.RoleClaims
             .Where(rc => rc.RoleId == roleId && rc.FeatureId != null) // Only granular permissions
-            .Select(rc => new RoleClaimDto(rc.Id, rc.RoleId, rc.ClaimType!, rc.ClaimValue!, rc.FeatureId, rc.PermissionAction, rc.Description))
+            .Select(rc => new RoleClaimDto
+            {
+                Id = rc.Id,
+                RoleId = rc.RoleId,
+                ClaimType = rc.ClaimType!,
+                ClaimValue = rc.ClaimValue!,
+                FeatureId = rc.FeatureId,
+                PermissionAction = rc.PermissionAction,
+                Description = rc.Description
+            })
             .ToListAsync();
     }
 
