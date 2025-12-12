@@ -379,6 +379,12 @@ Se añadió soporte para tokens de larga duración con rotación y seguridad mej
 *   **Infraestructura:** Entidad `RefreshToken` en BD para control de estado (revocación).
 *   **Lógica:** Rotación de tokens en cada uso (detección de robo) y endpoint `/refresh-token`.
 
+### AU. API de Gestión de Permisos (Schema)
+Se implementó una API especializada para soportar la interfaz de usuario de gestión de permisos (matriz de permisos).
+*   **Endpoint:** `GET /api/permissions/schema/{roleId}`.
+*   **Estructura:** Retorna un esquema jerárquico (`RolePermissionSchemaDto`) con Grupos -> Features -> Acciones (R/W/D) + Custom.
+*   **Propósito:** Facilitar el renderizado de paneles colapsables y datatables en el frontend (Vue/PrimeVue) sin lógica compleja de transformación en el cliente.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

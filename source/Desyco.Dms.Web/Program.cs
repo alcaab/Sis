@@ -117,6 +117,9 @@ using (var scope = app.Services.CreateScope())
 
     var securitySeeder = scope.ServiceProvider.GetRequiredService<Desyco.Iam.Infrastructure.Seeders.SecuritySeeder>();
     await securitySeeder.SeedAsync();
+
+    var permissionSeeder = scope.ServiceProvider.GetRequiredService<Desyco.Iam.Infrastructure.Seeders.PermissionSeeder>();
+    await permissionSeeder.SeedAsync();
 }
 
 app.MapControllers();
