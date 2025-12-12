@@ -64,6 +64,7 @@ public static class IamModuleExtensions
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<FeatureSeeder>();
+        services.AddScoped<SecuritySeeder>(); // Register SecuritySeeder
         services.AddScoped<IPermissionService, PermissionService>();
 
         // 6. Register Authorization (Granular Permissions)

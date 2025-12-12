@@ -1,3 +1,4 @@
+using Desyco.Iam.Contracts.Permissions;
 using Desyco.Iam.Infrastructure.Persistence.Context;
 using Desyco.Iam.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,14 @@ public class FeatureSeeder(IamDbContext context)
         {
             var features = new List<Feature>
             {
-                new Feature { Id = Guid.NewGuid(), Code = "AcademicYears", Description = "feature.academicyears", Group = "Academic", Order = 100 },
-                new Feature { Id = Guid.NewGuid(), Code = "Students", Description = "feature.students", Group = "Academic", Order = 200 },
-                new Feature { Id = Guid.NewGuid(), Code = "Teachers", Description = "feature.teachers", Group = "Academic", Order = 300 },
-                new Feature { Id = Guid.NewGuid(), Code = "Classrooms", Description = "feature.classrooms", Group = "Academic", Order = 400 },
-                new Feature { Id = Guid.NewGuid(), Code = "Enrollments", Description = "feature.enrollments", Group = "Academic", Order = 500 },
-                new Feature { Id = Guid.NewGuid(), Code = "Permissions", Description = "feature.permissions", Group = "Administration", Order = 1000 },
-                new Feature { Id = Guid.NewGuid(), Code = "Users", Description = "feature.users", Group = "Administration", Order = 1100 },
-                new Feature { Id = Guid.NewGuid(), Code = "Roles", Description = "feature.roles", Group = "Administration", Order = 1200 }
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.AcademicYears.Code, Description = "feature.academicyears", Group = "Academic", Order = 100 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Students.Code, Description = "feature.students", Group = "Academic", Order = 200 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Teachers.Code, Description = "feature.teachers", Group = "Academic", Order = 300 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Classrooms.Code, Description = "feature.classrooms", Group = "Academic", Order = 400 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Enrollments.Code, Description = "feature.enrollments", Group = "Academic", Order = 500 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Security.Code, Description = "feature.permissions", Group = "Administration", Order = 1000 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Users.Code, Description = "feature.users", Group = "Administration", Order = 1100 },
+                new Feature { Id = Guid.NewGuid(), Code = Permissions.Roles.Code, Description = "feature.roles", Group = "Administration", Order = 1200 }
             };
 
             await context.Features.AddRangeAsync(features);
