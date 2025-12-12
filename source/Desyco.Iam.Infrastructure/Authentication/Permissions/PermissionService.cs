@@ -10,8 +10,7 @@ namespace Desyco.Iam.Infrastructure.Authentication.Permissions;
 
 public class PermissionService(
     IamDbContext dbContext,
-    RoleManager<ApplicationRole> roleManager,
-    UserManager<ApplicationUser> userManager) : IPermissionService
+    RoleManager<ApplicationRole> roleManager) : IPermissionService
 {
     public async Task<List<FeatureDto>> GetAllFeaturesAsync()
     {
@@ -101,28 +100,31 @@ public class PermissionService(
         await dbContext.SaveChangesAsync();
     }
     
-    public async Task<bool> HasPermissionAsync(string userId, string featureCode, PermissionAction action)
+    public async Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action)
     {
-        var user = await userManager.FindByIdAsync(userId);
-        if (user == null) return false;
-
-        var userRoles = await userManager.GetRolesAsync(user);
-        var roleIds = await dbContext.Roles
-            .Where(r => userRoles.Contains(r.Name!))
-            .Select(r => r.Id)
-            .ToListAsync();
+        // Convert user ID string to Guid
+        if (!Guid.TryParse(userId, out var userGuid)) return false;
         
-        var feature = await dbContext.Features.SingleOrDefaultAsync(f => f.Code == featureCode);
-        if (feature == null) return false;
+        // Construct the expected Claim Value string (e.g., "Permissions.AcademicYears.Read")
+        // This avoids querying the Features table to get the ID.
+        var permissionClaimValue = $"Permissions.{featureCode}.{action}";
 
-        // Check if any of the user's roles have the specific permission
-        var hasRolePermission = await dbContext.RoleClaims
-            .AnyAsync(rc => roleIds.Contains(rc.RoleId) &&
-                            rc.FeatureId == feature.Id &&
-                            rc.PermissionAction == action);
+        // Optimized query using LINQ Query Syntax to join Roles without navigation properties
+        // and filtering by ClaimValue (string) instead of FeatureId (Guid)
+        var roleClaimsQuery = 
+            from rc in dbContext.RoleClaims
+            join r in dbContext.Roles on rc.RoleId equals r.Id
+            where userRoles.Contains(r.Name) &&
+                  rc.ClaimValue == permissionClaimValue &&
+                  rc.ClaimType == "Permission"
+            select 1;
 
-        if (hasRolePermission) return true;
+        var userClaimsQuery = dbContext.UserClaims
+            .Where(uc => uc.UserId == userGuid &&
+                         uc.ClaimValue == permissionClaimValue &&
+                         uc.ClaimType == "Permission")
+            .Select(_ => 1);
 
-        return false;
+        return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
     }
 }

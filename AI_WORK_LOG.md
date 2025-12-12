@@ -354,6 +354,31 @@ Se finalizó la implementación completa del sistema de autenticación e identid
         *   `CompositionRoot.cs`: Se sustituyó la configuración de auth antigua por `AddIamModule` y se añadió la migración automática de `IamDbContext`.
     *   **Base de Datos:** Se generó y aplicó la migración `InitialIdentity`, creando las tablas necesarias en el esquema `dls`.
 
+### AS. Implementación de Permisos Granulares (ACL)
+Se implementó un sistema de control de acceso granular basado en funcionalidades (`Features`) y acciones (`Read`, `Write`, `Delete`).
+
+*   **Fase 1: Dominio e Infraestructura**
+    *   **Entidades:**
+        *   `Feature`: Catálogo de módulos/pantallas (Code, Description, Group, Order).
+        *   `PermissionAction` (Enum): Read, Write, Delete.
+        *   Extensiones de Identity: `ApplicationRoleClaim` y `ApplicationUserClaim` extendidos con `FeatureId` y `PermissionAction`.
+    *   **Configuración:** Uso exclusivo de Fluent API en `IamDbContext` (sin atributos Data Annotations) y desacoplamiento de relaciones FK estrictas para independencia del Core.
+*   **Fase 2: Seeding**
+    *   Implementación de `FeatureSeeder` para poblar la tabla `Features` al inicio (ej. AcademicYears, Students, Permissions).
+*   **Fase 3: Gestión (Lógica)**
+    *   `IPermissionService` / `PermissionService`: Lógica para listar features, obtener permisos de un rol y actualizarlos (ABM de Claims).
+    *   DTOs: `FeatureDto` y `RoleClaimDto` separados en contratos.
+*   **Fase 4: Autorización (Runtime)**
+    *   Integración con ASP.NET Core Authorization Middleware.
+    *   `PermissionPolicyProvider`: Generación dinámica de políticas (`Permissions.{Feature}.{Action}`).
+    *   `PermissionAuthorizationHandler`: Verificación en tiempo real contra la base de datos de permisos.
+
+### AT. Implementación de Refresh Tokens
+Se añadió soporte para tokens de larga duración con rotación y seguridad mejorada.
+*   **Seguridad:** Uso de Cookies `HttpOnly`, `Secure`, `SameSite=Strict`.
+*   **Infraestructura:** Entidad `RefreshToken` en BD para control de estado (revocación).
+*   **Lógica:** Rotación de tokens en cada uso (detección de robo) y endpoint `/refresh-token`.
+
 ## 3. Instrucciones para la Próxima Sesión
 1.  **Continuar con Controllers:** Generar los controladores restantes siguiendo el patrón de `AcademicYearsController` (Versionado + Scrima).
 

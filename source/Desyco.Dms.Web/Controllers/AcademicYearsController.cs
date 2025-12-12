@@ -2,7 +2,9 @@ using Desyco.Dms.Application.AcademicYears.Commands;
 using Desyco.Dms.Application.AcademicYears.DTOs;
 using Desyco.Dms.Application.AcademicYears.Queries;
 using Desyco.Dms.Domain.AcademicYears;
+using Desyco.Iam.Contracts.Permissions; // Added
 using Desyco.Mediator;
+using Microsoft.AspNetCore.Authorization; // Added
 using Microsoft.AspNetCore.Mvc;
 using Scrima.Core.Query;
 using Scrima.OData.AspNetCore;
@@ -15,6 +17,7 @@ namespace Desyco.Dms.Web.Controllers;
 public class AcademicYearsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Policy = Permissions.AcademicYears.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<QueryResult<AcademicYearDto>>> GetAll(ODataQuery<AcademicYearEntity> queryOptions,
         CancellationToken cancellationToken)
@@ -24,6 +27,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [Authorize(Policy = Permissions.AcademicYears.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AcademicYearDto>> GetById(int id, CancellationToken cancellationToken)
@@ -33,6 +37,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = Permissions.AcademicYears.Write)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AcademicYearDto>> Create([FromBody] AcademicYearDto dto,
@@ -45,6 +50,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Policy = Permissions.AcademicYears.Write)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,6 +79,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Policy = Permissions.AcademicYears.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)

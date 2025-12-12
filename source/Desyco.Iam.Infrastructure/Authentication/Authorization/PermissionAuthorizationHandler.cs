@@ -22,7 +22,9 @@ public class PermissionAuthorizationHandler(IPermissionService permissionService
             return;
         }
 
-        if (await permissionService.HasPermissionAsync(userId, requirement.FeatureCode, requirement.Action))
+        var userRoles = context.User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+
+        if (await permissionService.HasPermissionAsync(userId, userRoles, requirement.FeatureCode, requirement.Action))
         {
             context.Succeed(requirement);
         }
