@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Payments;
 
 namespace Desyco.Dms.Infrastructure.Payments;

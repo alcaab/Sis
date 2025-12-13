@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Evaluations;
 using Desyco.Dms.Domain.ScaleLevels;
 using Desyco.Dms.Domain.Students;
-using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Students;
 

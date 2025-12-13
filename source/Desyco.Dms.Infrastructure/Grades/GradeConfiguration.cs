@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Grades;
 
 namespace Desyco.Dms.Infrastructure.Grades;

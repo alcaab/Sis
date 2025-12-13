@@ -1,5 +1,4 @@
 using Desyco.Dms.Domain.AcademicYears;
-using Desyco.Dms.Infrastructure.Common;
 using Desyco.Dms.Infrastructure.Common.Seeding;
 using Microsoft.Extensions.Logging;
 

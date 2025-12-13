@@ -1,7 +1,5 @@
 using Desyco.Dms.Domain.Enrollments.Interfaces;
 using Desyco.Dms.Domain.Enrollments;
-using Desyco.Dms.Infrastructure.Common;
-using Desyco.Dms.Infrastructure.Common.Repositories;
 
 namespace Desyco.Dms.Infrastructure.Enrollments.Repositories;
 

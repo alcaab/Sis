@@ -1,3 +1,7 @@
+// For EntityBase
+
+// For ITranslationKey
+
 namespace Desyco.Dms.Domain.Invoices;
 
 public class InvoiceStatusEntity : EntityBase<InvoiceStatus>, ITranslationKey

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.AcademicYears;
 using Desyco.Dms.Domain.Enrollments;
 using Desyco.Dms.Domain.Sections;

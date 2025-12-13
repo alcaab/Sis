@@ -1,4 +1,8 @@
-﻿namespace Desyco.Dms.Domain.EducationalLevels;
+﻿
+
+// For EntityBase and ITranslationKey
+
+namespace Desyco.Dms.Domain.EducationalLevels;
 
 public class EducationalLevelTypeEntity : EntityBase<EducationalLevelType>, ITranslationKey
 {

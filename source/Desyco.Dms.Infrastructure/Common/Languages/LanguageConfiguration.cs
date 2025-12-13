@@ -1,6 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Desyco.Dms.Domain.Common.Languages;
+using Desyco.Shared.Contracts.Entities;
 
 namespace Desyco.Dms.Infrastructure.Common.Languages;
 

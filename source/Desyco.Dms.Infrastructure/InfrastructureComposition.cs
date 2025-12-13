@@ -1,7 +1,5 @@
 using Desyco.Dms.Application.Common;
 using Desyco.Dms.Domain.Common;
-using Desyco.Dms.Infrastructure.Common;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

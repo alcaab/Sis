@@ -1,7 +1,7 @@
 using Desyco.Dms.Domain.Common.Base;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
+using Desyco.Shared.Contracts.Interfaces;
 
 namespace Desyco.Dms.Infrastructure.Common.Seeding;
 

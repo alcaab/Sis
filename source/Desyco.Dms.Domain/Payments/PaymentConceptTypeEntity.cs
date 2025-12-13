@@ -1,3 +1,7 @@
+// For EntityBase
+
+// For ITranslationKey
+
 namespace Desyco.Dms.Domain.Payments;
 
 public class PaymentConceptTypeEntity : EntityBase<PaymentConceptType>, ITranslationKey

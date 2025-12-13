@@ -1,6 +1,10 @@
+
+
+// For EntityBase and ITranslationKey
+
 namespace Desyco.Dms.Domain.Shifts;
 
-public class ShiftEntity: EntityBase<ShiftType>, ITranslationKey
+public class ShiftEntity : EntityBase<ShiftType>, ITranslationKey
 {
     public string Name { get; set; } = string.Empty;
     

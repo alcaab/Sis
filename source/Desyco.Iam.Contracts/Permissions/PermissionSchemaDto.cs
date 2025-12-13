@@ -1,5 +1,3 @@
-using Desyco.Iam.Contracts.Authentication;
-
 namespace Desyco.Iam.Contracts.Permissions;
 
 // DTO Raíz

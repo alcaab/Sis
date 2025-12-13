@@ -1,8 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Enrollments;
 using Desyco.Dms.Domain.Scholarships;
-using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Scholarships;
 

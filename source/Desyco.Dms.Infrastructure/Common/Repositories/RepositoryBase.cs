@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
 using Desyco.Dms.Domain.Common.Interfaces;
 using Desyco.Dms.Domain.Common.Base;
-using Microsoft.EntityFrameworkCore;
 using Scrima.Core.Query;
 using Scrima.EntityFrameworkCore;
 

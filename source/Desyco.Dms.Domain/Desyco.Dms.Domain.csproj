@@ -15,4 +15,8 @@
         <PackageReference Include="Scrima.Core" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Desyco.Shared.Contracts\Desyco.Shared.Contracts.csproj" />
+    </ItemGroup>
+
 </Project>

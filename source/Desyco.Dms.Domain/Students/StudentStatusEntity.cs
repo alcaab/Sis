@@ -1,3 +1,7 @@
+
+
+// For EntityBase and ITranslationKey
+
 namespace Desyco.Dms.Domain.Students;
 
 public class StudentStatusEntity : EntityBase<StudentStatus>, ITranslationKey

@@ -1,4 +1,4 @@
-namespace Desyco.Dms.Domain.Common.Base;
+namespace Desyco.Shared.Contracts.Interfaces;
 
 public interface ITranslationKey
 {

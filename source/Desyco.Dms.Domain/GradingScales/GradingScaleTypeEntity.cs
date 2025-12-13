@@ -1,3 +1,5 @@
+// For EntityBase and ITranslationKey
+
 namespace Desyco.Dms.Domain.GradingScales;
 
 public class GradingScaleTypeEntity : EntityBase<GradingScaleType>, ITranslationKey

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.EducationalLevels;
 
 namespace Desyco.Dms.Infrastructure.EducationalLevels;

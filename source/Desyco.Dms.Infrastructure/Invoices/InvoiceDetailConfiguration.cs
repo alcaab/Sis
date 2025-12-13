@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Desyco.Dms.Domain.Invoices;
 using Desyco.Dms.Domain.Invoices.FeeConcepts;
 using Desyco.Dms.Domain.Students;
-using Desyco.Dms.Infrastructure.Common;
 
 namespace Desyco.Dms.Infrastructure.Invoices;
 

@@ -1,5 +1,4 @@
 using Desyco.Dms.Application.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Desyco.Dms.Infrastructure.Common;
 

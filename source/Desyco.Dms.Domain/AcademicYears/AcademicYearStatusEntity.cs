@@ -1,3 +1,5 @@
+// For EntityBase and ITranslationKey
+
 namespace Desyco.Dms.Domain.AcademicYears;
 
 public class AcademicYearStatusEntity : EntityBase<AcademicYearStatus>, ITranslationKey
