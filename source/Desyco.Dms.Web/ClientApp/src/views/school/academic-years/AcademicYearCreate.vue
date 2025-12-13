@@ -2,13 +2,13 @@
     import { ref } from "vue";
     import { useAcademicYearStore } from "@/stores/academicYearStore";
     import { useRouter } from "vue-router";
-    import { useToast } from "primevue/usetoast";
     import AcademicYearForm from "./AcademicYearForm.vue";
     import type { AcademicYearDto } from "@/types/academic-year";
+    import { useNotification } from "@/composables/useNotification";
 
     const store = useAcademicYearStore();
     const router = useRouter();
-    const toast = useToast();
+    const notify = useNotification();
     const loading = ref(false);
 
     const handleCreate = async (data: AcademicYearDto) => {
@@ -24,11 +24,10 @@
             }
 
             await store.createAcademicYear(payload);
-            toast.add({ severity: "success", summary: "Successful", detail: "Academic Year Created", life: 3000 });
+            notify.showSuccess("Academic Year Created");
             router.push({ name: "academic-year-list" }).then();
         } catch (error: any) {
-            const errorMessage = error.response?.data?.message || error.message || "Creation failed";
-            toast.add({ severity: "error", summary: "Error", detail: errorMessage, life: 3000 });
+            notify.showError(error, "Creation failed");
         } finally {
             loading.value = false;
         }

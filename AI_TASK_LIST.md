@@ -1,23 +1,50 @@
-# Lista de Tareas para Gemini:
+ El siguiente objeto json es el error que recibo cuando no tengo autorizacion a una determinada accion de un feature:
+---
+{
+"message": "Request failed with status code 403",
+"name": "AxiosError",
+"stack": "AxiosError: Request failed with status code 403\n    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=f174ec25:1257:12)\n    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=f174ec25:1606:7)\n    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=f174ec25:2223:41)\n    at async Proxy.fetchAcademicYears (http://localhost:5173/src/stores/academicYearStore.ts:11:24)",
+"config": {
+"transitional": {
+"silentJSONParsing": true,
+"forcedJSONParsing": true,
+"clarifyTimeoutError": false
+},
+"adapter": [
+"xhr",
+"http",
+"fetch"
+],
+"transformRequest": [
+null
+],
+"transformResponse": [
+null
+],
+"timeout": 0,
+"xsrfCookieName": "XSRF-TOKEN",
+"xsrfHeaderName": "X-XSRF-TOKEN",
+"maxContentLength": -1,
+"maxBodyLength": -1,
+"env": {},
+"headers": {
+"Accept": "application/json",
+"Content-Type": "application/json",
+"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmZTdmYjZkMS0yZWQzLTRhNTQtYmRhYy1kZmY4MTk2ZGYyZjAiLCJzdWIiOiJmZTU1MTZlMy0wYjIzLTQ4NTAtNjc1YS0wOGRlMzk4OTM3MWUiLCJlbWFpbCI6ImFkbWluQHNjaG9vbC5jb20iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJmYW1pbHlfbmFtZSI6IlRlc3RVc2VyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjU1OTI3ODMsImlzcyI6IkRlc3ljby5EbXMiLCJhdWQiOiJEZXN5Y28uRG1zIn0.DUPWFlBy8zz5oS3jE4dSrkU4VF9SSPG2cVefCTYo2wQ"
+},
+"baseURL": "/api/v1",
+"withCredentials": true,
+"method": "get",
+"url": "/academic-years?$orderby=name asc&$top=10&$count=true",
+"allowAbsoluteUrls": true
+},
+"code": "ERR_BAD_REQUEST",
+"status": 403
+}
 
-Desarrolla un plan de trabajo para la implementacion una librería de autorizacion basado en jwt token y utiliznado IdentityCore para este proyecto.
-El plan debe contemplar las siguientes caracteristicas:
+--
 
-1. Crea tres proyectos separados, Uno para manejar la parte de la infraestructura (EF), uno para los contratos(dtos)
-  y por ultimo uno para los controllers y registro de configuraciones que se utilizaran en el proyecto web.
-    * Conte
-2. Deseo tener tablas customizadas para IdentityUser, IdentityRole, IdentityRoleClaim, IdentityUserClaim.
-3. Las tablas creadas deben tener su propio esquema (dls) y tabla de migracion EF separada.
-4. 
-
-/**/
-
-Pero si los necesito porque quiero manejar tres claims  principales por cada vista o pantalla (canWrite(create/update), canRead, canDelete. Tambien quiero tener una
-entidad de base de datos (Feature) que me permita representar cada una de las vistas para que de esta manera proporcionar una interfaz al usuario que le permida
-conceder permimos de una manera sencilla. la entidad debe tener un campo descripcion(para describir el modulo al que se quiere conceder los permisos), tres campos de
-tipo PermissionType(uno para write, uno para read y otro para delete. la entidades userclaims y roleclaims tendran un campo del tipo PermissionType para poder
-vincularlos con la tabla feature, Los demas claims si existen de concederan de la forma regular), un campo grupo que permitira agrupar los features, un campor orden
-para forzar una secuencia unica en la UI. Las tabla useclaims, roleclaims, roles tendran su propia descripcion para indicar que hace cada claim o role, y para el caso
-de los claims que no sean tengan un permissionType definido, se pueda indicar que hacen. La descripcion almacenará translationsKeys para soportar multi legunaje pero
-en caso de no encontrar traduccion diponible mostran el texto tal y como esta almacenado. Crea un plan para implementar estos cambios, evalua los pros y cons, sugiere
-mejores practicas y sugiere cualquier cambio que aporte mejora y escalabilidad.
+Crea un plan para manejar este error que contemple lo slguiente:
+- El backend sea capaz de transformar el error el formato problem detail que ya estamos utilzando en otras respuestas a errores.
+- El frontend sea capaz de extraer el mensaje del error en formato problem detail y mostrarlo en un toast
+- Crea un servicio de notificacion o composable que pueda ser reutilizado

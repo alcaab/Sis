@@ -5,16 +5,16 @@
     import { AcademicYearStatus, type AcademicYearDto } from "@/types/academic-year";
     import { FilterMatchMode } from "@primevue/core/api";
     import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels";
-    import { useToast } from "primevue/usetoast";
     import { useConfirm } from "primevue/useconfirm";
     import { useDataTableUtils } from "@/utils/useDataTableUtils";
     import { useDebounce } from "@/utils/useDebounce";
     import TableActions from "@/components/common/TableActions.vue";
+    import { useNotification } from "@/composables/useNotification";
 
     const router = useRouter();
     const store = useAcademicYearStore();
     const { paginate } = useDataTableUtils(handlePagination);
-    const toast = useToast();
+    const notify = useNotification();
     const confirm = useConfirm();
 
     const dt = ref();
@@ -37,7 +37,9 @@
     });
 
     function handlePagination(event: RequestParamsPayload) {
-        store.fetchAcademicYears(event);
+        store.fetchAcademicYears(event).catch((error) => {
+            notify.showError(error, "Failed to load data");
+        });
     }
 
     // Manual refresh
@@ -69,16 +71,10 @@
                 try {
                     if (item.id) {
                         await store.deleteAcademicYear(item.id);
-                        toast.add({
-                            severity: "success",
-                            summary: "Successful",
-                            detail: "Academic Year Deleted",
-                            life: 3000,
-                        });
+                        notify.showSuccess("Academic Year Deleted");
                     }
                 } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message || "Delete failed";
-                    toast.add({ severity: "error", summary: "Error", detail: errorMessage, life: 3000 });
+                    notify.showError(error, "Delete failed");
                 } finally {
                     isDeleting.value = false;
                     deletingItemId.value = null; // Reset after deletion

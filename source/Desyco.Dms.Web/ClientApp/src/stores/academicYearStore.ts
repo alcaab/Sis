@@ -17,6 +17,7 @@ export const useAcademicYearStore = defineStore("academicYear", () => {
             totalRecords.value = response.data.count || 0;
         } catch (error) {
             console.error("Failed to fetch academic years", error);
+            throw error;
         } finally {
             loading.value = false;
         }

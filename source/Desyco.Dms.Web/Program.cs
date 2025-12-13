@@ -89,6 +89,8 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseMiddleware<Desyco.Dms.Web.Infrastructure.Middleware.ProblemDetailsMiddleware>(); // Register custom middleware
+
 app.UseAuthentication();
 app.UseAuthorization();
 
