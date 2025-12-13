@@ -13,20 +13,36 @@ public class PermissionService(
     RoleManager<ApplicationRole> roleManager,
     UserManager<ApplicationUser> userManager) : IPermissionService
 {
-    public async Task<List<FeatureDto>> GetAllFeaturesAsync()
+    // Helper para obtener LanguageId
+    private async Task<int> GetLanguageIdAsync(string languageCode, CancellationToken cancellationToken = default)
     {
-        return await dbContext.Features
-            .OrderBy(f => f.Group)
-            .ThenBy(f => f.Order)
-            .Select(f => new FeatureDto
-            {
-                Id = f.Id,
-                Code = f.Code,
-                Description = f.Description,
-                Group = f.Group,
-                Order = f.Order
-            })
-            .ToListAsync();
+        var languageId = await dbContext.Languages
+                                        .Where(l => l.Code == languageCode)
+                                        .Select(l => l.Id)
+                                        .FirstOrDefaultAsync(cancellationToken);
+        return languageId;
+    }
+
+    public async Task<List<FeatureDto>> GetAllFeaturesAsync(string languageCode)
+    {
+        var languageId = await GetLanguageIdAsync(languageCode);
+
+        return await (from f in dbContext.Features
+                      // LEFT JOIN con la tabla de traducciones
+                      from t in dbContext.Translations
+                                         .Where(t => t.Key == f.Description && t.LanguageId == languageId)
+                                         .DefaultIfEmpty() // LEFT JOIN
+                      orderby f.Group, f.Order
+                      select new FeatureDto
+                      {
+                          Id = f.Id,
+                          Code = f.Code,
+                          Description = f.Description, // Original translation key
+                          TranslatedDescription = t.Value ?? f.Description, // Translated or fallback to key
+                          Group = f.Group,
+                          Order = f.Order
+                      })
+                      .ToListAsync();
     }
 
     public async Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId)
@@ -125,7 +141,7 @@ public class PermissionService(
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<PermissionSchemaDto> GetPermissionSchemaForRoleAsync(Guid roleId)
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForRoleAsync(Guid roleId, string languageCode)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
         if (role == null)
@@ -133,46 +149,74 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        // Changed logic: Fetch ALL features, not just assigned ones.
-        // This allows the UI to show the full catalog and let users grant permissions freely.
-        var allFeatures = await dbContext.Features
-            .OrderBy(f => f.Group)
-            .ThenBy(f => f.Order)
-            .ToListAsync();
+        var languageId = await GetLanguageIdAsync(languageCode);
+
+        // Fetch ALL features with translated descriptions
+        var allFeaturesDto = await (from f in dbContext.Features
+                                    from t in dbContext.Translations
+                                                       .Where(t => t.Key == f.Description && t.LanguageId == languageId)
+                                                       .DefaultIfEmpty()
+                                    orderby f.Group, f.Order
+                                    select new FeatureDto
+                                    {
+                                        Id = f.Id,
+                                        Code = f.Code,
+                                        Description = f.Description, // Original translation key
+                                        TranslatedDescription = t.Value ?? f.Description, // Translated or fallback
+                                        Group = f.Group,
+                                        Order = f.Order,
+                                        CustomPermissions = f.CustomPermissions // Propagating this
+                                    }).ToListAsync();
 
         var claims = await dbContext.RoleClaims
             .Where(rc => rc.RoleId == roleId)
             .Select(rc => new GenericClaimDto(rc.FeatureId, rc.PermissionAction, rc.ClaimValue))
             .ToListAsync();
 
-        return BuildPermissionSchema(roleId, role.Name!, allFeatures, claims);
+        // BuildPermissionSchema now receives FeatureDto
+        return BuildPermissionSchema(roleId, role.Name!, allFeaturesDto, claims);
     }
     
-    public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId)
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId, string languageCode)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
         if (user == null)
         {
             throw new ArgumentException($"User with ID {userId} not found.");
         }
+        
+        var languageId = await GetLanguageIdAsync(languageCode);
 
-        var allFeatures = await dbContext.Features
-            .OrderBy(f => f.Group)
-            .ThenBy(f => f.Order)
-            .ToListAsync();
+        // Fetch ALL features with translated descriptions
+        var allFeaturesDto = await (from f in dbContext.Features
+                                    from t in dbContext.Translations
+                                                       .Where(t => t.Key == f.Description && t.LanguageId == languageId)
+                                                       .DefaultIfEmpty()
+                                    orderby f.Group, f.Order
+                                    select new FeatureDto
+                                    {
+                                        Id = f.Id,
+                                        Code = f.Code,
+                                        Description = f.Description, // Original translation key
+                                        TranslatedDescription = t.Value ?? f.Description, // Translated or fallback
+                                        Group = f.Group,
+                                        Order = f.Order,
+                                        CustomPermissions = f.CustomPermissions // Propagating this
+                                    }).ToListAsync();
 
         var claims = await dbContext.UserClaims
             .Where(uc => uc.UserId == userId)
             .Select(uc => new GenericClaimDto(uc.FeatureId, uc.PermissionAction, uc.ClaimValue))
             .ToListAsync();
 
-        return BuildPermissionSchema(userId, user.Email!, allFeatures, claims);
+        // BuildPermissionSchema now receives FeatureDto
+        return BuildPermissionSchema(userId, user.Email!, allFeaturesDto, claims);
     }
 
     private static PermissionSchemaDto BuildPermissionSchema(
         Guid entityId, 
         string entityName, 
-        List<Feature> features, 
+        List<FeatureDto> features, // Changed from List<Feature> to List<FeatureDto>
         List<GenericClaimDto> claims)
     {
         var permissionGroups = new List<PermissionGroupDto>();
@@ -199,7 +243,7 @@ public class PermissionService(
                 {
                     FeatureId = feature.Id,
                     Code = feature.Code,
-                    Description = feature.Description,
+                    Description = feature.TranslatedDescription, // Use TranslatedDescription here
                     Read = canRead,
                     Write = canWrite,
                     Delete = canDelete,
