@@ -16,7 +16,7 @@ namespace Desyco.Iam.Infrastructure.Persistence.Context;
     {
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Feature> Features { get; set; }
-        public DbSet<RoleFeature> RoleFeatures { get; set; } // Nuevo DbSet
+        // public DbSet<RoleFeature> RoleFeatures { get; set; } // Nuevo DbSet - REMOVED
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,11 +35,11 @@ namespace Desyco.Iam.Infrastructure.Persistence.Context;
                 b.Property(r => r.Description).HasMaxLength(256); // Configurar longitud
             });
             
-            builder.Entity<RoleFeature>(b =>
-            {
-                b.ToTable("RoleFeatures");
-                b.HasKey(rf => new { rf.RoleId, rf.FeatureId }); // Clave compuesta
-            });
+            // builder.Entity<RoleFeature>(b => // RoleFeature configuration REMOVED
+            // {
+            //     b.ToTable("RoleFeatures");
+            //     b.HasKey(rf => new { rf.RoleId, rf.FeatureId }); // Clave compuesta
+            // });
             
             builder.Entity<RefreshToken>(b =>
             {

@@ -20,28 +20,10 @@ public class PermissionSeeder(
         var allFeatures = await dbContext.Features.ToListAsync();
         if (allFeatures.Count == 0) return;
 
-        // 3. Populate RoleFeatures (Scope) for Admin - Admin sees EVERYTHING
-        foreach (var feature in allFeatures)
-        {
-            var hasScope = await dbContext.RoleFeatures
-                .AnyAsync(rf => rf.RoleId == adminRole.Id && rf.FeatureId == feature.Id);
-
-            if (!hasScope)
-            {
-                await dbContext.RoleFeatures.AddAsync(new RoleFeature
-                {
-                    RoleId = adminRole.Id,
-                    FeatureId = feature.Id
-                });
-            }
-        }
-        
-        await dbContext.SaveChangesAsync();
-
-        // 4. Define Actions to Grant (Full Access)
+        // 3. Define Actions to Grant (Full Access)
         var actions = new[] { PermissionAction.Read, PermissionAction.Write, PermissionAction.Delete };
 
-        // 5. Assign Permissions
+        // 4. Assign Permissions
         foreach (var feature in allFeatures)
         {
             foreach (var action in actions)

@@ -99,21 +99,19 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        // Only get features that are in the Role's Scope (RoleFeatures)
-        var roleFeatures = await (
-            from f in dbContext.Features
-            join rf in dbContext.RoleFeatures on f.Id equals rf.FeatureId
-            where rf.RoleId == roleId
-            orderby f.Group, f.Order
-            select f
-        ).ToListAsync();
+        // Changed logic: Fetch ALL features, not just assigned ones.
+        // This allows the UI to show the full catalog and let users grant permissions freely.
+        var allFeatures = await dbContext.Features
+            .OrderBy(f => f.Group)
+            .ThenBy(f => f.Order)
+            .ToListAsync();
 
         var claims = await dbContext.RoleClaims
             .Where(rc => rc.RoleId == roleId)
             .Select(rc => new GenericClaimDto(rc.FeatureId, rc.PermissionAction, rc.ClaimValue))
             .ToListAsync();
 
-        return BuildPermissionSchema(roleId, role.Name!, roleFeatures, claims);
+        return BuildPermissionSchema(roleId, role.Name!, allFeatures, claims);
     }
     
     public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId)
@@ -188,46 +186,6 @@ public class PermissionService(
     }
 
     private record GenericClaimDto(Guid? FeatureId, PermissionAction? PermissionAction, string? ClaimValue);
-
-    public async Task<List<Guid>> GetAssignedFeatureIdsAsync(Guid roleId)
-    {
-        return await dbContext.RoleFeatures
-            .Where(rf => rf.RoleId == roleId)
-            .Select(rf => rf.FeatureId)
-            .ToListAsync();
-    }
-
-    public async Task UpdateAssignedFeaturesAsync(Guid roleId, List<Guid> featureIds)
-    {
-        var existing = await dbContext.RoleFeatures
-            .Where(rf => rf.RoleId == roleId)
-            .ToListAsync();
-
-        var toAdd = featureIds.Except(existing.Select(e => e.FeatureId));
-        var toRemove = existing.Where(e => !featureIds.Contains(e.FeatureId)).ToList();
-
-        dbContext.RoleFeatures.RemoveRange(toRemove);
-        
-        foreach (var id in toAdd)
-        {
-            await dbContext.RoleFeatures.AddAsync(new RoleFeature { RoleId = roleId, FeatureId = id });
-        }
-
-        // Clean up Permission Claims for features that were removed from scope
-        var removedFeatureIds = toRemove.Select(x => x.FeatureId).ToList();
-        if (removedFeatureIds.Count != 0)
-        {
-            var claimsToRemove = await dbContext.RoleClaims
-                .Where(rc => rc.RoleId == roleId && 
-                             rc.FeatureId != null && 
-                             removedFeatureIds.Contains(rc.FeatureId.Value))
-                .ToListAsync();
-            
-            dbContext.RoleClaims.RemoveRange(claimsToRemove);
-        }
-
-        await dbContext.SaveChangesAsync();
-    }
 
     public async Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action)
     {
