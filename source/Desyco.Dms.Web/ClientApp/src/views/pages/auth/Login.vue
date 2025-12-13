@@ -1,10 +1,37 @@
 <script setup>
     import FloatingConfigurator from "@/components/FloatingConfigurator.vue";
     import { ref } from "vue";
+    import { useAuthStore } from "@/stores/authStore";
+    import { useRouter } from "vue-router";
+    import { useToast } from "primevue/usetoast";
 
-    const email = ref("");
-    const password = ref("");
+    const email = ref("admin@school.com");
+    const password = ref("Password123!");
     const checked = ref(false);
+    const loading = ref(false);
+
+    const authStore = useAuthStore();
+    const router = useRouter();
+    const toast = useToast();
+
+    const onLogin = async () => {
+        if (!email.value || !password.value) {
+            toast.add({ severity: "warn", summary: "Warning", detail: "Please enter email and password", life: 3000 });
+            return;
+        }
+
+        loading.value = true;
+        try {
+            await authStore.login({ email: email.value, password: password.value });
+            router.push("/");
+        } catch (error) {
+            console.error("Login error:", error);
+            const msg = error.response?.data?.Errors?.[0] || error.response?.data?.title || "Login failed";
+            toast.add({ severity: "error", summary: "Error", detail: msg, life: 3000 });
+        } finally {
+            loading.value = false;
+        }
+    };
 </script>
 
 <template>
@@ -110,8 +137,8 @@
                         <Button
                             label="Sign In"
                             class="w-full"
-                            as="router-link"
-                            to="/"
+                            :loading="loading"
+                            @click="onLogin"
                         ></Button>
                     </div>
                 </div>

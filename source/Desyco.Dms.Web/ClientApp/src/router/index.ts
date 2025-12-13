@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "@/layout/AppLayout.vue";
 import schoolRoutes from "./modules/school";
+import { useAuthStore } from "@/stores/authStore";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -8,6 +9,7 @@ const router = createRouter({
         {
             path: "/",
             component: AppLayout,
+            meta: { requiresAuth: true },
             children: [
                 {
                     path: "/",
@@ -143,6 +145,20 @@ const router = createRouter({
             component: () => import("@/views/pages/auth/Error.vue"),
         },
     ],
+});
+
+// @ts-ignore
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const isAuth = authStore.isAuthenticated;
+
+    if (to.meta.requiresAuth && !isAuth) {
+        next({ name: "login" });
+    } else if (to.name === "login" && isAuth) {
+        next({ name: "dashboard" });
+    } else {
+        next();
+    }
 });
 
 export default router;

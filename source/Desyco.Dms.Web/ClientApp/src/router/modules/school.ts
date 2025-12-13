@@ -4,6 +4,7 @@ const schoolRoutes: RouteRecordRaw[] = [
     {
         path: "/school-settings",
         name: "school-settings",
+        redirect: { name: "academic-year-list" },
         component: () => import("@/views/school/SchoolSettings.vue"),
         meta: {
             breadcrumb: "School Settings",
