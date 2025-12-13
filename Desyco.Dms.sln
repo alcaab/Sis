@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.Iam.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.Iam.Web", "source\Desyco.Iam.Web\Desyco.Iam.Web.csproj", "{E67BA41A-F0BB-49C9-9FCB-AC6F3DDA5070}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desyco.Shared.Infrastructure", "source\Desyco.Shared.Infrastructure\Desyco.Shared.Infrastructure.csproj", "{3C760C92-EB72-4602-8E18-95E7E1FAC7D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{E67BA41A-F0BB-49C9-9FCB-AC6F3DDA5070}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E67BA41A-F0BB-49C9-9FCB-AC6F3DDA5070}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E67BA41A-F0BB-49C9-9FCB-AC6F3DDA5070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C760C92-EB72-4602-8E18-95E7E1FAC7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C760C92-EB72-4602-8E18-95E7E1FAC7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C760C92-EB72-4602-8E18-95E7E1FAC7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C760C92-EB72-4602-8E18-95E7E1FAC7D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{22CBB5F7-A6A3-47D0-BE47-AE3C150FD4DC} = {393A4CEC-D619-4165-9FB6-F8BF05A4616A}
@@ -60,5 +66,6 @@ Global
 		{BFD383DA-425C-472A-9910-AF1825BA8AFB} = {393A4CEC-D619-4165-9FB6-F8BF05A4616A}
 		{9E623A2C-DA32-40A0-A820-5714C14D193D} = {393A4CEC-D619-4165-9FB6-F8BF05A4616A}
 		{E67BA41A-F0BB-49C9-9FCB-AC6F3DDA5070} = {393A4CEC-D619-4165-9FB6-F8BF05A4616A}
+		{3C760C92-EB72-4602-8E18-95E7E1FAC7D3} = {393A4CEC-D619-4165-9FB6-F8BF05A4616A}
 	EndGlobalSection
 EndGlobal
