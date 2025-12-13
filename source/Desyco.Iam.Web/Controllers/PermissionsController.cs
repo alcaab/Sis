@@ -55,4 +55,22 @@ public class PermissionsController(IPermissionService permissionService) : Contr
         var permissionSchema = await permissionService.GetPermissionSchemaForUserAsync(userId);
         return Ok(permissionSchema);
     }
+
+    [HttpGet("role-features/{roleId:guid}")]
+    [Authorize(Policy = Permissions.Security.Read)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<Guid>>> GetRoleFeatures(Guid roleId)
+    {
+        var features = await permissionService.GetAssignedFeatureIdsAsync(roleId);
+        return Ok(features);
+    }
+
+    [HttpPut("role-features/{roleId:guid}")]
+    [Authorize(Policy = Permissions.Security.Write)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> UpdateRoleFeatures(Guid roleId, [FromBody] List<Guid> featureIds)
+    {
+        await permissionService.UpdateAssignedFeaturesAsync(roleId, featureIds);
+        return NoContent();
+    }
 }

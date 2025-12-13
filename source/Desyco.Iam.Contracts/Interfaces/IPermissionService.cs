@@ -15,5 +15,9 @@ public interface IPermissionService
 
     Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId);
     
+    Task<List<Guid>> GetAssignedFeatureIdsAsync(Guid roleId);
+    
+    Task UpdateAssignedFeaturesAsync(Guid roleId, List<Guid> featureIds);
+    
     Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action);
 }
