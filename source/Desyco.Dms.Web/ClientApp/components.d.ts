@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Accordion: typeof import('primevue/accordion')['default']
     AccordionTab: typeof import('primevue/accordiontab')['default']
+    Badge: typeof import('primevue/badge')['default']
     BestSellingWidget: typeof import('./src/components/dashboard/BestSellingWidget.vue')['default']
     BlockUI: typeof import('primevue/blockui')['default']
     BlockViewer: typeof import('./src/components/BlockViewer.vue')['default']

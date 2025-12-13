@@ -1,202 +1,311 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed, watch } from "vue";
-    import { useRoute, useRouter } from "vue-router";
-    import { useRoleStore } from "@/stores/roleStore";
-    import { useNotification } from "@/composables/useNotification";
-    import type { PermissionSchema, PermissionGroup, FeaturePermission, PermissionItem } from "@/types/permissions";
-    import { PermissionAction } from "@/types/permissions";
+import { ref, onMounted, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useRoleStore } from "@/stores/roleStore";
+import { useNotification } from "@/composables/useNotification";
+import type { PermissionSchema, FeaturePermission, PermissionGroup } from "@/types/permissions";
+import { PermissionAction } from "@/types/permissions";
 
-    const route = useRoute();
-    const router = useRouter();
-    const roleStore = useRoleStore();
-    const notify = useNotification();
+const route = useRoute();
+const router = useRouter();
+const roleStore = useRoleStore();
+const notify = useNotification();
 
-    const roleId = ref<string | null>(null);
-    const roleName = ref<string | null>(null);
-    const loading = ref(false);
-    const permissionSchema = ref<PermissionSchema | null>(null);
+const roleId = ref<string | null>(null);
+const roleName = ref<string | null>(null);
+const loading = ref(false);
+const searchQuery = ref("");
+const activeAccordionIndices = ref<number[]>([]);
 
-    // Computed property to create the mutable structure for checkboxes
-    const editablePermissionSchema = computed<PermissionSchema | null>(() => {
-        if (!permissionSchema.value) return null;
+// Mutable schema for UI
+const editableSchema = ref<PermissionSchema | null>(null);
 
-        const schemaCopy: PermissionSchema = JSON.parse(JSON.stringify(permissionSchema.value));
-        return schemaCopy;
-    });
+onMounted(async () => {
+    roleId.value = route.params.id as string;
+    if (roleId.value) {
+        await fetchRolePermissions();
+    } else {
+        router.push({ name: "roles-list" });
+        notify.showError("Role ID not provided.");
+    }
+});
 
-    onMounted(async () => {
-        roleId.value = route.params.id as string;
-        if (roleId.value) {
-            await fetchRolePermissions();
-        } else {
-            router.push({ name: "roles-list" });
-            notify.showError("Role ID not provided.");
+const fetchRolePermissions = async () => {
+    loading.value = true;
+    try {
+        await roleStore.fetchRolePermissions(roleId.value!);
+        const rawData = roleStore.currentRolePermissions;
+        
+        if (rawData) {
+            // Deep copy for editing
+            editableSchema.value = JSON.parse(JSON.stringify(rawData));
+            roleName.value = rawData.entityName || "Unknown Role";
+            expandAll();
         }
-    });
+    } catch (error) {
+        notify.showError(error, "Failed to load role permissions");
+        router.push({ name: "roles-list" });
+    } finally {
+        loading.value = false;
+    }
+};
 
-    const fetchRolePermissions = async () => {
-        loading.value = true;
-        try {
-            await roleStore.fetchRolePermissions(roleId.value!);
-            permissionSchema.value = roleStore.currentRolePermissions;
-            roleName.value = permissionSchema.value?.entityName || "Unknown Role";
-        } catch (error) {
-            notify.showError(error, "Failed to load role permissions");
-            router.push({ name: "roles-list" });
-        } finally {
-            loading.value = false;
+// Filter logic
+const filteredGroups = computed(() => {
+    if (!editableSchema.value) return [];
+    
+    const query = searchQuery.value.toLowerCase().trim();
+    if (!query) return editableSchema.value.groups;
+
+    return editableSchema.value.groups.map(group => {
+        // Check if group name matches
+        const groupMatches = group.groupName.toLowerCase().includes(query);
+        
+        // Filter features
+        const matchingFeatures = group.features.filter(f => 
+            f.description.toLowerCase().includes(query) || 
+            f.code.toLowerCase().includes(query)
+        );
+
+        if (groupMatches || matchingFeatures.length > 0) {
+            return {
+                ...group,
+                features: matchingFeatures.length > 0 ? matchingFeatures : (groupMatches ? group.features : [])
+            };
         }
-    };
+        return null;
+    }).filter(g => g !== null && g.features.length > 0) as PermissionGroup[];
+});
 
-    const updatePermissions = async () => {
-        loading.value = true;
-        try {
-            if (!editablePermissionSchema.value) return;
+// Helper to count active permissions in a group
+const getActiveCount = (group: PermissionGroup) => {
+    let count = 0;
+    group.features.forEach(f => {
+        if (f.read) count++;
+        if (f.write) count++;
+        if (f.delete) count++;
+    });
+    return count;
+};
 
-            const updatedPermissions: FeaturePermission[] = [];
+// Toggle "Full Access" for a row
+const toggleFullAccess = (item: any, value: boolean) => {
+    item.read = value;
+    item.write = value;
+    item.delete = value;
+};
 
-            editablePermissionSchema.value.groups.forEach((group) => {
-                group.features.forEach((feature) => {
-                    // Add standard R/W/D permissions
-                    if (feature.read)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Read,
-                            isGranted: true,
-                        });
-                    if (feature.write)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Write,
-                            isGranted: true,
-                        });
-                    if (feature.delete)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Delete,
-                            isGranted: true,
-                        });
+const isFullAccess = (item: any) => {
+    return item.read && item.write && item.delete;
+};
 
-                    // TODO: Handle custom permissions (e.g., Print)
-                    // This would require a dedicated dialog or more complex UI
-                    feature.customPermissions.forEach((customAction) => {
-                        // For now, assume if it exists in the list, it's granted
-                        // In a real scenario, custom actions might need their own checkboxes/toggles
-                        // For custom permissions, action will be PermissionAction.None or a specific custom enum value if we extend it.
-                        // For now, assume custom actions are always "granted" if they are present in the list,
-                        // and we just send them as PermissionAction.None
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.None,
-                            isGranted: true,
-                        });
-                    });
+const expandAll = () => {
+    if (editableSchema.value) {
+        activeAccordionIndices.value = editableSchema.value.groups.map((_, i) => i);
+    }
+};
+
+const collapseAll = () => {
+    activeAccordionIndices.value = [];
+};
+
+const updatePermissions = async () => {
+    loading.value = true;
+    try {
+        if (!editableSchema.value) return;
+
+        const updatedPermissions: FeaturePermission[] = [];
+
+        // Iterate over the FULL schema (editableSchema), not the filtered view
+        editableSchema.value.groups.forEach(group => {
+            group.features.forEach(feature => {
+                if (feature.read) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Read, isGranted: true });
+                if (feature.write) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Write, isGranted: true });
+                if (feature.delete) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Delete, isGranted: true });
+
+                feature.customPermissions.forEach(() => {
+                    updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.None, isGranted: true });
                 });
             });
+        });
 
-            await roleStore.updateRolePermissions(roleId.value!, updatedPermissions);
-            notify.showSuccess("Permissions updated successfully!");
-        } catch (error) {
-            notify.showError(error, "Failed to update permissions");
-        } finally {
-            loading.value = false;
-        }
-    };
+        await roleStore.updateRolePermissions(roleId.value!, updatedPermissions);
+        notify.showSuccess("Permissions updated successfully!");
+    } catch (error) {
+        notify.showError(error, "Failed to update permissions");
+    } finally {
+        loading.value = false;
+    }
+};
 
-    const goBack = () => {
-        router.push({ name: "roles-list" });
-    };
+const goBack = () => {
+    router.push({ name: "roles-list" });
+};
 </script>
 
 <template>
     <div class="card">
-        <div class="flex justify-content-between align-items-center mb-4">
+        <!-- Header & Toolbar -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
             <div>
-                <Button
-                    icon="pi pi-arrow-left"
-                    label="Back to Roles"
-                    text
-                    @click="goBack"
-                />
-                <h2 class="mt-2 mb-0">Permissions for {{ roleName }}</h2>
+                <div class="flex items-center gap-2 text-surface-500 dark:text-surface-400 mb-1 cursor-pointer hover:text-primary transition-colors" @click="goBack">
+                    <i class="pi pi-arrow-left text-sm"></i>
+                    <span class="text-sm font-medium">Back to Roles</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                        <i class="pi pi-shield text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold m-0">{{ roleName }}</h2>
+                        <span class="text-sm text-surface-500">Manage role permissions and access levels</span>
+                    </div>
+                </div>
             </div>
-            <Button
-                label="Save Changes"
-                icon="pi pi-save"
-                :loading="loading"
-                @click="updatePermissions"
-            />
+            
+            <div class="flex items-center gap-2">
+                <Button
+                    label="Save Changes"
+                    icon="pi pi-check"
+                    :loading="loading"
+                    @click="updatePermissions"
+                />
+            </div>
         </div>
 
-        <ProgressSpinner v-if="loading" />
+        <!-- Search & Global Controls -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3 bg-surface-50 dark:bg-surface-900 p-3 rounded-border border border-surface-200 dark:border-surface-700">
+            <IconField iconPosition="left" class="w-full sm:w-auto">
+                <InputIcon>
+                    <i class="pi pi-search" />
+                </InputIcon>
+                <InputText 
+                    v-model="searchQuery" 
+                    placeholder="Search features..." 
+                    class="w-full sm:w-80" 
+                />
+            </IconField>
+            
+            <div class="flex gap-2">
+                <Button 
+                    label="Expand All" 
+                    icon="pi pi-angle-double-down" 
+                    size="small" 
+                    severity="secondary" 
+                    text 
+                    @click="expandAll" 
+                />
+                <Button 
+                    label="Collapse All" 
+                    icon="pi pi-angle-double-up" 
+                    size="small" 
+                    severity="secondary" 
+                    text 
+                    @click="collapseAll" 
+                />
+            </div>
+        </div>
 
-        <div v-else-if="editablePermissionSchema">
-            <Accordion :activeIndex="0">
+        <ProgressSpinner v-if="loading && !editableSchema" class="flex justify-center my-8" />
+
+        <div v-else-if="editableSchema && filteredGroups.length > 0">
+            <Accordion :multiple="true" :activeIndex="activeAccordionIndices">
                 <AccordionTab
-                    v-for="group in editablePermissionSchema.groups"
+                    v-for="group in filteredGroups"
                     :key="group.groupName"
-                    :header="group.groupName"
                 >
-                    <DataTable :value="group.features">
-                        <Column
-                            field="description"
-                            header="Feature"
-                            style="min-width: 150px"
-                        >
+                    <template #header>
+                        <div class="flex align-items-center justify-content-between w-full pr-4">
+                            <span class="font-bold">{{ group.groupName }}</span>
+                            <Badge 
+                                :value="getActiveCount(group)" 
+                                :severity="getActiveCount(group) > 0 ? 'success' : 'secondary'" 
+                            ></Badge>
+                        </div>
+                    </template>
+                    
+                    <DataTable 
+                        :value="group.features" 
+                        stripedRows 
+                        size="small"
+                        class="p-datatable-sm"
+                    >
+                        <Column field="description" header="Feature" style="min-width: 250px">
                             <template #body="slotProps">
-                                {{ slotProps.data.description }} ({{ slotProps.data.code }})
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-surface-900 dark:text-surface-0">{{ slotProps.data.description }}</span>
+                                    <span class="text-xs text-surface-500">{{ slotProps.data.code }}</span>
+                                </div>
                             </template>
                         </Column>
-                        <Column header="Read">
+                        
+                        <!-- Full Access Toggle -->
+                        <Column header="All" headerClass="text-center" bodyClass="text-center" style="width: 80px">
                             <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.read"
-                                    binary
+                                <Checkbox 
+                                    :modelValue="isFullAccess(slotProps.data)" 
+                                    @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)" 
+                                    binary 
+                                    v-tooltip.top="'Toggle All Actions'"
                                 />
                             </template>
                         </Column>
-                        <Column header="Write">
+
+                        <Column header="Read" headerClass="text-center" bodyClass="text-center" style="width: 80px">
                             <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.write"
-                                    binary
-                                />
+                                <Checkbox v-model="slotProps.data.read" binary />
                             </template>
                         </Column>
-                        <Column header="Delete">
+                        <Column header="Write" headerClass="text-center" bodyClass="text-center" style="width: 80px">
                             <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.delete"
-                                    binary
-                                />
+                                <Checkbox v-model="slotProps.data.write" binary />
                             </template>
                         </Column>
-                        <Column header="Custom">
+                        <Column header="Delete" headerClass="text-center" bodyClass="text-center" style="width: 80px">
                             <template #body="slotProps">
-                                <div v-if="slotProps.data.customPermissions && slotProps.data.customPermissions.length">
+                                <Checkbox v-model="slotProps.data.delete" binary />
+                            </template>
+                        </Column>
+                        <Column header="Custom" style="min-width: 100px">
+                            <template #body="slotProps">
+                                <div v-if="slotProps.data.customPermissions && slotProps.data.customPermissions.length" class="flex gap-1 flex-wrap">
                                     <Tag
                                         v-for="perm in slotProps.data.customPermissions"
                                         :key="perm"
                                         :value="perm"
-                                        severity="secondary"
-                                        class="mr-1"
+                                        severity="info"
+                                        class="text-xs"
                                     />
                                 </div>
-                                <span v-else>-</span>
                             </template>
                         </Column>
                     </DataTable>
                 </AccordionTab>
             </Accordion>
         </div>
-        <Message
-            v-else
-            severity="info"
-            >No permissions schema available for this role.</Message
-        >
+        
+        <div v-else-if="editableSchema && filteredGroups.length === 0" class="text-center py-8">
+            <i class="pi pi-filter-slash text-4xl text-surface-400 mb-3"></i>
+            <p class="text-lg text-surface-600">No permissions found matching "{{ searchQuery }}".</p>
+            <Button label="Clear Search" size="small" outlined class="mt-2" @click="searchQuery = ''" />
+        </div>
+        
+        <Message v-else severity="info">No permissions schema available for this role.</Message>
     </div>
 </template>
+
+<style scoped>
+:deep(.p-accordion-header-link) {
+    background-color: var(--surface-50);
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+}
+:deep(.p-accordion-content) {
+    border: none;
+    padding: 0 0 1rem 0;
+}
+:deep(.p-accordion-tab-active .p-accordion-header-link) {
+    background-color: var(--surface-100);
+    color: var(--primary-color);
+}
+</style>
