@@ -9,9 +9,7 @@
         {
             label: "Security",
             icon: "pi pi-fw pi-shield",
-            items: [
-                { label: "Roles & Permissions", to: "/admin/roles" },
-            ],
+            items: [{ label: "Roles & Permissions", to: "/admin/roles" }],
         },
     ];
 
