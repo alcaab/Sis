@@ -65,6 +65,7 @@ namespace Desyco.Iam.Infrastructure.Persistence.Context;
                 b.HasIndex(f => f.Code).IsUnique(); // Código de Feature debe ser único
                 b.Property(f => f.Description).HasMaxLength(256);
                 b.Property(f => f.Group).HasMaxLength(100);
+                b.Property(f => f.CustomPermissions).HasMaxLength(500); // Comma-separated list
             });
 
             builder.Entity<ApplicationUserClaim>(b =>

@@ -10,5 +10,7 @@ public class FeaturePermission
 
     public PermissionAction Action { get; set; }
 
+    public string? CustomActionName { get; set; }
+
     public bool IsGranted { get; set; }
 }

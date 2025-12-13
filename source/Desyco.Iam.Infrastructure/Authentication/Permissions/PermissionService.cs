@@ -54,38 +54,72 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        // Get existing claims for the role (including non-granular for preservation)
+        // Get existing granular claims for the role
         var existingClaims = await dbContext.RoleClaims
-            .Where(rc => rc.RoleId == roleId)
+            .Where(rc => rc.RoleId == roleId && rc.FeatureId != null)
             .ToListAsync();
 
-        // Separate granular claims
-        var existingGranularClaims = existingClaims.Where(rc => rc.FeatureId != null).ToList();
-        var otherClaims = existingClaims.Where(rc => rc.FeatureId == null).ToList(); // Claims not related to features
-
-        // Remove old granular permissions that are no longer granted
-        foreach (var existingClaim in from existingClaim in existingGranularClaims let matchingUpdate = updatedPermissions.FirstOrDefault(up =>
-                     up.FeatureId == existingClaim.FeatureId &&
-                     up.Action == existingClaim.PermissionAction) where matchingUpdate is not { IsGranted: true } select existingClaim)
+        // 1. Identify Claims to Remove
+        // A claim should be removed if it is NOT present in the updatedPermissions list (considering IsGranted state).
+        var claimsToRemove = new List<ApplicationRoleClaim>();
+        
+        foreach (var claim in existingClaims)
         {
-            dbContext.RoleClaims.Remove(existingClaim);
+            // Try to find a matching entry in the incoming list
+            var match = updatedPermissions.FirstOrDefault(up => 
+                up.FeatureId == claim.FeatureId &&
+                (
+                    // Match standard permission (Action matches)
+                    (up.Action != PermissionAction.None && up.Action == claim.PermissionAction) ||
+                    // Match custom permission (Action is None, match by name suffix in ClaimValue)
+                    (up.Action == PermissionAction.None && (claim.PermissionAction == null || claim.PermissionAction == PermissionAction.None) &&
+                     !string.IsNullOrEmpty(up.CustomActionName) &&
+                     claim.ClaimValue!.EndsWith($".{up.CustomActionName}", StringComparison.OrdinalIgnoreCase))
+                )
+            );
+
+            // If no match found in request, or found but explicitly revoked (IsGranted=false) -> Remove
+            if (match == null || !match.IsGranted)
+            {
+                claimsToRemove.Add(claim);
+            }
+        }
+        
+        if (claimsToRemove.Count != 0) 
+        {
+            dbContext.RoleClaims.RemoveRange(claimsToRemove);
         }
 
-        // Add new granular permissions
-        foreach (var newClaim in from updatedPermission in updatedPermissions where updatedPermission.IsGranted let exists = existingGranularClaims.Any(rc =>
-                     rc.FeatureId == updatedPermission.FeatureId &&
-                     rc.PermissionAction == updatedPermission.Action) where !exists select new ApplicationRoleClaim
-                 {
-                     Id = 0, // Id will be set by DB
-                     RoleId = roleId,
-                     ClaimType = "Permission", // Standard claim type for permissions
-                     ClaimValue = $"Permissions.{updatedPermission.FeatureCode}.{updatedPermission.Action}", // Example: Permissions.AcademicYears.Read
-                     FeatureId = updatedPermission.FeatureId,
-                     PermissionAction = updatedPermission.Action,
-                     Description = $"Claim for {updatedPermission.FeatureCode} {updatedPermission.Action}" // Placeholder
-                 })
+        // 2. Identify Permissions to Add
+        foreach (var up in updatedPermissions.Where(u => u.IsGranted))
         {
-            await dbContext.RoleClaims.AddAsync(newClaim);
+            // Check if this permission already exists in the database
+            bool exists = existingClaims.Any(claim => 
+                claim.FeatureId == up.FeatureId &&
+                (
+                    (up.Action != PermissionAction.None && up.Action == claim.PermissionAction) ||
+                    (up.Action == PermissionAction.None && (claim.PermissionAction == null || claim.PermissionAction == PermissionAction.None) &&
+                     !string.IsNullOrEmpty(up.CustomActionName) &&
+                     claim.ClaimValue!.EndsWith($".{up.CustomActionName}", StringComparison.OrdinalIgnoreCase))
+                )
+            );
+
+            // If it doesn't exist (and wasn't just marked for removal above - which it wouldn't be if it exists), add it.
+            // Note: If it existed but was marked for removal, it means IsGranted=false, so we skip this loop anyway.
+            if (!exists)
+            {
+                var actionName = up.Action != PermissionAction.None ? up.Action.ToString() : up.CustomActionName;
+                
+                await dbContext.RoleClaims.AddAsync(new ApplicationRoleClaim
+                {
+                    RoleId = roleId,
+                    ClaimType = "Permission",
+                    ClaimValue = $"Permissions.{up.FeatureCode}.{actionName}",
+                    FeatureId = up.FeatureId,
+                    PermissionAction = up.Action, // Will be None (0) for custom
+                    Description = $"Claim for {up.FeatureCode} {actionName}"
+                });
+            }
         }
 
         await dbContext.SaveChangesAsync();
@@ -158,6 +192,9 @@ public class PermissionService(
                 let customPermissions = featureClaims.Where(c => c.PermissionAction == null || c.PermissionAction == PermissionAction.None)
                     .Select(c => c.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
                     .ToList()
+                let availableCustomPermissions = string.IsNullOrEmpty(feature.CustomPermissions) 
+                    ? [] 
+                    : feature.CustomPermissions.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
                 select new PermissionItemDto
                 {
                     FeatureId = feature.Id,
@@ -166,7 +203,8 @@ public class PermissionService(
                     Read = canRead,
                     Write = canWrite,
                     Delete = canDelete,
-                    CustomPermissions = customPermissions
+                    CustomPermissions = customPermissions,
+                    AvailableCustomPermissions = availableCustomPermissions
                 }).ToList();
 
             permissionGroups.Add(new PermissionGroupDto

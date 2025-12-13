@@ -9,22 +9,36 @@ public class FeatureSeeder(IamDbContext context)
 {
     public async Task SeedAsync()
     {
-        if (!await context.Features.AnyAsync())
+        var features = new List<Feature>
         {
-            var features = new List<Feature>
-            {
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.AcademicYears.Code, Description = "feature.academicyears", Group = "Academic", Order = 100 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Students.Code, Description = "feature.students", Group = "Academic", Order = 200 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Teachers.Code, Description = "feature.teachers", Group = "Academic", Order = 300 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Classrooms.Code, Description = "feature.classrooms", Group = "Academic", Order = 400 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Enrollments.Code, Description = "feature.enrollments", Group = "Academic", Order = 500 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Security.Code, Description = "feature.permissions", Group = "Administration", Order = 1000 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Users.Code, Description = "feature.users", Group = "Administration", Order = 1100 },
-                new Feature { Id = Guid.NewGuid(), Code = Permissions.Roles.Code, Description = "feature.roles", Group = "Administration", Order = 1200 }
-            };
+            new Feature { Code = Permissions.AcademicYears.Code, Description = "feature.academicyears", Group = "Academic", Order = 100 },
+            new Feature { Code = Permissions.Students.Code, Description = "feature.students", Group = "Academic", Order = 200, CustomPermissions = "Export" },
+            new Feature { Code = Permissions.Teachers.Code, Description = "feature.teachers", Group = "Academic", Order = 300 },
+            new Feature { Code = Permissions.Classrooms.Code, Description = "feature.classrooms", Group = "Academic", Order = 400 },
+            new Feature { Code = Permissions.Enrollments.Code, Description = "feature.enrollments", Group = "Academic", Order = 500, CustomPermissions = "Approve,Reject" },
+            new Feature { Code = Permissions.Security.Code, Description = "feature.permissions", Group = "Administration", Order = 1000 },
+            new Feature { Code = Permissions.Users.Code, Description = "feature.users", Group = "Administration", Order = 1100 },
+            new Feature { Code = Permissions.Roles.Code, Description = "feature.roles", Group = "Administration", Order = 1200 }
+        };
 
-            await context.Features.AddRangeAsync(features);
-            await context.SaveChangesAsync();
+        foreach (var feature in features)
+        {
+            var existing = await context.Features.FirstOrDefaultAsync(f => f.Code == feature.Code);
+            if (existing == null)
+            {
+                feature.Id = Guid.NewGuid();
+                await context.Features.AddAsync(feature);
+            }
+            else
+            {
+                // Update existing
+                existing.Description = feature.Description;
+                existing.Group = feature.Group;
+                existing.Order = feature.Order;
+                existing.CustomPermissions = feature.CustomPermissions;
+            }
         }
+
+        await context.SaveChangesAsync();
     }
 }

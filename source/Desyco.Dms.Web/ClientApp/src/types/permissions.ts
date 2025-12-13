@@ -27,7 +27,8 @@ export interface PermissionItem {
     read: boolean;
     write: boolean;
     delete: boolean;
-    customPermissions: string[]; // e.g., ["Print"]
+    customPermissions: string[]; // e.g., ["Print"] - Granted ones
+    availableCustomPermissions: string[]; // e.g., ["Approve", "Reject"] - Possible ones
 }
 
 // Corresponds to FeatureDto in C#
@@ -44,6 +45,7 @@ export interface FeaturePermission {
     featureId: string; // Guid
     featureCode: string;
     action: PermissionAction;
+    customActionName?: string; // For custom actions (when Action is None)
     isGranted: boolean;
 }
 

@@ -12,5 +12,10 @@ public class Feature
 
     public int Order { get; set; }
 
+    /// <summary>
+    /// Comma-separated list of available custom permissions (e.g., "Approve,Export,Print").
+    /// </summary>
+    public string? CustomPermissions { get; set; }
+
     // Navigation properties for claims if needed, not directly here.
 }

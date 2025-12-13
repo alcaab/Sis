@@ -15,4 +15,6 @@ public record PermissionItemDto
     public bool Delete { get; init; }
 
     public List<string> CustomPermissions { get; init; } = [];
+
+    public List<string> AvailableCustomPermissions { get; init; } = [];
 }
