@@ -147,13 +147,13 @@
         <Column
             field="name"
             header="Name"
-            sortable
+            :sortable="true"
             style="min-width: 12rem"
         ></Column>
         <Column
             field="description"
             header="Description"
-            sortable
+            :sortable="true"
             style="min-width: 16rem"
         ></Column>
         <Column
@@ -184,14 +184,14 @@
         </Column>
     </DataTable>
 
-    <Dialog
-        v-model:visible="roleDialog"
-        :style="{ width: '450px' }"
-        header="Role Details"
-        :modal="true"
-        class="p-fluid"
-    >
-        <RoleForm
+                    <Dialog
+                        v-model:visible="roleDialog"
+                        :style="{ width: '50vw' }"
+                        :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+                        header="Role Details"
+                        :modal="true"
+                        class="p-fluid"
+                    >        <RoleForm
             :initialData="selectedRole"
             :submitted="submitted"
             :loading="loading"
