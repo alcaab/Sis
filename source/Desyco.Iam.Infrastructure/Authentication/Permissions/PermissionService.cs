@@ -64,42 +64,28 @@ public class PermissionService(
         var otherClaims = existingClaims.Where(rc => rc.FeatureId == null).ToList(); // Claims not related to features
 
         // Remove old granular permissions that are no longer granted
-        foreach (var existingClaim in existingGranularClaims)
+        foreach (var existingClaim in from existingClaim in existingGranularClaims let matchingUpdate = updatedPermissions.FirstOrDefault(up =>
+                     up.FeatureId == existingClaim.FeatureId &&
+                     up.Action == existingClaim.PermissionAction) where matchingUpdate is not { IsGranted: true } select existingClaim)
         {
-            var matchingUpdate = updatedPermissions.FirstOrDefault(up =>
-                up.FeatureId == existingClaim.FeatureId &&
-                up.Action == existingClaim.PermissionAction);
-
-            if (matchingUpdate == null || !matchingUpdate.IsGranted)
-            {
-                dbContext.RoleClaims.Remove(existingClaim);
-            }
+            dbContext.RoleClaims.Remove(existingClaim);
         }
 
         // Add new granular permissions
-        foreach (var updatedPermission in updatedPermissions)
+        foreach (var newClaim in from updatedPermission in updatedPermissions where updatedPermission.IsGranted let exists = existingGranularClaims.Any(rc =>
+                     rc.FeatureId == updatedPermission.FeatureId &&
+                     rc.PermissionAction == updatedPermission.Action) where !exists select new ApplicationRoleClaim
+                 {
+                     Id = 0, // Id will be set by DB
+                     RoleId = roleId,
+                     ClaimType = "Permission", // Standard claim type for permissions
+                     ClaimValue = $"Permissions.{updatedPermission.FeatureCode}.{updatedPermission.Action}", // Example: Permissions.AcademicYears.Read
+                     FeatureId = updatedPermission.FeatureId,
+                     PermissionAction = updatedPermission.Action,
+                     Description = $"Claim for {updatedPermission.FeatureCode} {updatedPermission.Action}" // Placeholder
+                 })
         {
-            if (updatedPermission.IsGranted)
-            {
-                var exists = existingGranularClaims.Any(rc =>
-                    rc.FeatureId == updatedPermission.FeatureId &&
-                    rc.PermissionAction == updatedPermission.Action);
-
-                if (!exists)
-                {
-                    var newClaim = new ApplicationRoleClaim
-                    {
-                        Id = 0, // Id will be set by DB
-                        RoleId = roleId,
-                        ClaimType = "Permission", // Standard claim type for permissions
-                        ClaimValue = $"Permissions.{updatedPermission.FeatureCode}.{updatedPermission.Action}", // Example: Permissions.AcademicYears.Read
-                        FeatureId = updatedPermission.FeatureId,
-                        PermissionAction = updatedPermission.Action,
-                        Description = $"Claim for {updatedPermission.FeatureCode} {updatedPermission.Action}" // Placeholder
-                    };
-                    await dbContext.RoleClaims.AddAsync(newClaim);
-                }
-            }
+            await dbContext.RoleClaims.AddAsync(newClaim);
         }
 
         await dbContext.SaveChangesAsync();
@@ -166,22 +152,15 @@ public class PermissionService(
 
         foreach (var group in features.GroupBy(f => f.Group).OrderBy(g => g.Key))
         {
-            var featuresInGroup = new List<PermissionItemDto>();
-
-            foreach (var feature in group)
-            {
-                var featureClaims = claimsByFeature[feature.Id].ToList();
-
-                var canRead = featureClaims.Any(c => c.PermissionAction == PermissionAction.Read);
-                var canWrite = featureClaims.Any(c => c.PermissionAction == PermissionAction.Write);
-                var canDelete = featureClaims.Any(c => c.PermissionAction == PermissionAction.Delete);
-
-                var customPermissions = featureClaims
-                    .Where(c => c.PermissionAction == null || c.PermissionAction == PermissionAction.None)
+            var featuresInGroup = (from feature in @group
+                let featureClaims = claimsByFeature[feature.Id].ToList()
+                let canRead = featureClaims.Any(c => c.PermissionAction == PermissionAction.Read)
+                let canWrite = featureClaims.Any(c => c.PermissionAction == PermissionAction.Write)
+                let canDelete = featureClaims.Any(c => c.PermissionAction == PermissionAction.Delete)
+                let customPermissions = featureClaims.Where(c => c.PermissionAction == null || c.PermissionAction == PermissionAction.None)
                     .Select(c => c.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
-                    .ToList();
-                
-                featuresInGroup.Add(new PermissionItemDto
+                    .ToList()
+                select new PermissionItemDto
                 {
                     FeatureId = feature.Id,
                     Code = feature.Code,
@@ -190,8 +169,7 @@ public class PermissionService(
                     Write = canWrite,
                     Delete = canDelete,
                     CustomPermissions = customPermissions
-                });
-            }
+                }).ToList();
 
             permissionGroups.Add(new PermissionGroupDto
             {
