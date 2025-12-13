@@ -81,78 +81,93 @@
     // Helper to count active permissions in a group
     const getActiveCount = (group: PermissionGroup) => {
         let count = 0;
-        group.features.forEach((f) => {
+        group.features.forEach(f => {
             if (f.read) count++;
             if (f.write) count++;
             if (f.delete) count++;
+            if (f.customPermissions) count += f.customPermissions.length;
         });
         return count;
     };
-
+    
     // Toggle "Full Access" for a row
     const toggleFullAccess = (item: any, value: boolean) => {
         item.read = value;
         item.write = value;
         item.delete = value;
+        
+        if (item.availableCustomPermissions) {
+            if (value) {
+                item.customPermissions = [...item.availableCustomPermissions];
+            } else {
+                item.customPermissions = [];
+            }
+        }
     };
-
+    
     const isFullAccess = (item: any) => {
-        return item.read && item.write && item.delete;
+        const standard = item.read && item.write && item.delete;
+        const custom = !item.availableCustomPermissions || 
+                       (item.availableCustomPermissions.length > 0 && 
+                        item.customPermissions && 
+                        item.availableCustomPermissions.every((p: string) => item.customPermissions.includes(p)));
+        return standard && custom;
     };
-
+    
+    const isCustomGranted = (feature: any, permName: string) => {
+        return feature.customPermissions && feature.customPermissions.includes(permName);
+    };
+    
+    const toggleCustom = (feature: any, permName: string, value: boolean) => {
+        if (!feature.customPermissions) feature.customPermissions = [];
+        
+        if (value) {
+            if (!feature.customPermissions.includes(permName)) {
+                feature.customPermissions.push(permName);
+            }
+        } else {
+            feature.customPermissions = feature.customPermissions.filter((p: string) => p !== permName);
+        }
+    };
+    
     const expandAll = () => {
         if (editableSchema.value) {
             activeAccordionIndices.value = editableSchema.value.groups.map((_, i) => i);
         }
     };
-
+    
     const collapseAll = () => {
         activeAccordionIndices.value = [];
     };
-
+    
     const updatePermissions = async () => {
         loading.value = true;
         try {
             if (!editableSchema.value) return;
-
+    
             const updatedPermissions: FeaturePermission[] = [];
-
+    
             // Iterate over the FULL schema (editableSchema), not the filtered view
-            editableSchema.value.groups.forEach((group) => {
-                group.features.forEach((feature) => {
-                    if (feature.read)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Read,
-                            isGranted: true,
+            editableSchema.value.groups.forEach(group => {
+                group.features.forEach(feature => {
+                    if (feature.read) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Read, isGranted: true });
+                    if (feature.write) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Write, isGranted: true });
+                    if (feature.delete) updatedPermissions.push({ featureId: feature.featureId, featureCode: feature.code, action: PermissionAction.Delete, isGranted: true });
+    
+                    if (feature.customPermissions && feature.customPermissions.length > 0) {
+                        feature.customPermissions.forEach((permName: string) => {
+                            updatedPermissions.push({ 
+                                featureId: feature.featureId, 
+                                featureCode: feature.code, 
+                                action: PermissionAction.None, 
+                                customActionName: permName,
+                                isGranted: true 
+                            });
                         });
-                    if (feature.write)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Write,
-                            isGranted: true,
-                        });
-                    if (feature.delete)
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.Delete,
-                            isGranted: true,
-                        });
-
-                    feature.customPermissions.forEach(() => {
-                        updatedPermissions.push({
-                            featureId: feature.featureId,
-                            featureCode: feature.code,
-                            action: PermissionAction.None,
-                            isGranted: true,
-                        });
-                    });
+                    }
                 });
             });
-
+    
             await roleStore.updateRolePermissions(roleId.value!, updatedPermissions);
             notify.showSuccess("Permissions updated successfully!");
         } catch (error) {
@@ -161,208 +176,156 @@
             loading.value = false;
         }
     };
-
+    
     const goBack = () => {
         router.push({ name: "roles-list" });
     };
-</script>
-
-<template>
-    <div class="card">
-        <!-- Header & Toolbar -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
-            <div>
-                <div
-                    class="flex items-center gap-2 text-surface-500 dark:text-surface-400 mb-1 cursor-pointer hover:text-primary transition-colors"
-                    @click="goBack"
-                >
-                    <i class="pi pi-arrow-left text-sm"></i>
-                    <span class="text-sm font-medium">Back to Roles</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                        <i class="pi pi-shield text-xl"></i>
+    </script>
+    
+    <template>
+        <div class="card">
+            <!-- Header & Toolbar -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-surface-500 dark:text-surface-400 mb-1 cursor-pointer hover:text-primary transition-colors" @click="goBack">
+                        <i class="pi pi-arrow-left text-sm"></i>
+                        <span class="text-sm font-medium">Back to Roles</span>
                     </div>
-                    <div>
-                        <h2 class="text-xl font-bold m-0">{{ roleName }}</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <Button
-                    label="Save Changes"
-                    icon="pi pi-check"
-                    :loading="loading"
-                    @click="updatePermissions"
-                />
-            </div>
-        </div>
-
-        <!-- Search & Global Controls -->
-        <div
-            class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3 bg-surface-50 dark:bg-surface-900 p-3 rounded-border border border-surface-200 dark:border-surface-700"
-        >
-            <IconField
-                iconPosition="left"
-                class="w-full sm:w-auto"
-            >
-                <InputIcon>
-                    <i class="pi pi-search" />
-                </InputIcon>
-                <InputText
-                    v-model="searchQuery"
-                    placeholder="Search features..."
-                    class="w-full sm:w-80"
-                />
-            </IconField>
-
-            <div class="flex gap-2">
-                <Button
-                    label="Expand All"
-                    icon="pi pi-angle-double-down"
-                    size="small"
-                    severity="secondary"
-                    text
-                    @click="expandAll"
-                />
-                <Button
-                    label="Collapse All"
-                    icon="pi pi-angle-double-up"
-                    size="small"
-                    severity="secondary"
-                    text
-                    @click="collapseAll"
-                />
-            </div>
-        </div>
-
-        <ProgressSpinner
-            v-if="loading && !editableSchema"
-            class="flex justify-center my-8"
-        />
-
-        <div v-else-if="editableSchema && filteredGroups.length > 0">
-            <Accordion
-                :multiple="true"
-                :activeIndex="activeAccordionIndices"
-            >
-                <AccordionTab
-                    v-for="group in filteredGroups"
-                    :key="group.groupName"
-                >
-                    <template #header>
-                        <div class="flex align-items-center justify-content-between w-full pr-4">
-                            <span class="font-bold">{{ group.groupName }}</span>
-                            <Badge
-                                :value="getActiveCount(group)"
-                                :severity="getActiveCount(group) > 0 ? undefined : 'secondary'"
-                                class="ml-2"
-                            ></Badge>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                            <i class="pi pi-shield text-xl"></i>
                         </div>
-                    </template>
-
-                    <DataTable
-                        :value="group.features"
-                        stripedRows
-                        size="small"
-                        class="p-datatable-sm"
+                        <div>
+                            <h2 class="text-xl font-bold m-0">{{ roleName }}</h2>
+                            <span class="text-sm text-surface-500">Manage role permissions and access levels</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <Button
+                        label="Save Changes"
+                        icon="pi pi-check"
+                        :loading="loading"
+                        @click="updatePermissions"
+                    />
+                </div>
+            </div>
+    
+            <!-- Search & Global Controls -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3 bg-surface-50 dark:bg-surface-900 p-3 rounded-border border border-surface-200 dark:border-700">
+                <IconField iconPosition="left" class="w-full sm:w-auto">
+                    <InputIcon>
+                        <i class="pi pi-search" />
+                    </InputIcon>
+                    <InputText 
+                        v-model="searchQuery" 
+                        placeholder="Search features..." 
+                        class="w-full sm:w-80" 
+                    />
+                </IconField>
+                
+                <div class="flex gap-2">
+                    <Button 
+                        label="Expand All" 
+                        icon="pi pi-angle-double-down" 
+                        size="small" 
+                        severity="secondary" 
+                        text 
+                        @click="expandAll" 
+                    />
+                    <Button 
+                        label="Collapse All" 
+                        icon="pi pi-angle-double-up" 
+                        size="small" 
+                        severity="secondary" 
+                        text 
+                        @click="collapseAll" 
+                    />
+                </div>
+            </div>
+    
+            <ProgressSpinner v-if="loading && !editableSchema" class="flex justify-center my-8" />
+    
+            <div v-else-if="editableSchema && filteredGroups.length > 0">
+                <Accordion :multiple="true" :activeIndex="activeAccordionIndices">
+                    <AccordionTab
+                        v-for="group in filteredGroups"
+                        :key="group.groupName"
                     >
-                        <Column
-                            field="description"
-                            header="Feature"
-                            style="min-width: 250px"
+                        <template #header>
+                            <div class="flex align-items-center justify-content-between w-full pr-4">
+                                <span class="font-bold">{{ group.groupName }}</span>
+                                <Badge 
+                                    :value="getActiveCount(group)" 
+                                    :severity="getActiveCount(group) > 0 ? undefined : 'secondary'" 
+                                    class="ml-2"
+                                ></Badge>
+                            </div>
+                        </template>
+                        
+                        <DataTable 
+                            :value="group.features" 
+                            stripedRows 
+                            size="small"
+                            class="p-datatable-sm"
                         >
-                            <template #body="slotProps">
-                                <div class="flex flex-col">
-                                    <span class="font-medium text-surface-900 dark:text-surface-0">{{
-                                        slotProps.data.description
-                                    }}</span>
-                                    <span class="text-xs text-surface-500">{{ slotProps.data.code }}</span>
-                                </div>
-                            </template>
-                        </Column>
-
-                        <!-- Full Access Toggle -->
-                        <Column
-                            header="All"
-                            headerClass="text-center"
-                            bodyClass="text-center"
-                            style="width: 80px"
-                        >
-                            <template #body="slotProps">
-                                <Checkbox
-                                    :modelValue="isFullAccess(slotProps.data)"
-                                    @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)"
-                                    binary
-                                    v-tooltip.top="'Toggle All Actions'"
-                                />
-                            </template>
-                        </Column>
-
-                        <Column
-                            header="Read"
-                            headerClass="text-center"
-                            bodyClass="text-center"
-                            style="width: 80px"
-                        >
-                            <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.read"
-                                    binary
-                                />
-                            </template>
-                        </Column>
-                        <Column
-                            header="Write"
-                            headerClass="text-center"
-                            bodyClass="text-center"
-                            style="width: 80px"
-                        >
-                            <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.write"
-                                    binary
-                                />
-                            </template>
-                        </Column>
-                        <Column
-                            header="Delete"
-                            headerClass="text-center"
-                            bodyClass="text-center"
-                            style="width: 80px"
-                        >
-                            <template #body="slotProps">
-                                <Checkbox
-                                    v-model="slotProps.data.delete"
-                                    binary
-                                />
-                            </template>
-                        </Column>
-                        <Column
-                            header="Custom"
-                            style="min-width: 100px"
-                        >
-                            <template #body="slotProps">
-                                <div
-                                    v-if="slotProps.data.customPermissions && slotProps.data.customPermissions.length"
-                                    class="flex gap-1 flex-wrap"
-                                >
-                                    <Tag
-                                        v-for="perm in slotProps.data.customPermissions"
-                                        :key="perm"
-                                        :value="perm"
-                                        severity="info"
-                                        class="text-xs"
+                            <Column field="description" header="Feature" style="min-width: 250px">
+                                <template #body="slotProps">
+                                    <div class="flex flex-col">
+                                        <span class="font-medium text-surface-900 dark:text-surface-0">{{ slotProps.data.description }}</span>
+                                        <span class="text-xs text-surface-500">{{ slotProps.data.code }}</span>
+                                    </div>
+                                </template>
+                            </Column>
+                            
+                            <!-- Full Access Toggle -->
+                            <Column header="All" headerClass="text-center" bodyClass="text-center" style="width: 80px">
+                                <template #body="slotProps">
+                                    <Checkbox 
+                                        :modelValue="isFullAccess(slotProps.data)" 
+                                        @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)" 
+                                        binary 
+                                        v-tooltip.top="'Toggle All Actions'"
                                     />
-                                </div>
-                            </template>
-                        </Column>
-                    </DataTable>
-                </AccordionTab>
-            </Accordion>
-        </div>
-
+                                </template>
+                            </Column>
+    
+                            <Column header="Read" headerClass="text-center" bodyClass="text-center" style="width: 80px">
+                                <template #body="slotProps">
+                                    <Checkbox v-model="slotProps.data.read" binary />
+                                </template>
+                            </Column>
+                            <Column header="Write" headerClass="text-center" bodyClass="text-center" style="width: 80px">
+                                <template #body="slotProps">
+                                    <Checkbox v-model="slotProps.data.write" binary />
+                                </template>
+                            </Column>
+                            <Column header="Delete" headerClass="text-center" bodyClass="text-center" style="width: 80px">
+                                <template #body="slotProps">
+                                    <Checkbox v-model="slotProps.data.delete" binary />
+                                </template>
+                            </Column>
+                            <Column header="Custom" style="min-width: 200px">
+                                <template #body="slotProps">
+                                    <div v-if="slotProps.data.availableCustomPermissions && slotProps.data.availableCustomPermissions.length" class="flex gap-3 flex-wrap items-center">
+                                        <div v-for="perm in slotProps.data.availableCustomPermissions" :key="perm" class="flex items-center gap-1">
+                                            <Checkbox 
+                                                :inputId="`${slotProps.data.code}-${perm}`" 
+                                                :modelValue="isCustomGranted(slotProps.data, perm)"
+                                                @update:modelValue="(val) => toggleCustom(slotProps.data, perm, val)"
+                                                binary 
+                                            />
+                                            <label :for="`${slotProps.data.code}-${perm}`" class="text-sm cursor-pointer select-none">{{ perm }}</label>
+                                        </div>
+                                    </div>
+                                    <span v-else class="text-surface-400 text-xs italic"></span>
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </AccordionTab>
+                </Accordion>
+            </div>
         <div
             v-else-if="editableSchema && filteredGroups.length === 0"
             class="text-center py-8"
