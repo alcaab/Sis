@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "@/layout/AppLayout.vue";
 import schoolRoutes from "./modules/school";
+import adminRoutes from "./modules/admin";
 import { useAuthStore } from "@/stores/authStore";
 
 const router = createRouter({
@@ -9,7 +10,7 @@ const router = createRouter({
         {
             path: "/",
             component: AppLayout,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true }, // Protect all routes under AppLayout
             children: [
                 {
                     path: "/",
@@ -17,6 +18,7 @@ const router = createRouter({
                     component: () => import("@/views/Dashboard.vue"),
                 },
                 ...schoolRoutes,
+                ...adminRoutes,
                 {
                     path: "/uikit/formlayout",
                     name: "formlayout",
