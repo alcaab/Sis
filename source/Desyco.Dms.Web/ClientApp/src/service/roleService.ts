@@ -1,7 +1,7 @@
 import api from "./api";
 import type { RoleDto, CreateRoleDto, UpdateRoleDto } from "@/types/role";
 
-const ROLES_API_URL = "/api/roles";
+const ROLES_API_URL = "roles";
 
 export const roleService = {
     async getAll(): Promise<RoleDto[]> {
@@ -25,5 +25,5 @@ export const roleService = {
 
     async delete(id: string): Promise<void> {
         await api.delete(`${ROLES_API_URL}/${id}`);
-    }
+    },
 };

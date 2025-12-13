@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Desyco.Iam.Web.Controllers;
 
 [ApiController]
-[Route("api/roles")]
+[Route("api/v1/roles")]
 [Authorize]
 public class RolesController(IRoleService roleService) : ControllerBase
 {

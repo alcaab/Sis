@@ -1,11 +1,7 @@
 import api from "./api";
-import type {
-    PermissionSchema,
-    FeatureDto,
-    FeaturePermission,
-} from "@/types/permissions";
+import type { PermissionSchema, FeatureDto, FeaturePermission } from "@/types/permissions";
 
-const PERMISSIONS_API_URL = "/api/permissions";
+const PERMISSIONS_API_URL = "permissions";
 
 export const permissionService = {
     async getAllFeatures(): Promise<FeatureDto[]> {

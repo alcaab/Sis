@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Accordion: typeof import('primevue/accordion')['default']
+    AccordionTab: typeof import('primevue/accordiontab')['default']
     BestSellingWidget: typeof import('./src/components/dashboard/BestSellingWidget.vue')['default']
     BlockUI: typeof import('primevue/blockui')['default']
     BlockViewer: typeof import('./src/components/BlockViewer.vue')['default']
@@ -31,6 +33,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
     Menubar: typeof import('primevue/menubar')['default']
+    Message: typeof import('primevue/message')['default']
     NotificationsWidget: typeof import('./src/components/dashboard/NotificationsWidget.vue')['default']
     Password: typeof import('primevue/password')['default']
     PricingWidget: typeof import('./src/components/landing/PricingWidget.vue')['default']
@@ -43,6 +46,7 @@ declare module 'vue' {
     StatsWidget: typeof import('./src/components/dashboard/StatsWidget.vue')['default']
     TableActions: typeof import('./src/components/common/TableActions.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    Textarea: typeof import('primevue/textarea')['default']
     Toast: typeof import('primevue/toast')['default']
     Toolbar: typeof import('primevue/toolbar')['default']
     TopbarWidget: typeof import('./src/components/landing/TopbarWidget.vue')['default']
@@ -50,5 +54,6 @@ declare module 'vue' {
   export interface ComponentCustomProperties {
     Ripple: typeof import('primevue/ripple')['default']
     StyleClass: typeof import('primevue/styleclass')['default']
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

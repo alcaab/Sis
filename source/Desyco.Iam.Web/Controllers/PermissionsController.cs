@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Desyco.Iam.Web.Controllers;
 
 [ApiController]
-[Route("api/permissions")]
+[Route("api/v1/permissions")]
 [Authorize]
 public class PermissionsController(IPermissionService permissionService) : ControllerBase
 {

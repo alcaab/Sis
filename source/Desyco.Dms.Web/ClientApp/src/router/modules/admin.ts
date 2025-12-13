@@ -5,6 +5,7 @@ const adminRoutes: RouteRecordRaw[] = [
         path: "/admin",
         name: "admin",
         redirect: { name: "roles-list" },
+        component: () => import("@/views/admin/AdminSettings.vue"),
         meta: {
             breadcrumb: "Administration",
             requiresAuth: true,

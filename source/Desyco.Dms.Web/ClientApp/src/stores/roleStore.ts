@@ -79,7 +79,7 @@ export const useRoleStore = defineStore("role", () => {
         try {
             await permissionService.updateRolePermissions(roleId, permissions);
             // Optionally, re-fetch permissions to ensure store is updated
-            await fetchRolePermissions(roleId); 
+            await fetchRolePermissions(roleId);
         } catch (error) {
             console.error(`Failed to update permissions for role ${roleId}:`, error);
             throw error;
@@ -87,7 +87,7 @@ export const useRoleStore = defineStore("role", () => {
             loading.value = false;
         }
     }
-    
+
     // For Role Scope Management
     async function fetchAssignedFeatureIds(roleId: string): Promise<string[]> {
         loading.value = true;
@@ -117,7 +117,6 @@ export const useRoleStore = defineStore("role", () => {
             loading.value = false;
         }
     }
-
 
     return {
         roles,

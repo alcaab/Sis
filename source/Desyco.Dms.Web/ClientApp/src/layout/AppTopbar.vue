@@ -19,6 +19,11 @@
                     route: "/school-settings",
                 },
                 {
+                    label: "Roles & Permissions",
+                    icon: "pi pi-lock",
+                    route: "/admin",
+                },
+                {
                     label: "Blocks",
                     icon: "pi pi-server",
                 },
