@@ -8,7 +8,7 @@ public class TranslationConfiguration : IEntityTypeConfiguration<TranslationEnti
 {
     public void Configure(EntityTypeBuilder<TranslationEntity> builder)
     {
-        builder.ToTable("Translation", "dls");
+        builder.ToTable("Translation", "dls", e => e.ExcludeFromMigrations());
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Key)

@@ -14,9 +14,9 @@ public class PermissionsController(IPermissionService permissionService) : Contr
     [HttpGet("features")]
     [Authorize(Policy = Permissions.Security.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<FeatureDto>>> GetAllFeatures([FromQuery] string languageCode)
+    public async Task<ActionResult<List<FeatureDto>>> GetAllFeatures()
     {
-        var features = await permissionService.GetAllFeaturesAsync(languageCode);
+        var features = await permissionService.GetAllFeaturesAsync();
         return Ok(features);
     }
 
@@ -41,18 +41,18 @@ public class PermissionsController(IPermissionService permissionService) : Contr
     [HttpGet("schema/role/{roleId:guid}")]
     [Authorize(Policy = Permissions.Security.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForRole(Guid roleId, [FromQuery] string languageCode)
+    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForRole(Guid roleId)
     {
-        var permissionSchema = await permissionService.GetPermissionSchemaForRoleAsync(roleId, languageCode);
+        var permissionSchema = await permissionService.GetPermissionSchemaForRoleAsync(roleId);
         return Ok(permissionSchema);
     }
 
     [HttpGet("schema/user/{userId:guid}")]
     [Authorize(Policy = Permissions.Security.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForUser(Guid userId, [FromQuery] string languageCode)
+    public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForUser(Guid userId)
     {
-        var permissionSchema = await permissionService.GetPermissionSchemaForUserAsync(userId, languageCode);
+        var permissionSchema = await permissionService.GetPermissionSchemaForUserAsync(userId);
         return Ok(permissionSchema);
     }
 }

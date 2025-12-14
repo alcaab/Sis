@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Desyco.Iam.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdentity : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +17,29 @@ namespace Desyco.Iam.Infrastructure.Migrations
                 name: "dls");
 
             migrationBuilder.CreateTable(
+                name: "Features",
+                schema: "dls",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Group = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    CustomPermissions = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Features", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 schema: "dls",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -68,6 +87,9 @@ namespace Desyco.Iam.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FeatureId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PermissionAction = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -85,12 +107,41 @@ namespace Desyco.Iam.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                schema: "dls",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    JwtId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Used = table.Column<bool>(type: "bit", nullable: false),
+                    Invalidated = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dls",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 schema: "dls",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FeatureId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PermissionAction = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -178,6 +229,29 @@ namespace Desyco.Iam.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                schema: "dls",
+                table: "Language",
+                columns: new[] { "Id", "Code", "IsActive", "Name" },
+                values: new object[,]
+                {
+                    { 1, "en", true, "English" },
+                    { 2, "es", true, "Español" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Features_Code",
+                schema: "dls",
+                table: "Features",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                schema: "dls",
+                table: "RefreshTokens",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 schema: "dls",
@@ -228,6 +302,14 @@ namespace Desyco.Iam.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Features",
+                schema: "dls");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens",
+                schema: "dls");
+
             migrationBuilder.DropTable(
                 name: "RoleClaims",
                 schema: "dls");

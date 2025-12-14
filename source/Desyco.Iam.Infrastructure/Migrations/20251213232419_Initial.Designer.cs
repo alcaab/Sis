@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Desyco.Iam.Infrastructure.Migrations
 {
     [DbContext(typeof(IamDbContext))]
-    [Migration("20251211000124_InitialIdentity")]
-    partial class InitialIdentity
+    [Migration("20251213232419_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,8 @@ namespace Desyco.Iam.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -70,6 +71,16 @@ namespace Desyco.Iam.Infrastructure.Migrations
 
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid?>("FeatureId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("PermissionAction")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
@@ -176,6 +187,16 @@ namespace Desyco.Iam.Infrastructure.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid?>("FeatureId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("PermissionAction")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -241,6 +262,160 @@ namespace Desyco.Iam.Infrastructure.Migrations
                     b.ToTable("UserTokens", "dls");
                 });
 
+            modelBuilder.Entity("Desyco.Iam.Infrastructure.Persistence.Entities.Feature", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CustomPermissions")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Group")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Features", "dls");
+                });
+
+            modelBuilder.Entity("Desyco.Iam.Infrastructure.Persistence.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Invalidated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("Used")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", "dls");
+                });
+
+            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.LanguageEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Language", "dls", t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "en",
+                            IsActive = true,
+                            Name = "English"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "es",
+                            IsActive = true,
+                            Name = "Español"
+                        });
+                });
+
+            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.TranslationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("Key", "LanguageId")
+                        .IsUnique();
+
+                    b.ToTable("Translation", "dls", t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
+
             modelBuilder.Entity("Desyco.Iam.Infrastructure.Persistence.Entities.ApplicationRoleClaim", b =>
                 {
                     b.HasOne("Desyco.Iam.Infrastructure.Persistence.Entities.ApplicationRole", null)
@@ -290,6 +465,28 @@ namespace Desyco.Iam.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Desyco.Iam.Infrastructure.Persistence.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Desyco.Iam.Infrastructure.Persistence.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.TranslationEntity", b =>
+                {
+                    b.HasOne("Desyco.Shared.Contracts.Entities.LanguageEntity", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Language");
                 });
 #pragma warning restore 612, 618
         }

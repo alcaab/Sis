@@ -7,7 +7,8 @@ public record FeatureDto
     public string Code { get; init; } = null!;
 
     public string Description { get; init; } = null!;
-    public string TranslatedDescription { get; init; } = null!;
+    
+    //public string TranslatedDescription { get; init; } = null!;
 
     public string? Group { get; init; }
 

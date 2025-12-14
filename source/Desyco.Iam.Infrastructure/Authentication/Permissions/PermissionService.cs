@@ -13,32 +13,20 @@ public class PermissionService(
     RoleManager<ApplicationRole> roleManager,
     UserManager<ApplicationUser> userManager) : IPermissionService
 {
-    // Helper para obtener LanguageId
-    private async Task<int> GetLanguageIdAsync(string languageCode, CancellationToken cancellationToken = default)
+    public async Task<List<FeatureDto>> GetAllFeaturesAsync()
     {
-        var languageId = await dbContext.Languages
-                                        .Where(l => l.Code == languageCode)
-                                        .Select(l => l.Id)
-                                        .FirstOrDefaultAsync(cancellationToken);
-        return languageId;
-    }
-
-    public async Task<List<FeatureDto>> GetAllFeaturesAsync(string languageCode)
-    {
-        var languageId = await GetLanguageIdAsync(languageCode);
+        var languageId = await GetLanguageIdAsync("");
 
         return await (from f in dbContext.Features
-                      // LEFT JOIN con la tabla de traducciones
                       from t in dbContext.Translations
                                          .Where(t => t.Key == f.Description && t.LanguageId == languageId)
-                                         .DefaultIfEmpty() // LEFT JOIN
+                                         .DefaultIfEmpty()
                       orderby f.Group, f.Order
                       select new FeatureDto
                       {
                           Id = f.Id,
                           Code = f.Code,
-                          Description = f.Description, // Original translation key
-                          TranslatedDescription = t.Value ?? f.Description, // Translated or fallback to key
+                          Description = t.Value ?? f.Description,
                           Group = f.Group,
                           Order = f.Order
                       })
@@ -141,7 +129,7 @@ public class PermissionService(
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<PermissionSchemaDto> GetPermissionSchemaForRoleAsync(Guid roleId, string languageCode)
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForRoleAsync(Guid roleId)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
         if (role == null)
@@ -149,7 +137,7 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        var languageId = await GetLanguageIdAsync(languageCode);
+        var languageId = await GetLanguageIdAsync("");
 
         // Fetch ALL features with translated descriptions
         var allFeaturesDto = await (from f in dbContext.Features
@@ -161,11 +149,10 @@ public class PermissionService(
                                     {
                                         Id = f.Id,
                                         Code = f.Code,
-                                        Description = f.Description, // Original translation key
-                                        TranslatedDescription = t.Value ?? f.Description, // Translated or fallback
+                                        Description =  t.Value ?? f.Description,
                                         Group = f.Group,
                                         Order = f.Order,
-                                        CustomPermissions = f.CustomPermissions // Propagating this
+                                        CustomPermissions = f.CustomPermissions
                                     }).ToListAsync();
 
         var claims = await dbContext.RoleClaims
@@ -177,7 +164,7 @@ public class PermissionService(
         return BuildPermissionSchema(roleId, role.Name!, allFeaturesDto, claims);
     }
     
-    public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId, string languageCode)
+    public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
         if (user == null)
@@ -185,7 +172,7 @@ public class PermissionService(
             throw new ArgumentException($"User with ID {userId} not found.");
         }
         
-        var languageId = await GetLanguageIdAsync(languageCode);
+        var languageId = await GetLanguageIdAsync("");
 
         // Fetch ALL features with translated descriptions
         var allFeaturesDto = await (from f in dbContext.Features
@@ -197,11 +184,10 @@ public class PermissionService(
                                     {
                                         Id = f.Id,
                                         Code = f.Code,
-                                        Description = f.Description, // Original translation key
-                                        TranslatedDescription = t.Value ?? f.Description, // Translated or fallback
+                                        Description =  t.Value ?? f.Description,
                                         Group = f.Group,
                                         Order = f.Order,
-                                        CustomPermissions = f.CustomPermissions // Propagating this
+                                        CustomPermissions = f.CustomPermissions
                                     }).ToListAsync();
 
         var claims = await dbContext.UserClaims
@@ -243,7 +229,7 @@ public class PermissionService(
                 {
                     FeatureId = feature.Id,
                     Code = feature.Code,
-                    Description = feature.TranslatedDescription, // Use TranslatedDescription here
+                    Description = feature.Description, 
                     Read = canRead,
                     Write = canWrite,
                     Delete = canDelete,
@@ -295,5 +281,14 @@ public class PermissionService(
             .Select(_ => 1);
 
         return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
+    }
+    
+    private async Task<int> GetLanguageIdAsync(string languageCode, CancellationToken cancellationToken = default)
+    {
+        // var languageId = await dbContext.Languages
+        //     .Where(l => l.Code == languageCode)
+        //     .Select(l => l.Id)
+        //     .FirstOrDefaultAsync(cancellationToken);
+        return 2;
     }
 }

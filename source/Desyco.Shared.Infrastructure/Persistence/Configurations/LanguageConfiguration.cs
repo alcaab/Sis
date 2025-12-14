@@ -8,7 +8,7 @@ public class LanguageConfiguration : IEntityTypeConfiguration<LanguageEntity>
 {
     public void Configure(EntityTypeBuilder<LanguageEntity> builder)
     {
-        builder.ToTable("Language", "dls");
+        builder.ToTable("Language", "dls", e => e.ExcludeFromMigrations());
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name)
@@ -20,8 +20,7 @@ public class LanguageConfiguration : IEntityTypeConfiguration<LanguageEntity>
             .IsRequired();
 
         builder.HasIndex(x => x.Code).IsUnique();
-        
-        // Seed initial data
+
         builder.HasData(
             new LanguageEntity { Id = 1, Name = "English", Code = "en", IsActive = true },
             new LanguageEntity { Id = 2, Name = "Español", Code = "es", IsActive = true }

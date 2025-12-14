@@ -18,8 +18,11 @@ namespace Desyco.Iam.Infrastructure.Persistence.Context;
         ApplicationUserToken>(options)
     {
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        
         public DbSet<Feature> Features { get; set; }
+        
         public DbSet<LanguageEntity> Languages { get; set; }
+        
         public DbSet<TranslationEntity> Translations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
