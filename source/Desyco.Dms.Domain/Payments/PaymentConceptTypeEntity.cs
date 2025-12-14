@@ -4,9 +4,7 @@
 
 namespace Desyco.Dms.Domain.Payments;
 
-public class PaymentConceptTypeEntity : EntityBase<PaymentConceptType>, ITranslationKey
+public class PaymentConceptTypeEntity : EntityBase<PaymentConceptType>
 {
     public string Name { get; set; } = string.Empty;
-
-    public string? TranslationKey { get; set; }
 }

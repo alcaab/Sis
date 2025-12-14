@@ -2,9 +2,7 @@
 
 namespace Desyco.Dms.Domain.GradingScales;
 
-public class GradingScaleTypeEntity : EntityBase<GradingScaleType>, ITranslationKey
+public class GradingScaleTypeEntity : EntityBase<GradingScaleType>
 {
     public string Name { get; set; } = string.Empty;
-    
-    public string? TranslationKey { get; set; }
 }

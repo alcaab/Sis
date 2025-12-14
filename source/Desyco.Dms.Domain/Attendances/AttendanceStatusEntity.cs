@@ -2,9 +2,7 @@
 
 namespace Desyco.Dms.Domain.Attendances;
 
-public class AttendanceStatusEntity : EntityBase<AttendanceStatus>, ITranslationKey
+public class AttendanceStatusEntity : EntityBase<AttendanceStatus>
 {
     public string Name { get; set; } = string.Empty;
-
-    public string? TranslationKey { get; set; }
 }

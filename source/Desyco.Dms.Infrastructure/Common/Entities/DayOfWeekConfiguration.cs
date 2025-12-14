@@ -8,7 +8,5 @@ public class DayOfWeekConfiguration : IEntityTypeConfiguration<DayOfWeekEntity>
     {
         builder.ToTable("DayOfWeek");
         builder.HasKey(x => x.Id);
-        
-        builder.Property(x => x.TranslationKey).HasMaxLength(100);
     }
 }

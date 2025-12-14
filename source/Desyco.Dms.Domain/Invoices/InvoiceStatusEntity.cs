@@ -4,7 +4,7 @@
 
 namespace Desyco.Dms.Domain.Invoices;
 
-public class InvoiceStatusEntity : EntityBase<InvoiceStatus>, ITranslationKey
+public class InvoiceStatusEntity : EntityBase<InvoiceStatus>
 {
     public string Name { get; set; } = string.Empty;
     

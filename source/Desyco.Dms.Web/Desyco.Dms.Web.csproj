@@ -53,7 +53,6 @@
         <ProjectReference Include="..\Desyco.Dms.Application\Desyco.Dms.Application.csproj" />
         <ProjectReference Include="..\Desyco.Dms.Infrastructure\Desyco.Dms.Infrastructure.csproj" />
         <ProjectReference Include="..\Desyco.Iam.Web\Desyco.Iam.Web.csproj" />
-        <ProjectReference Include="..\Desyco.Shared.Infrastructure\Desyco.Shared.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

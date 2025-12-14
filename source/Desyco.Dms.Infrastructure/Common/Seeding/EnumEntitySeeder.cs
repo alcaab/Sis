@@ -1,12 +1,11 @@
 using Desyco.Dms.Domain.Common.Base;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
-using Desyco.Shared.Contracts.Interfaces;
 
 namespace Desyco.Dms.Infrastructure.Common.Seeding;
 
 public abstract partial class EnumEntitySeeder<TEntity, TEnum>(ApplicationDbContext context, ILogger logger) : IDataSeeder
-    where TEntity : EntityBase<TEnum>, ITranslationKey
+    where TEntity : EntityBase<TEnum>
     where TEnum : struct, Enum
 {
     protected abstract TEntity CreateEntity(TEnum id);
@@ -33,18 +32,18 @@ public abstract partial class EnumEntitySeeder<TEntity, TEnum>(ApplicationDbCont
             if (existingEntities.TryGetValue(enumValue, out var entity))
             {
                 // Update
-                if (entity.TranslationKey != translationKey || GetName(entity) != name)
-                {
-                    entity.TranslationKey = translationKey;
-                    SetName(entity, name);
-                }
+                // if (entity.TranslationKey != translationKey || GetName(entity) != name)
+                // {
+                //     entity.TranslationKey = translationKey;
+                //     SetName(entity, name);
+                // }
                 existingEntities.Remove(enumValue);
             }
             else
             {
                 // Insert
                 var newEntity = CreateEntity(enumValue);
-                newEntity.TranslationKey = translationKey;
+                // newEntity.TranslationKey = translationKey;
                 SetName(newEntity, name);
                 await dbSet.AddAsync(newEntity);
             }

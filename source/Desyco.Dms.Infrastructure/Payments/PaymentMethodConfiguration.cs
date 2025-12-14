@@ -10,6 +10,5 @@ public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod
         builder.HasKey(x => x.Id);
         
         builder.Property(x => x.Name).HasMaxLength(50);
-        builder.Property(x => x.TranslationKey).HasMaxLength(100);
     }
 }

@@ -1,10 +1,6 @@
-
-
-// For EntityBase and ITranslationKey
-
 namespace Desyco.Dms.Domain.Students;
 
-public class StudentStatusEntity : EntityBase<StudentStatus>, ITranslationKey
+public class StudentStatusEntity : EntityBase<StudentStatus>
 {
     public string Name { get; set; } = string.Empty;
     

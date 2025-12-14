@@ -2,8 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Desyco.Iam.Contracts\Desyco.Iam.Contracts.csproj" />
-    <ProjectReference Include="..\Desyco.Shared.Contracts\Desyco.Shared.Contracts.csproj" />
-    <ProjectReference Include="..\Desyco.Shared.Infrastructure\Desyco.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

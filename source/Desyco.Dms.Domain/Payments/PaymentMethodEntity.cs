@@ -1,12 +1,6 @@
-
-
-// For EntityBase and ITranslationKey
-
 namespace Desyco.Dms.Domain.Payments;
 
-public class PaymentMethodEntity : EntityBase<PaymentMethod>, ITranslationKey
+public class PaymentMethodEntity : EntityBase<PaymentMethod>
 {
     public string Name { get; set; } = string.Empty;
-
-    public string? TranslationKey { get; set; }
 }

@@ -15,18 +15,13 @@ public class PermissionService(
 {
     public async Task<List<FeatureDto>> GetAllFeaturesAsync()
     {
-        var languageId = await GetLanguageIdAsync("");
-
         return await (from f in dbContext.Features
-                      from t in dbContext.Translations
-                                         .Where(t => t.Key == f.Description && t.LanguageId == languageId)
-                                         .DefaultIfEmpty()
                       orderby f.Group, f.Order
                       select new FeatureDto
                       {
                           Id = f.Id,
                           Code = f.Code,
-                          Description = t.Value ?? f.Description,
+                          Description = f.Description,
                           Group = f.Group,
                           Order = f.Order
                       })
@@ -137,19 +132,14 @@ public class PermissionService(
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
 
-        var languageId = await GetLanguageIdAsync("");
-
         // Fetch ALL features with translated descriptions
         var allFeaturesDto = await (from f in dbContext.Features
-                                    from t in dbContext.Translations
-                                                       .Where(t => t.Key == f.Description && t.LanguageId == languageId)
-                                                       .DefaultIfEmpty()
                                     orderby f.Group, f.Order
                                     select new FeatureDto
                                     {
                                         Id = f.Id,
                                         Code = f.Code,
-                                        Description =  t.Value ?? f.Description,
+                                        Description =  f.Description,
                                         Group = f.Group,
                                         Order = f.Order,
                                         CustomPermissions = f.CustomPermissions
@@ -171,20 +161,15 @@ public class PermissionService(
         {
             throw new ArgumentException($"User with ID {userId} not found.");
         }
-        
-        var languageId = await GetLanguageIdAsync("");
 
         // Fetch ALL features with translated descriptions
         var allFeaturesDto = await (from f in dbContext.Features
-                                    from t in dbContext.Translations
-                                                       .Where(t => t.Key == f.Description && t.LanguageId == languageId)
-                                                       .DefaultIfEmpty()
                                     orderby f.Group, f.Order
                                     select new FeatureDto
                                     {
                                         Id = f.Id,
                                         Code = f.Code,
-                                        Description =  t.Value ?? f.Description,
+                                        Description = f.Description,
                                         Group = f.Group,
                                         Order = f.Order,
                                         CustomPermissions = f.CustomPermissions
@@ -281,14 +266,5 @@ public class PermissionService(
             .Select(_ => 1);
 
         return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
-    }
-    
-    private async Task<int> GetLanguageIdAsync(string languageCode, CancellationToken cancellationToken = default)
-    {
-        // var languageId = await dbContext.Languages
-        //     .Where(l => l.Code == languageCode)
-        //     .Select(l => l.Id)
-        //     .FirstOrDefaultAsync(cancellationToken);
-        return 2;
     }
 }
