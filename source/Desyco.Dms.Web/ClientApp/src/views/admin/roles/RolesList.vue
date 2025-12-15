@@ -4,6 +4,7 @@
     import { useRoleStore } from "@/stores/roleStore";
     import { useNotification } from "@/composables/useNotification";
     import { useConfirm } from "primevue/useconfirm";
+    import { useI18n } from "vue-i18n";
     import { FilterMatchMode } from "@primevue/core/api";
     import type { RoleDto, CreateRoleDto, UpdateRoleDto } from "@/types/role";
     import RoleForm from "./RoleForm.vue";
@@ -13,6 +14,7 @@
     const roleStore = useRoleStore();
     const notify = useNotification();
     const confirm = useConfirm();
+    const { t } = useI18n();
 
     const dt = ref();
     const isDeleting = ref(false);
@@ -38,7 +40,7 @@
             await roleStore.fetchAllRoles();
             roles.value = roleStore.roles;
         } catch (error) {
-            notify.showError(error, "Failed to load roles");
+            notify.showError(error, t("admin.roles.list.notifications.loadError"));
         } finally {
             loading.value = false;
         }
@@ -62,15 +64,15 @@
         try {
             if (selectedRole.value && "id" in selectedRole.value) {
                 await roleStore.updateRole(selectedRole.value.id, roleData as UpdateRoleDto);
-                notify.showSuccess("Role Updated Successfully");
+                notify.showSuccess(t("admin.roles.list.notifications.updateSuccess"));
             } else {
                 await roleStore.createRole(roleData as CreateRoleDto);
-                notify.showSuccess("Role Created Successfully");
+                notify.showSuccess(t("admin.roles.list.notifications.createSuccess"));
             }
             hideDialog();
             await fetchRoles(); // Refresh local list
         } catch (error) {
-            notify.showError(error, "Operation Failed");
+            notify.showError(error, t("admin.roles.list.notifications.operationError"));
         } finally {
             loading.value = false;
         }
@@ -83,18 +85,18 @@
 
     const confirmDeleteRole = (role: RoleDto) => {
         confirm.require({
-            message: `Are you sure you want to delete role: ${role.name}?`,
-            header: "Confirm Deletion",
+            message: t("admin.roles.list.confirmDeleteMessage", { name: role.name }),
+            header: t("admin.roles.list.confirmDeleteTitle"),
             icon: "pi pi-exclamation-triangle",
             accept: async () => {
                 isDeleting.value = true;
                 deletingItemId.value = role.id;
                 try {
                     await roleStore.deleteRole(role.id);
-                    notify.showSuccess("Role Deleted Successfully");
+                    notify.showSuccess(t("admin.roles.list.notifications.deleteSuccess"));
                     await fetchRoles();
                 } catch (error) {
-                    notify.showError(error, "Deletion Failed");
+                    notify.showError(error, t("admin.roles.list.notifications.deleteError"));
                 } finally {
                     isDeleting.value = false;
                     deletingItemId.value = null;
@@ -123,7 +125,7 @@
     >
         <template #header>
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">Roles</h4>
+                <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">{{ t("admin.roles.list.header") }}</h4>
                 <div class="flex items-center gap-2">
                     <IconField iconPosition="left">
                         <InputIcon>
@@ -131,12 +133,12 @@
                         </InputIcon>
                         <InputText
                             v-model="filters['global'].value"
-                            placeholder="Search..."
+                            :placeholder="t('admin.roles.list.searchPlaceholder')"
                             class="w-full md:w-auto"
                         />
                     </IconField>
                     <Button
-                        label="New"
+                        :label="t('admin.roles.list.newButton')"
                         icon="pi pi-plus"
                         @click="openNew"
                     />
@@ -146,13 +148,13 @@
 
         <Column
             field="name"
-            header="Name"
+            :header="t('admin.roles.list.nameHeader')"
             :sortable="true"
             style="min-width: 12rem"
         ></Column>
         <Column
             field="description"
-            header="Description"
+            :header="t('admin.roles.list.descriptionHeader')"
             :sortable="true"
             style="min-width: 16rem"
         ></Column>
@@ -161,7 +163,7 @@
             style="min-width: 12rem"
         >
             <template #header>
-                <div class="flex justify-end w-full">Actions</div>
+                <div class="flex justify-end w-full">{{ t("admin.roles.list.actionsHeader") }}</div>
             </template>
             <template #body="slotProps">
                 <div class="flex justify-end gap-2">
@@ -170,7 +172,7 @@
                         severity="info"
                         outlined
                         class="mr-2"
-                        v-tooltip.top="'Manage Permissions'"
+                        v-tooltip.top="t('admin.roles.list.managePermissionsTooltip')"
                         @click="managePermissions(slotProps.data)"
                     />
                     <TableActions
@@ -188,7 +190,7 @@
         v-model:visible="roleDialog"
         :style="{ width: '50vw' }"
         :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-        header="Role Details"
+        :header="t('admin.roles.form.header')"
         :modal="true"
         class="p-fluid"
     >

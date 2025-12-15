@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { watch } from "vue";
     import { useForm } from "vee-validate";
+    import { useI18n } from "vue-i18n";
     import * as yup from "yup";
     import { toTypedSchema } from "@vee-validate/yup";
     import type { RoleDto, CreateRoleDto } from "@/types/role";
@@ -13,10 +14,11 @@
     }>();
 
     const emit = defineEmits(["submit", "cancel"]);
+    const { t } = useI18n();
 
     const schema = toTypedSchema(
         yup.object({
-            name: yup.string().required("Name is required"),
+            name: yup.string().required(t("admin.roles.form.nameRequired")),
             description: yup.string().nullable().optional(),
         }),
     );
@@ -68,7 +70,7 @@
     <form @submit="onSubmit">
         <div class="flex flex-col gap-4">
             <FormField
-                label="Name"
+                :label="t('admin.roles.form.nameLabel')"
                 id="name"
                 required
                 :error="errors.name"
@@ -83,7 +85,7 @@
             </FormField>
 
             <FormField
-                label="Description"
+                :label="t('admin.roles.form.descriptionLabel')"
                 id="description"
                 :error="errors.description"
             >
@@ -99,13 +101,13 @@
 
         <div class="flex justify-end gap-2 mt-6">
             <Button
-                label="Cancel"
+                :label="t('admin.roles.form.cancelButton')"
                 icon="pi pi-times"
                 text
                 @click="handleCancel"
             />
             <Button
-                label="Save"
+                :label="t('admin.roles.form.saveButton')"
                 icon="pi pi-check"
                 type="submit"
                 :loading="loading"

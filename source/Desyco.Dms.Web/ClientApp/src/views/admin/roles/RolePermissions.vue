@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref, onMounted, computed } from "vue";
     import { useRoute, useRouter } from "vue-router";
+    import { useI18n } from "vue-i18n";
     import { useRoleStore } from "@/stores/roleStore";
     import { useNotification } from "@/composables/useNotification";
     import type { PermissionSchema, FeaturePermission, PermissionGroup } from "@/types/permissions";
@@ -10,6 +11,7 @@
     const router = useRouter();
     const roleStore = useRoleStore();
     const notify = useNotification();
+    const { t } = useI18n();
 
     const roleId = ref<string | null>(null);
     const roleName = ref<string | null>(null);
@@ -26,7 +28,7 @@
             await fetchRolePermissions();
         } else {
             router.push({ name: "roles-list" });
-            notify.showError("Role ID not provided.");
+            notify.showError(t("admin.roles.permissions.notifications.missingId"));
         }
     });
 
@@ -43,7 +45,7 @@
                 expandAll();
             }
         } catch (error) {
-            notify.showError(error, "Failed to load role permissions");
+            notify.showError(error, t("admin.roles.permissions.notifications.loadError"));
             router.push({ name: "roles-list" });
         } finally {
             loading.value = false;
@@ -189,9 +191,9 @@
             });
 
             await roleStore.updateRolePermissions(roleId.value!, updatedPermissions);
-            notify.showSuccess("Permissions updated successfully!");
+            notify.showSuccess(t("admin.roles.permissions.notifications.updateSuccess"));
         } catch (error) {
-            notify.showError(error, "Failed to update permissions");
+            notify.showError(error, t("admin.roles.permissions.notifications.updateError"));
         } finally {
             loading.value = false;
         }
@@ -212,7 +214,7 @@
                     @click="goBack"
                 >
                     <i class="pi pi-arrow-left text-sm"></i>
-                    <span class="text-sm font-medium">Back to Roles</span>
+                    <span class="text-sm font-medium">{{ t("admin.roles.permissions.backToRoles") }}</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -220,14 +222,14 @@
                     </div>
                     <div>
                         <h2 class="text-xl font-bold m-0">{{ roleName }}</h2>
-                        <span class="text-sm text-surface-500">Manage role permissions and access levels</span>
+                        <span class="text-sm text-surface-500">{{ t("admin.roles.permissions.subtitle") }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="flex items-center gap-2">
                 <Button
-                    label="Save Changes"
+                    :label="t('admin.roles.permissions.saveChanges')"
                     icon="pi pi-check"
                     :loading="loading"
                     @click="updatePermissions"
@@ -248,14 +250,14 @@
                 </InputIcon>
                 <InputText
                     v-model="searchQuery"
-                    placeholder="Search features..."
+                    :placeholder="t('admin.roles.permissions.searchPlaceholder')"
                     class="w-full sm:w-80"
                 />
             </IconField>
 
             <div class="flex gap-2">
                 <Button
-                    label="Expand All"
+                    :label="t('admin.roles.permissions.expandAll')"
                     icon="pi pi-angle-double-down"
                     size="small"
                     severity="secondary"
@@ -263,7 +265,7 @@
                     @click="expandAll"
                 />
                 <Button
-                    label="Collapse All"
+                    :label="t('admin.roles.permissions.collapseAll')"
                     icon="pi pi-angle-double-up"
                     size="small"
                     severity="secondary"
@@ -306,7 +308,7 @@
                     >
                         <Column
                             field="description"
-                            header="Feature"
+                            :header="t('admin.roles.permissions.featureHeader')"
                             style="min-width: 250px"
                         >
                             <template #body="slotProps">
@@ -321,7 +323,7 @@
 
                         <!-- Full Access Toggle -->
                         <Column
-                            header="All"
+                            :header="t('admin.roles.permissions.allHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -331,13 +333,13 @@
                                     :modelValue="isFullAccess(slotProps.data)"
                                     @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)"
                                     binary
-                                    v-tooltip.top="'Toggle All Actions'"
+                                    v-tooltip.top="t('admin.roles.permissions.toggleAllTooltip')"
                                 />
                             </template>
                         </Column>
 
                         <Column
-                            header="Read"
+                            :header="t('admin.roles.permissions.readHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -350,7 +352,7 @@
                             </template>
                         </Column>
                         <Column
-                            header="Write"
+                            :header="t('admin.roles.permissions.writeHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -363,7 +365,7 @@
                             </template>
                         </Column>
                         <Column
-                            header="Delete"
+                            :header="t('admin.roles.permissions.deleteHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -376,7 +378,7 @@
                             </template>
                         </Column>
                         <Column
-                            header="Custom"
+                            :header="t('admin.roles.permissions.customHeader')"
                             style="min-width: 200px"
                         >
                             <template #body="slotProps">
@@ -420,9 +422,9 @@
             class="text-center py-8"
         >
             <i class="pi pi-filter-slash text-4xl text-surface-400 mb-3"></i>
-            <p class="text-lg text-surface-600">No permissions found matching "{{ searchQuery }}".</p>
+            <p class="text-lg text-surface-600">{{ t("admin.roles.permissions.noResults", { query: searchQuery }) }}</p>
             <Button
-                label="Clear Search"
+                :label="t('admin.roles.permissions.clearSearch')"
                 size="small"
                 outlined
                 class="mt-2"
@@ -433,7 +435,7 @@
         <Message
             v-else
             severity="info"
-            >No permissions schema available for this role.</Message
+            >{{ t("admin.roles.permissions.noSchema") }}</Message
         >
     </div>
 </template>

@@ -1,46 +1,63 @@
 {
+    "admin": {
+        "security": "Security",
+        "rolesAndPermissions": "Roles & Permissions",
+        "roles": {
+            "title": "Roles",
+            "list": {
+                "header": "Roles",
+                "searchPlaceholder": "Search...",
+                "newButton": "New",
+                "nameHeader": "Name",
+                "descriptionHeader": "Description",
+                "actionsHeader": "Actions",
+                "managePermissionsTooltip": "Manage Permissions",
+                "confirmDeleteTitle": "Confirm Deletion",
+                "confirmDeleteMessage": "Are you sure you want to delete role: {name}?",
+                "notifications": {
+                    "loadError": "Failed to load roles",
+                    "updateSuccess": "Role Updated Successfully",
+                    "createSuccess": "Role Created Successfully",
+                    "operationError": "Operation Failed",
+                    "deleteSuccess": "Role Deleted Successfully",
+                    "deleteError": "Deletion Failed"
+                }
+            },
+            "form": {
+                "header": "Role Details",
+                "nameLabel": "Name",
+                "nameRequired": "Name is required",
+                "descriptionLabel": "Description",
+                "cancelButton": "Cancel",
+                "saveButton": "Save"
+            },
+            "permissions": {
+                "backToRoles": "Back to Roles",
+                "subtitle": "Manage role permissions and access levels",
+                "saveChanges": "Save Changes",
+                "searchPlaceholder": "Search features...",
+                "expandAll": "Expand All",
+                "collapseAll": "Collapse All",
+                "featureHeader": "Feature",
+                "allHeader": "All",
+                "toggleAllTooltip": "Toggle All Actions",
+                "readHeader": "Read",
+                "writeHeader": "Write",
+                "deleteHeader": "Delete",
+                "customHeader": "Custom",
+                "noResults": "No permissions found matching \"{query}\".",
+                "clearSearch": "Clear Search",
+                "noSchema": "No permissions schema available for this role.",
+                "notifications": {
+                    "missingId": "Role ID not provided.",
+                    "loadError": "Failed to load role permissions",
+                    "updateSuccess": "Permissions updated successfully!",
+                    "updateError": "Failed to update permissions"
+                }
+            }
+        }
+    },
     "schoolSettings": {
-        "assess": {
-            "title": "ASSESS",
-            "formalAssessmentSettings": "Formal Assessment Settings",
-            "manageExternalAssessments": "Manage External Assessments",
-            "manageGradeScales": "Manage Grading Scales",
-            "markbookSettings": "Gradebook Settings",
-            "trackingSettings": "Tracking Settings"
-        },
-        "groupings": {
-            "title": "GROUPINGS",
-            "manageDepartments": "Manage Departments",
-            "manageFormGroups": "Manage Homerooms",
-            "manageHouses": "Manage Houses",
-            "manageYearGroups": "Manage Grade Levels"
-        },
-        "learn": {
-            "title": "LEARN",
-            "activitySettings": "Activity Settings",
-            "librarySettings": "Library Settings",
-            "plannerSettings": "Planner Settings",
-            "resourceSettings": "Resource Settings"
-        },
-        "other": {
-            "title": "OTHER",
-            "dashboardSettings": "Dashboard Settings",
-            "emailSummarySettings": "Email Summary Settings",
-            "facilitySettings": "Facility Settings",
-            "financeSettings": "Finance Settings",
-            "manageFacilities": "Manage Facilities",
-            "manageFileExtensions": "Manage File Extensions",
-            "messengerSettings": "Messenger Settings"
-        },
-        "people": {
-            "title": "PEOPLE",
-            "admissionsSettings": "Admissions Settings",
-            "attendanceSettings": "Attendance Settings",
-            "behaviourSettings": "Behavior Settings",
-            "individualNeedsSettings": "Individual Needs Settings",
-            "manageAlertLevels": "Manage Alert Levels",
-            "manageMedicalConditions": "Manage Medical Conditions"
-        },
         "yearsDaysTimes": {
             "title": "YEARS, DAYS & TIMES",
             "daysOfTheWeek": "Days of the Week",
