@@ -6,11 +6,13 @@
     import AcademicYearForm from "./AcademicYearForm.vue";
     import type { AcademicYearDto } from "@/types/academic-year";
     import { useNotification } from "@/composables/useNotification";
+    import { useI18n } from "vue-i18n";
 
     const route = useRoute();
     const router = useRouter();
     const store = useAcademicYearStore();
     const notify = useNotification();
+    const { t } = useI18n();
 
     const loading = ref(false);
     const initialData = ref<Partial<AcademicYearDto>>({});
@@ -30,7 +32,7 @@
             initialData.value = response.data;
         } catch (error) {
             console.error(error);
-            notify.showError(error, "Failed to load data");
+            notify.showError(error, t("schoolSettings.academicYear.form.notifications.loadError"));
             router.push({ name: "academic-year-list" }).then();
         }
     };
@@ -47,10 +49,10 @@
             }
 
             await store.updateAcademicYear(id, payload);
-            notify.showSuccess("Academic Year Updated");
+            notify.showSuccess(t("schoolSettings.academicYear.form.notifications.updateSuccess"));
             router.push({ name: "academic-year-list" }).then();
         } catch (error: any) {
-            notify.showError(error, "Update failed");
+            notify.showError(error, t("schoolSettings.academicYear.form.notifications.updateError"));
         } finally {
             loading.value = false;
         }

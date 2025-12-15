@@ -5,11 +5,13 @@
     import AcademicYearForm from "./AcademicYearForm.vue";
     import type { AcademicYearDto } from "@/types/academic-year";
     import { useNotification } from "@/composables/useNotification";
+    import { useI18n } from "vue-i18n";
 
     const store = useAcademicYearStore();
     const router = useRouter();
     const notify = useNotification();
     const loading = ref(false);
+    const { t } = useI18n();
 
     const handleCreate = async (data: AcademicYearDto) => {
         loading.value = true;
@@ -24,10 +26,10 @@
             }
 
             await store.createAcademicYear(payload);
-            notify.showSuccess("Academic Year Created");
+            notify.showSuccess(t("schoolSettings.academicYear.form.notifications.createSuccess"));
             router.push({ name: "academic-year-list" }).then();
         } catch (error: any) {
-            notify.showError(error, "Creation failed");
+            notify.showError(error, t("schoolSettings.academicYear.form.notifications.createError"));
         } finally {
             loading.value = false;
         }

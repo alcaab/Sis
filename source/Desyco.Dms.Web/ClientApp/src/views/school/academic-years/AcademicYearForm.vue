@@ -5,6 +5,7 @@
     import { useForm } from "vee-validate";
     import * as yup from "yup";
     import { toTypedSchema } from "@vee-validate/yup";
+    import { useI18n } from "vue-i18n";
 
     const props = defineProps<{
         initialData?: Partial<AcademicYearDto>;
@@ -13,14 +14,21 @@
     }>();
 
     const emit = defineEmits(["submit", "cancel"]);
+    const { t } = useI18n();
 
     const schema = toTypedSchema(
         yup.object({
             id: yup.number().optional(),
-            name: yup.string().required("Name is required"),
-            startDate: yup.date().typeError("Start Date is required").required("Start Date is required"),
-            endDate: yup.date().typeError("End Date is required").required("End Date is required"),
-            status: yup.number().required("Status is required"),
+            name: yup.string().required(t("schoolSettings.academicYear.form.validation.nameRequired")),
+            startDate: yup
+                .date()
+                .typeError(t("schoolSettings.academicYear.form.validation.startDateRequired"))
+                .required(t("schoolSettings.academicYear.form.validation.startDateRequired")),
+            endDate: yup
+                .date()
+                .typeError(t("schoolSettings.academicYear.form.validation.endDateRequired"))
+                .required(t("schoolSettings.academicYear.form.validation.endDateRequired")),
+            status: yup.number().required(t("schoolSettings.academicYear.form.validation.statusRequired")),
         }),
     );
 
@@ -86,11 +94,11 @@
         { immediate: true, deep: true },
     );
 
-    const statuses = [
-        { label: "Upcoming", value: AcademicYearStatus.Upcoming },
-        { label: "Current", value: AcademicYearStatus.Current },
-        { label: "Closed", value: AcademicYearStatus.Closed },
-    ];
+    const statuses = computed(() => [
+        { label: t("schoolSettings.academicYear.list.statusLabels.upcoming"), value: AcademicYearStatus.Upcoming },
+        { label: t("schoolSettings.academicYear.list.statusLabels.current"), value: AcademicYearStatus.Current },
+        { label: t("schoolSettings.academicYear.list.statusLabels.closed"), value: AcademicYearStatus.Closed },
+    ]);
 
     const onSubmit = handleSubmit((values) => {
         emit("submit", values);
@@ -103,13 +111,19 @@
 
 <template>
     <div class="p-2">
-        <div class="font-semibold text-xl mb-6">{{ isEditing ? "Edit" : "Create" }} Academic Year</div>
+        <div class="font-semibold text-xl mb-6">
+            {{
+                isEditing
+                    ? t("schoolSettings.academicYear.form.editHeader")
+                    : t("schoolSettings.academicYear.form.createHeader")
+            }}
+        </div>
         <form
             @submit="onSubmit"
             class="flex flex-col gap-4"
         >
             <FormField
-                label="Name"
+                :label="t('schoolSettings.academicYear.form.nameLabel')"
                 id="name"
                 required
                 :error="errors.name"
@@ -123,7 +137,7 @@
             </FormField>
 
             <FormField
-                label="Start Date"
+                :label="t('schoolSettings.academicYear.form.startDateLabel')"
                 id="startDate"
                 required
                 :error="errors.startDate"
@@ -138,7 +152,7 @@
             </FormField>
 
             <FormField
-                label="End Date"
+                :label="t('schoolSettings.academicYear.form.endDateLabel')"
                 id="endDate"
                 required
                 :error="errors.endDate"
@@ -153,7 +167,7 @@
             </FormField>
 
             <FormField
-                label="Status"
+                :label="t('schoolSettings.academicYear.form.statusLabel')"
                 id="status"
                 required
                 :error="errors.status"
@@ -170,13 +184,13 @@
 
             <div class="flex justify-end gap-2 mt-4">
                 <Button
-                    label="Cancel"
+                    :label="t('schoolSettings.academicYear.form.cancelButton')"
                     severity="secondary"
                     outlined
                     @click="handleCancel"
                 />
                 <Button
-                    label="Save"
+                    :label="t('schoolSettings.academicYear.form.saveButton')"
                     type="submit"
                     :loading="loading"
                     icon="pi pi-check"

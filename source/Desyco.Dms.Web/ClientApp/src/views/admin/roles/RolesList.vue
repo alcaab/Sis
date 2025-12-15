@@ -111,81 +111,84 @@
 </script>
 
 <template>
-    <DataTable
-        ref="dt"
-        :value="roles"
-        dataKey="id"
-        :loading="loading || isDeleting"
-        :paginator="true"
-        :rows="10"
-        :filters="filters"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 25]"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    >
-        <template #header>
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">{{ t("admin.roles.list.header") }}</h4>
-                <div class="flex items-center gap-2">
-                    <IconField iconPosition="left">
-                        <InputIcon>
-                            <i class="pi pi-search" />
-                        </InputIcon>
-                        <InputText
-                            v-model="filters['global'].value"
-                            :placeholder="t('admin.roles.list.searchPlaceholder')"
-                            class="w-full md:w-auto"
-                        />
-                    </IconField>
-                    <Button
-                        :label="t('admin.roles.list.newButton')"
-                        icon="pi pi-plus"
-                        @click="openNew"
-                    />
-                </div>
-            </div>
-        </template>
-
-        <Column
-            field="name"
-            :header="t('admin.roles.list.nameHeader')"
-            :sortable="true"
-            style="min-width: 12rem"
-        ></Column>
-        <Column
-            field="description"
-            :header="t('admin.roles.list.descriptionHeader')"
-            :sortable="true"
-            style="min-width: 16rem"
-        ></Column>
-        <Column
-            :exportable="false"
-            style="min-width: 12rem"
+    <div class="w-full animate fade-in">
+        <DataTable
+            ref="dt"
+            :value="roles"
+            dataKey="id"
+            :loading="loading || isDeleting"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 25]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         >
             <template #header>
-                <div class="flex justify-end w-full">{{ t("admin.roles.list.actionsHeader") }}</div>
-            </template>
-            <template #body="slotProps">
-                <div class="flex justify-end gap-2">
-                    <Button
-                        icon="pi pi-shield"
-                        severity="info"
-                        outlined
-                        class="mr-2"
-                        v-tooltip.top="t('admin.roles.list.managePermissionsTooltip')"
-                        @click="managePermissions(slotProps.data)"
-                    />
-                    <TableActions
-                        :id="slotProps.data.id"
-                        :loading="deletingItemId === slotProps.data.id"
-                        @edit="editRole(slotProps.data)"
-                        @delete="confirmDeleteRole(slotProps.data)"
-                    />
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">
+                        {{ t("admin.roles.list.header") }}
+                    </h4>
+                    <div class="flex items-center gap-2">
+                        <IconField iconPosition="left">
+                            <InputIcon>
+                                <i class="pi pi-search" />
+                            </InputIcon>
+                            <InputText
+                                v-model="filters['global'].value"
+                                :placeholder="t('admin.roles.list.searchPlaceholder')"
+                                class="w-full md:w-auto"
+                            />
+                        </IconField>
+                        <Button
+                            :label="t('admin.roles.list.newButton')"
+                            icon="pi pi-plus"
+                            @click="openNew"
+                        />
+                    </div>
                 </div>
             </template>
-        </Column>
-    </DataTable>
 
+            <Column
+                field="name"
+                :header="t('admin.roles.list.nameHeader')"
+                :sortable="true"
+                style="min-width: 12rem"
+            ></Column>
+            <Column
+                field="description"
+                :header="t('admin.roles.list.descriptionHeader')"
+                :sortable="true"
+                style="min-width: 16rem"
+            ></Column>
+            <Column
+                :exportable="false"
+                style="min-width: 12rem"
+            >
+                <template #header>
+                    <div class="flex justify-end w-full">{{ t("admin.roles.list.actionsHeader") }}</div>
+                </template>
+                <template #body="slotProps">
+                    <div class="flex justify-end gap-2">
+                        <Button
+                            icon="pi pi-shield"
+                            severity="info"
+                            outlined
+                            class="mr-2"
+                            v-tooltip.top="t('admin.roles.list.managePermissionsTooltip')"
+                            @click="managePermissions(slotProps.data)"
+                        />
+                        <TableActions
+                            :id="slotProps.data.id"
+                            :loading="deletingItemId === slotProps.data.id"
+                            @edit="editRole(slotProps.data)"
+                            @delete="confirmDeleteRole(slotProps.data)"
+                        />
+                    </div>
+                </template>
+            </Column>
+        </DataTable>
+    </div>
     <Dialog
         v-model:visible="roleDialog"
         :style="{ width: '50vw' }"

@@ -58,6 +58,55 @@
         }
     },
     "schoolSettings": {
+        "academicYear": {
+            "title": "Academic Years",
+            "list": {
+                "header": "Academic Years",
+                "searchPlaceholder": "Search...",
+                "newButton": "New",
+                "nameHeader": "Name",
+                "startDateHeader": "Start Date",
+                "endDateHeader": "End Date",
+                "statusHeader": "Status",
+                "actionsHeader": "Actions",
+                "confirmDeleteTitle": "Confirm Deletion",
+                "confirmDeleteMessage": "Are you sure you want to delete {name}?",
+                "notifications": {
+                    "loadError": "Failed to load data",
+                    "deleteSuccess": "Academic Year Deleted",
+                    "deleteError": "Delete failed"
+                },
+                "statusLabels": {
+                    "upcoming": "Upcoming",
+                    "current": "Current",
+                    "closed": "Closed",
+                    "unknown": "Unknown"
+                }
+            },
+            "form": {
+                "createHeader": "Create Academic Year",
+                "editHeader": "Edit Academic Year",
+                "nameLabel": "Name",
+                "startDateLabel": "Start Date",
+                "endDateLabel": "End Date",
+                "statusLabel": "Status",
+                "cancelButton": "Cancel",
+                "saveButton": "Save",
+                "validation": {
+                    "nameRequired": "Name is required",
+                    "startDateRequired": "Start Date is required",
+                    "endDateRequired": "End Date is required",
+                    "statusRequired": "Status is required"
+                },
+                "notifications": {
+                    "createSuccess": "Academic Year Created",
+                    "createError": "Creation failed",
+                    "updateSuccess": "Academic Year Updated",
+                    "updateError": "Update failed",
+                    "loadError": "Failed to load data"
+                }
+            }
+        },
         "yearsDaysTimes": {
             "title": "YEARS, DAYS & TIMES",
             "daysOfTheWeek": "Days of the Week",

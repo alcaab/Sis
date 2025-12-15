@@ -205,7 +205,7 @@
 </script>
 
 <template>
-    <div class="card">
+    <div class="w-full animate fade-in">
         <!-- Header & Toolbar -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
             <div>
