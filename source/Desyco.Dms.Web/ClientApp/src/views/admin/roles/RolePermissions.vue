@@ -107,11 +107,12 @@
 
     const isFullAccess = (item: any) => {
         const standard = item.read && item.write && item.delete;
+        const availableCustomPermissions = item.availableCustomPermissions ?? [];
         const custom =
-            !item.availableCustomPermissions ||
-            (item.availableCustomPermissions.length > 0 &&
+            availableCustomPermissions.length == 0 ||
+            (availableCustomPermissions.length > 0 &&
                 item.customPermissions &&
-                item.availableCustomPermissions.every((p: string) => item.customPermissions.includes(p)));
+                availableCustomPermissions.every((p: string) => item.customPermissions.includes(p)));
         return standard && custom;
     };
 
@@ -274,7 +275,7 @@
 
         <ProgressSpinner
             v-if="loading && !editableSchema"
-            class="flex justify-center my-8"
+            class="flex justify-center"
         />
 
         <div v-else-if="editableSchema && filteredGroups.length > 0">
