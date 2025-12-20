@@ -53,6 +53,7 @@ public class PermissionsController(IPermissionService permissionService) : Contr
     public async Task<IActionResult> UpdateUserPermissions(Guid userId, [FromBody] List<FeaturePermission> permissions)
     {
         await permissionService.UpdateRolePermissionsAsync(userId, permissions);
+
         return NoContent();
     }
 
@@ -62,6 +63,7 @@ public class PermissionsController(IPermissionService permissionService) : Contr
     public async Task<ActionResult<PermissionSchemaDto>> GetPermissionSchemaForUser(Guid userId)
     {
         var permissionSchema = await permissionService.GetPermissionSchemaForUserAsync(userId);
+
         return Ok(permissionSchema);
     }
 }

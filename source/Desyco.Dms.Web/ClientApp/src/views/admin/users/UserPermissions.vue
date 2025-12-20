@@ -41,9 +41,9 @@
         loading.value = true;
         try {
             await userStore.updateUserPermissions(userId.value!, updatedPermissions);
-            notify.showSuccess(t("admin.permissions.notifications.updateSuccess"));
+            notify.showSuccess(t("common.notifications.updateSuccess"));
         } catch (error) {
-            notify.showError(error, t("admin.permissions.notifications.updateError"));
+            notify.showError(error, t("common.notifications.updateError"));
         } finally {
             loading.value = false;
         }

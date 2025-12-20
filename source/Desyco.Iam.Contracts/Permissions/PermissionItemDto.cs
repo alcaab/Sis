@@ -4,15 +4,15 @@ public record PermissionItemDto
 {
     public Guid FeatureId { get; init; }
 
-    public string Code { get; init; } = null!;
+    public required string Code { get; init; }
 
-    public string Description { get; init; } = null!;
+    public required string Description { get; init; }
 
-    public bool Read { get; init; }
+    public required PredefinedPermission<bool> Read { get; init; }
 
-    public bool Write { get; init; }
+    public required PredefinedPermission<bool> Write { get; init; }
 
-    public bool Delete { get; init; }
+    public required PredefinedPermission<bool> Delete { get; init; }
 
     public List<string> CustomPermissions { get; init; } = [];
 

@@ -13,38 +13,6 @@ public class PermissionService(
     RoleManager<ApplicationRole> roleManager,
     UserManager<ApplicationUser> userManager) : IPermissionService
 {
-    // public async Task<List<FeatureDto>> GetAllFeaturesAsync()
-    // {
-    //     return await (from f in dbContext.Features
-    //                   orderby f.Group, f.Order
-    //                   select new FeatureDto
-    //                   {
-    //                       Id = f.Id,
-    //                       Code = f.Code,
-    //                       Description = f.Description,
-    //                       Group = f.Group,
-    //                       Order = f.Order
-    //                   })
-    //                   .ToListAsync();
-    // }
-
-    // public async Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId)
-    // {
-    //     return await dbContext.RoleClaims
-    //         .Where(rc => rc.RoleId == roleId) // Get all role claims, not just granular
-    //         .Select(rc => new RoleClaimDto
-    //         {
-    //             Id = rc.Id,
-    //             RoleId = rc.RoleId,
-    //             ClaimType = rc.ClaimType!,
-    //             ClaimValue = rc.ClaimValue!,
-    //             FeatureId = rc.FeatureId,
-    //             PermissionAction = rc.PermissionAction,
-    //             Description = rc.Description
-    //         })
-    //         .ToListAsync();
-    // }
-
     public async Task UpdateRolePermissionsAsync(Guid roleId, List<FeaturePermission> updatedPermissions)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
@@ -131,8 +99,7 @@ public class PermissionService(
         {
             throw new ArgumentException($"Role with ID {roleId} not found.");
         }
-
-        // Fetch ALL features with translated descriptions
+        
         var allFeaturesDto = await (from f in dbContext.Features
                                     orderby f.Group, f.Order
                                     select new FeatureDto
@@ -149,20 +116,18 @@ public class PermissionService(
             .Where(rc => rc.RoleId == roleId)
             .Select(rc => new GenericClaimDto(rc.FeatureId, rc.PermissionAction, rc.ClaimValue))
             .ToListAsync();
-
-        // BuildPermissionSchema now receives FeatureDto
-        return BuildPermissionSchema(roleId, role.Name!, allFeaturesDto, claims);
+        
+        ArgumentNullException.ThrowIfNull(role.Name);
+        
+        return BuildPermissionSchema(roleId, role.Name, allFeaturesDto, claims);
     }
     
     public async Task<PermissionSchemaDto> GetPermissionSchemaForUserAsync(Guid userId)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
-        if (user == null)
-        {
-            throw new ArgumentException($"User with ID {userId} not found.");
-        }
+        
+        ArgumentNullException.ThrowIfNull(user);
 
-        // Fetch ALL features with translated descriptions
         var allFeaturesDto = await (from f in dbContext.Features
                                     orderby f.Group, f.Order
                                     select new FeatureDto
@@ -180,55 +145,43 @@ public class PermissionService(
             .Select(uc => new GenericClaimDto(uc.FeatureId, uc.PermissionAction, uc.ClaimValue))
             .ToListAsync();
         
-        // BuildPermissionSchema now receives FeatureDto
         return BuildPermissionSchema(userId, GetComposedName(user), allFeaturesDto, claims);
     }
 
     private static PermissionSchemaDto BuildPermissionSchema(
         Guid entityId, 
         string entityName, 
-        List<FeatureDto> features, // Changed from List<Feature> to List<FeatureDto>
+        List<FeatureDto> features,
         List<GenericClaimDto> claims)
     {
-        var permissionGroups = new List<PermissionGroupDto>();
-
-        // Optimization: Create a lookup for O(1) access to claims by FeatureId
         var claimsByFeature = claims
             .Where(c => c.FeatureId.HasValue)
-            .ToLookup(c => c.FeatureId!.Value);
+            .ToLookup(c => c.FeatureId.Value);
 
-        foreach (var group in features.GroupBy(f => f.Group).OrderBy(g => g.Key))
-        {
-            var featuresInGroup = (from feature in @group
+        var permissionGroups = (from @group in features.GroupBy(f => f.Group).OrderBy(g => g.Key)
+            let featuresInGroup = (from feature in @group
                 let featureClaims = claimsByFeature[feature.Id].ToList()
                 let canRead = featureClaims.Any(c => c.PermissionAction == PermissionAction.Read)
                 let canWrite = featureClaims.Any(c => c.PermissionAction == PermissionAction.Write)
                 let canDelete = featureClaims.Any(c => c.PermissionAction == PermissionAction.Delete)
                 let customPermissions = featureClaims.Where(c => c.PermissionAction is null or PermissionAction.None)
-                    .Select(c => c.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
+                    .Select(c => c.ClaimValue!.Split('.').Last())
                     .ToList()
-                let availableCustomPermissions = string.IsNullOrEmpty(feature.CustomPermissions) 
-                    ? [] 
+                let availableCustomPermissions = string.IsNullOrEmpty(feature.CustomPermissions)
+                    ? []
                     : feature.CustomPermissions.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
                 select new PermissionItemDto
                 {
                     FeatureId = feature.Id,
                     Code = feature.Code,
-                    Description = feature.Description, 
-                    Read = canRead,
-                    Write = canWrite,
-                    Delete = canDelete,
+                    Description = feature.Description,
+                    Read = new PredefinedPermission<bool>(canRead),
+                    Write = new PredefinedPermission<bool>(canWrite) ,
+                    Delete = new PredefinedPermission<bool>(canDelete),
                     CustomPermissions = customPermissions,
                     AvailableCustomPermissions = availableCustomPermissions
-                }).ToList();
-
-            permissionGroups.Add(new PermissionGroupDto
-            {
-                GroupName = group.Key ?? "Unassigned", // Handle null groups
-                Order = group.First().Order, // Assume first feature's order represents group order
-                Features = featuresInGroup
-            });
-        }
+                }).ToList()
+            select new PermissionGroupDto { GroupName = @group.Key ?? "Unassigned", Order = @group.First().Order, Features = featuresInGroup }).ToList();
 
         return new PermissionSchemaDto
         {
@@ -242,15 +195,10 @@ public class PermissionService(
 
     public async Task<bool> HasPermissionAsync(string userId, IEnumerable<string> userRoles, string featureCode, PermissionAction action)
     {
-        // Convert user ID string to Guid
         if (!Guid.TryParse(userId, out var userGuid)) return false;
-        
-        // Construct the expected Claim Value string (e.g., "Permissions.AcademicYears.Read")
-        // This avoids querying the Features table to get the ID.
+
         var permissionClaimValue = $"Permissions.{featureCode}.{action}";
 
-        // Optimized query using LINQ Query Syntax to join Roles without navigation properties
-        // and filtering by ClaimValue (string) instead of FeatureId (Guid)
         var roleClaimsQuery = 
             from rc in dbContext.RoleClaims
             join r in dbContext.Roles on rc.RoleId equals r.Id

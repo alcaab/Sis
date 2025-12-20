@@ -1,6 +1,5 @@
 namespace Desyco.Iam.Contracts.Permissions;
 
-// DTO Raíz
 public record PermissionSchemaDto
 {
     public Guid EntityId { get; init; }

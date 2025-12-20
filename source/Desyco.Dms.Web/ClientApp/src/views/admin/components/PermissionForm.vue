@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref, computed, watch } from "vue";
     import { useI18n } from "vue-i18n";
-    import type { PermissionSchema, FeaturePermission, PermissionGroup } from "@/types/permissions";
+    import { PermissionSchema, FeaturePermission, PermissionGroup, PermissionItem } from "@/types/permissions";
     import { PermissionAction } from "@/types/permissions";
     import Accordion from "primevue/accordion";
     import AccordionPanel from "primevue/accordionpanel";
@@ -65,18 +65,18 @@
     const getActiveCount = (group: PermissionGroup) => {
         let count = 0;
         group.features.forEach((f) => {
-            if (f.read) count++;
-            if (f.write) count++;
-            if (f.delete) count++;
+            if (f.read.value) count++;
+            if (f.write.value) count++;
+            if (f.delete.value) count++;
             if (f.customPermissions) count += f.customPermissions.length;
         });
         return count;
     };
 
-    const toggleFullAccess = (item: any, value: boolean) => {
-        item.read = value;
-        item.write = value;
-        item.delete = value;
+    const toggleFullAccess = (item: PermissionItem, value: boolean) => {
+        item.read.value = value;
+        item.write.value = value;
+        item.delete.value = value;
 
         if (item.availableCustomPermissions) {
             if (value) {
@@ -88,7 +88,7 @@
     };
 
     const isFullAccess = (item: any) => {
-        const standard = item.read && item.write && item.delete;
+        const standard = item.read.value && item.write.value && item.delete.value;
         const availableCustomPermissions = item.availableCustomPermissions ?? [];
         const custom =
             availableCustomPermissions.length == 0 ||
@@ -98,11 +98,11 @@
         return standard && custom;
     };
 
-    const isCustomGranted = (feature: any, permName: string) => {
+    const isCustomGranted = (feature: PermissionItem, permName: string) => {
         return feature.customPermissions && feature.customPermissions.includes(permName);
     };
 
-    const toggleCustom = (feature: any, permName: string, value: boolean) => {
+    const toggleCustom = (feature: PermissionItem, permName: string, value: boolean) => {
         if (!feature.customPermissions) feature.customPermissions = [];
 
         if (value) {
@@ -131,21 +131,21 @@
 
         permissionSchema.value.groups.forEach((group) => {
             group.features.forEach((feature) => {
-                if (feature.read)
+                if (feature.read.value)
                     updatedPermissions.push({
                         featureId: feature.featureId,
                         featureCode: feature.code,
                         action: PermissionAction.Read,
                         isGranted: true,
                     });
-                if (feature.write)
+                if (feature.write.value)
                     updatedPermissions.push({
                         featureId: feature.featureId,
                         featureCode: feature.code,
                         action: PermissionAction.Write,
                         isGranted: true,
                     });
-                if (feature.delete)
+                if (feature.delete.value)
                     updatedPermissions.push({
                         featureId: feature.featureId,
                         featureCode: feature.code,
@@ -281,9 +281,9 @@
                             >
                                 <template #body="slotProps">
                                     <div class="flex flex-col">
-                                        <span class="font-medium text-surface-900 dark:text-surface-0">{{
-                                            slotProps.data.description
-                                        }}</span>
+                                        <span class="font-medium text-surface-900 dark:text-surface-0">
+                                            {{ slotProps.data.description }}
+                                        </span>
                                         <span class="text-xs text-surface-500">{{ slotProps.data.code }}</span>
                                     </div>
                                 </template>
@@ -314,7 +314,7 @@
                             >
                                 <template #body="slotProps">
                                     <Checkbox
-                                        v-model="slotProps.data.read"
+                                        v-model="slotProps.data.read.value"
                                         binary
                                     />
                                 </template>
@@ -327,7 +327,7 @@
                             >
                                 <template #body="slotProps">
                                     <Checkbox
-                                        v-model="slotProps.data.write"
+                                        v-model="slotProps.data.write.value"
                                         binary
                                     />
                                 </template>
@@ -340,7 +340,7 @@
                             >
                                 <template #body="slotProps">
                                     <Checkbox
-                                        v-model="slotProps.data.delete"
+                                        v-model="slotProps.data.delete.value"
                                         binary
                                     />
                                 </template>

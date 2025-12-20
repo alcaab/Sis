@@ -5,57 +5,56 @@ export enum PermissionAction {
     Delete = 3,
 }
 
-// Corresponds to PermissionSchemaDto in C#
 export interface PermissionSchema {
     entityId: string; // Guid
     entityName: string;
     groups: PermissionGroup[];
 }
 
-// Corresponds to PermissionGroupDto in C#
 export interface PermissionGroup {
     groupName: string;
     order: number;
     features: PermissionItem[];
 }
 
-// Corresponds to PermissionItemDto in C#
+export interface PredefinedPermission {
+    value: boolean;
+    inherited?: boolean;
+}
+
 export interface PermissionItem {
-    featureId: string; // Guid
+    featureId: string;
     code: string;
     description: string;
-    read: boolean;
-    write: boolean;
-    delete: boolean;
+    read: PredefinedPermission;
+    write: PredefinedPermission;
+    delete: PredefinedPermission;
     customPermissions: string[]; // e.g., ["Print"] - Granted ones
     availableCustomPermissions: string[]; // e.g., ["Approve", "Reject"] - Possible ones
 }
 
-// Corresponds to FeatureDto in C#
 export interface FeatureDto {
-    id: string; // Guid
+    id: string;
     code: string;
     description: string;
     group: string;
     order: number;
 }
 
-// Corresponds to FeaturePermission in C# (for update requests)
 export interface FeaturePermission {
-    featureId: string; // Guid
+    featureId: string;
     featureCode: string;
     action: PermissionAction;
-    customActionName?: string; // For custom actions (when Action is None)
+    customActionName?: string;
     isGranted: boolean;
 }
 
-// Corresponds to RoleClaimDto in C# (for listing individual claims, less used in UI)
 export interface RoleClaimDto {
     id: number;
-    roleId: string; // Guid
+    roleId: string;
     claimType: string;
     claimValue: string;
-    featureId: string | null; // Guid
+    featureId: string | null;
     permissionAction: PermissionAction | null;
     description: string | null;
 }
