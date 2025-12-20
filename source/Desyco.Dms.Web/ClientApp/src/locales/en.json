@@ -51,7 +51,9 @@
         },
         "permissions": {
             "backToRoles": "Back to previous page",
+            "backToUsers": "Back to Users",
             "subtitle": "Manage role permissions and access levels",
+            "userSubtitle": "Manage user permissions and access levels",
             "expandAll": "Expand All",
             "collapseAll": "Collapse All",
             "featureHeader": "Feature",

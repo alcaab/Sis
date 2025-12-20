@@ -4,45 +4,64 @@
     import { useI18n } from "vue-i18n";
     import { useUserStore } from "@/stores/userStore";
     import { useNotification } from "@/composables/useNotification";
-    import type { PermissionSchema } from "@/types/permissions.ts";
+    import type { FeaturePermission } from "@/types/permissions";
+    import PermissionForm from "../components/PermissionForm.vue";
 
     const route = useRoute();
     const router = useRouter();
     const userStore = useUserStore();
+    const notify = useNotification();
     const { t } = useI18n();
-    const { showError } = useNotification();
 
     const userId = computed(() => route.params.id as string);
-    const userName = ref<string | null>(null);
-    const loading = computed(() => userStore.loading);
-    const permissionSchema = ref<PermissionSchema | null>(null);
+    const loading = ref(false);
 
     onMounted(async () => {
         if (userId.value) {
-            await loadUserPermissions();
+            await fetchUserPermissions();
         } else {
-            showError(t("admin.permissions.notifications.missingId"));
-            router.push({ name: "uses-list" }).then();
+            router.push({ name: "users-list" }).then();
+            notify.showError(t("admin.permissions.notifications.missingId"));
         }
     });
 
-    const loadUserPermissions = async () => {
+    const fetchUserPermissions = async () => {
+        loading.value = true;
         try {
-            await userStore.fetchUserPermissions(userId.value);
-            const rawData = userStore.currentUserPermissions;
-
-            if (rawData) {
-                permissionSchema.value = JSON.parse(JSON.stringify(rawData));
-                userName.value = rawData.entityName || "Unknown User";
-                //expandAll();
-            }
+            await userStore.fetchUserPermissions(userId.value!);
         } catch (error) {
-            showError(t("common.notifications.loadError"));
-            router.push({ name: "uses-list" }).then();
+            notify.showError(error, t("common.notifications.loadError"));
+            router.push({ name: "users-list" }).then();
+        } finally {
+            loading.value = false;
         }
+    };
+
+    const updatePermissions = async (updatedPermissions: FeaturePermission[]) => {
+        loading.value = true;
+        try {
+            await userStore.updateUserPermissions(userId.value!, updatedPermissions);
+            notify.showSuccess(t("admin.permissions.notifications.updateSuccess"));
+        } catch (error) {
+            notify.showError(error, t("admin.permissions.notifications.updateError"));
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const goBack = () => {
+        router.push({ name: "users-list" });
     };
 </script>
 
 <template>
-    {{ userName }}
+    <PermissionForm
+        :initialSchema="userStore.currentUserPermissions"
+        :entityName="userStore.currentUserPermissions?.entityName || 'Unknown User'"
+        :loading="loading"
+        :backLabel="t('admin.permissions.backToUsers')"
+        :subtitle="t('admin.permissions.userSubtitle')"
+        @save="updatePermissions"
+        @cancel="goBack"
+    />
 </template>
