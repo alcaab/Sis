@@ -40,7 +40,7 @@
 
     function handlePagination(event: RequestParamsPayload) {
         store.fetchAcademicYears(event).catch((error) => {
-            notify.showError(error, t("schoolSettings.academicYear.list.notifications.loadError"));
+            notify.showError(error, t("common.notifications.loadError"));
         });
     }
 
@@ -88,13 +88,13 @@
     const getStatusLabel = (status: AcademicYearStatus) => {
         switch (status) {
             case AcademicYearStatus.Upcoming:
-                return t("schoolSettings.academicYear.list.statusLabels.upcoming");
+                return t("schoolSettings.academicYear.statusLabels.upcoming");
             case AcademicYearStatus.Current:
-                return t("schoolSettings.academicYear.list.statusLabels.current");
+                return t("schoolSettings.academicYear.statusLabels.current");
             case AcademicYearStatus.Closed:
-                return t("schoolSettings.academicYear.list.statusLabels.closed");
+                return t("schoolSettings.academicYear.statusLabels.closed");
             default:
-                return t("schoolSettings.academicYear.list.statusLabels.unknown");
+                return t("schoolSettings.academicYear.statusLabels.unknown");
         }
     };
 
@@ -136,7 +136,7 @@
             <template #header>
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">
-                        {{ t("schoolSettings.academicYear.list.header") }}
+                        {{ t("schoolSettings.academicYear.title") }}
                     </h4>
                     <div class="flex items-center gap-2">
                         <IconField iconPosition="left">
@@ -145,13 +145,13 @@
                             </InputIcon>
                             <InputText
                                 v-model="filters['global'].value"
-                                :placeholder="t('schoolSettings.academicYear.list.searchPlaceholder')"
+                                :placeholder="t('common.placeholders.search')"
                                 @input="onDebouncedSearch"
                                 class="w-full md:w-auto"
                             />
                         </IconField>
                         <Button
-                            :label="t('schoolSettings.academicYear.list.newButton')"
+                            :label="t('common.buttons.new')"
                             icon="pi pi-plus"
                             @click="openNew"
                         />
@@ -161,14 +161,14 @@
 
             <Column
                 field="name"
-                :header="t('schoolSettings.academicYear.list.nameHeader')"
-                sortable
+                :header="t('schoolSettings.academicYear.name')"
+                :sortable="true"
                 style="min-width: 12rem"
             ></Column>
             <Column
                 field="startDate"
-                :header="t('schoolSettings.academicYear.list.startDateHeader')"
-                sortable
+                :header="t('schoolSettings.academicYear.startDate')"
+                :sortable="true"
                 style="min-width: 10rem"
             >
                 <template #body="slotProps">
@@ -177,8 +177,8 @@
             </Column>
             <Column
                 field="endDate"
-                :header="t('schoolSettings.academicYear.list.endDateHeader')"
-                sortable
+                :header="t('schoolSettings.academicYear.endDate')"
+                :sortable="true"
                 style="min-width: 10rem"
             >
                 <template #body="slotProps">
@@ -187,8 +187,8 @@
             </Column>
             <Column
                 field="status"
-                :header="t('schoolSettings.academicYear.list.statusHeader')"
-                sortable
+                :header="t('schoolSettings.academicYear.status')"
+                :sortable="true"
                 style="min-width: 10rem"
             >
                 <template #body="slotProps">
@@ -203,7 +203,7 @@
                 style="min-width: 8rem"
             >
                 <template #header>
-                    <div class="flex justify-end w-full">{{ t("schoolSettings.academicYear.list.actionsHeader") }}</div>
+                    <div class="flex justify-end w-full">{{ t("common.actions") }}</div>
                 </template>
                 <template #body="slotProps">
                     <TableActions
@@ -218,6 +218,7 @@
                 <Button
                     type="button"
                     icon="pi pi-refresh"
+                    :title="t('common.buttons.refresh')"
                     text
                     @click="onSearch"
                 />

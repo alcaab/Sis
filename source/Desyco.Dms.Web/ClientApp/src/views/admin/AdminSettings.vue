@@ -9,9 +9,12 @@
 
     const adminMenu = [
         {
-            label: t("admin.security"),
+            label: t("admin.panelGroups.userManagement.title"),
             icon: "pi pi-fw pi-shield",
-            items: [{ label: t("admin.rolesAndPermissions"), to: "/admin/roles" }],
+            items: [
+                { label: t("admin.panelGroups.userManagement.users"), to: "/admin/users" },
+                { label: t("admin.panelGroups.userManagement.roles"), to: "/admin/roles" },
+            ],
         },
     ];
 

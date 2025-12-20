@@ -1,18 +1,16 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
     import { useRouter } from "vue-router";
-    import { useRoleStore } from "@/stores/roleStore";
+    import { useUserStore } from "@/stores/userStore";
     import { useNotification } from "@/composables/useNotification";
     import { useConfirm } from "primevue/useconfirm";
     import { useI18n } from "vue-i18n";
     import { FilterMatchMode } from "@primevue/core/api";
-    import type { RoleDto } from "@/types/role";
-    import RoleForm from "./RoleForm.vue";
     import TableActions from "@/components/common/TableActions.vue";
-    import Button from "primevue/button";
+    import { UserDto } from "@/types/user.ts";
 
     const router = useRouter();
-    const roleStore = useRoleStore();
+    const userStore = useUserStore();
     const notify = useNotification();
     const confirm = useConfirm();
     const { t } = useI18n();
@@ -20,11 +18,7 @@
     const dt = ref();
     const isDeleting = ref(false);
     const deletingItemId = ref<string | null>(null);
-
-    const roles = ref<RoleDto[]>([]);
-    const selectedRole = ref<RoleDto | null>(null);
-    const roleDialog = ref(false);
-    const submitted = ref(false);
+    const users = ref<UserDto[]>([]);
     const loading = ref(false);
 
     const filters = ref({
@@ -32,14 +26,14 @@
     });
 
     onMounted(async () => {
-        await fetchRoles();
+        await fetchUsers();
     });
 
-    const fetchRoles = async () => {
+    const fetchUsers = async () => {
         loading.value = true;
         try {
-            await roleStore.fetchAllRoles();
-            roles.value = roleStore.roles;
+            await userStore.fetchAllUsers();
+            users.value = userStore.users;
         } catch (error) {
             notify.showError(error, t("common.notifications.loadError"));
         } finally {
@@ -47,55 +41,25 @@
         }
     };
 
+    const editUser = (item: UserDto) => {
+        router.push({ name: "user-edit", params: { id: item.id } });
+    };
+
     const openNew = () => {
-        selectedRole.value = null;
-        submitted.value = false;
-        roleDialog.value = true;
+        router.push({ name: "user-create" });
     };
 
-    const hideDialog = () => {
-        roleDialog.value = false;
-        submitted.value = false;
-    };
-
-    const saveRole = async (roleData: RoleDto) => {
-        submitted.value = true;
-        loading.value = true;
-
-        try {
-            if (selectedRole.value && "id" in selectedRole.value) {
-                await roleStore.updateRole(selectedRole.value.id, roleData as RoleDto);
-                notify.showSuccess(t("common.notifications.updateSuccess"));
-            } else {
-                await roleStore.createRole(roleData);
-                notify.showSuccess(t("common.notifications.createSuccess"));
-            }
-            hideDialog();
-            await fetchRoles(); // Refresh local list
-        } catch (error) {
-            notify.showError(error, t("common.notifications.operationError"));
-        } finally {
-            loading.value = false;
-        }
-    };
-
-    const editRole = (role: RoleDto) => {
-        selectedRole.value = { ...role };
-        roleDialog.value = true;
-    };
-
-    const confirmDeleteRole = (role: RoleDto) => {
+    const confirmDelete = (user: UserDto) => {
         confirm.require({
-            message: t("common.notifications.confirmDelete", { name: role.name }),
+            message: t("common.notifications.confirmDelete", { name: user.userName }),
             header: t("common.notifications.confirmDeleteTitle"),
             icon: "pi pi-exclamation-triangle",
             accept: async () => {
                 isDeleting.value = true;
-                deletingItemId.value = role.id;
+                deletingItemId.value = user.id;
                 try {
-                    await roleStore.deleteRole(role.id);
+                    await userStore.deleteUser(user.id);
                     notify.showSuccess(t("common.notifications.deleteSuccess"));
-                    await fetchRoles();
                 } catch (error) {
                     notify.showError(error, t("common.notifications.deleteError"));
                 } finally {
@@ -106,16 +70,19 @@
         });
     };
 
-    const managePermissions = (role: RoleDto) => {
-        router.push({ name: "role-permissions", params: { id: role.id } });
+    const managePermissions = (role: UserDto) => {
+        router.push({ name: "user-permissions", params: { id: role.id } });
     };
+
+    const activeState = (lockoutEnabled: boolean) =>
+        !lockoutEnabled ? t("common.activeState.false") : t("common.activeState.true");
 </script>
 
 <template>
     <div class="w-full animate fade-in">
         <DataTable
             ref="dt"
-            :value="roles"
+            :value="users"
             dataKey="id"
             :loading="loading || isDeleting"
             :paginator="true"
@@ -128,7 +95,7 @@
             <template #header>
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">
-                        {{ t("admin.roles.title") }}
+                        {{ t("admin.users.title") }}
                     </h4>
                     <div class="flex items-center gap-2">
                         <IconField iconPosition="left">
@@ -143,28 +110,56 @@
                         </IconField>
                         <Button
                             :label="t('common.buttons.new')"
-                            icon="pi pi-plus"
                             @click="openNew"
+                            icon="pi pi-plus"
                         />
                     </div>
                 </div>
             </template>
-
             <Column
-                field="name"
-                :header="t('admin.roles.name')"
+                field="userName"
+                :header="t('admin.users.userName')"
                 :sortable="true"
-                style="min-width: 12rem"
+            ></Column>
+            <!--            <Column-->
+            <!--                field="email"-->
+            <!--                :header="t('admin.users.email')"-->
+            <!--                :sortable="true"-->
+            <!--            ></Column>-->
+            <Column
+                field="firstName"
+                :header="t('admin.users.firstName')"
+                :sortable="true"
             ></Column>
             <Column
-                field="description"
-                :header="t('admin.roles.description')"
+                field="lastName"
+                :header="t('admin.users.lastName')"
                 :sortable="true"
-                style="min-width: 16rem"
             ></Column>
+            <Column
+                field="lockoutEnabled"
+                :header="t('admin.users.lockoutEnabled')"
+                :sortable="true"
+                style="width: 10px"
+            >
+                <template #body="{ data }">
+                    <div class="flex justify-center">
+                        <i
+                            :title="activeState(data.lockoutEnabled)"
+                            :class="[
+                                'pi',
+                                {
+                                    'pi-check-circle text-green-500': data.lockoutEnabled,
+                                    'pi-times-circle text-red-500': !data.lockoutEnabled,
+                                },
+                            ]"
+                        ></i>
+                    </div>
+                </template>
+            </Column>
             <Column
                 :exportable="false"
-                style="min-width: 4rem"
+                style="width: 4rem"
             >
                 <template #header>
                     <div class="flex justify-end w-full">{{ t("common.actions") }}</div>
@@ -173,15 +168,16 @@
                     <TableActions
                         :id="slotProps.data.id"
                         :loading="deletingItemId === slotProps.data.id"
-                        @edit="editRole(slotProps.data)"
-                        @delete="confirmDeleteRole(slotProps.data)"
+                        @delete="confirmDelete(slotProps.data)"
+                        @edit="editUser(slotProps.data)"
+                        :editTooltip="t('common.buttons.edit')"
+                        :deleteTooltip="t('common.buttons.delete')"
                     >
                         <template #left>
                             <Button
                                 icon="pi pi-shield"
                                 severity="info"
                                 outlined
-                                class="mr-2"
                                 :title="t('common.buttons.permissions')"
                                 @click="managePermissions(slotProps.data)"
                             />
@@ -194,27 +190,11 @@
                     type="button"
                     icon="pi pi-refresh"
                     text
-                    @click="fetchRoles"
+                    @click="fetchUsers"
                     :title="t('common.buttons.refresh')"
                 />
             </template>
         </DataTable>
     </div>
-    <Dialog
-        v-model:visible="roleDialog"
-        :style="{ width: '50vw' }"
-        :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-        :header="t('admin.roles.dialogHeader')"
-        :modal="true"
-        class="p-fluid"
-    >
-        <RoleForm
-            :initialData="selectedRole"
-            :submitted="submitted"
-            :loading="loading"
-            @submit="saveRole"
-            @cancel="hideDialog"
-        />
-    </Dialog>
     <ConfirmDialog></ConfirmDialog>
 </template>

@@ -32,7 +32,7 @@
             initialData.value = response.data;
         } catch (error) {
             console.error(error);
-            notify.showError(error, t("schoolSettings.academicYear.form.notifications.loadError"));
+            notify.showError(error, t("common.notifications.loadError"));
             router.push({ name: "academic-year-list" }).then();
         }
     };
@@ -49,10 +49,10 @@
             }
 
             await store.updateAcademicYear(id, payload);
-            notify.showSuccess(t("schoolSettings.academicYear.form.notifications.updateSuccess"));
+            notify.showSuccess(t("common.notifications.updateSuccess"));
             router.push({ name: "academic-year-list" }).then();
         } catch (error: any) {
-            notify.showError(error, t("schoolSettings.academicYear.form.notifications.updateError"));
+            notify.showError(error, t("common.notifications.updateError"));
         } finally {
             loading.value = false;
         }
@@ -65,12 +65,17 @@
 
 <template>
     <div class="w-full animate fade-in">
-        <AcademicYearForm
-            :isEditing="true"
-            :loading="loading"
-            :initialData="initialData"
-            @submit="handleUpdate"
-            @cancel="handleCancel"
-        />
+        <div class="p-2">
+            <div class="font-semibold text-xl mb-6">
+                {{ t("schoolSettings.academicYear.editHeader") }}
+            </div>
+            <AcademicYearForm
+                :isEditing="true"
+                :loading="loading"
+                :initialData="initialData"
+                @submit="handleUpdate"
+                @cancel="handleCancel"
+            />
+        </div>
     </div>
 </template>

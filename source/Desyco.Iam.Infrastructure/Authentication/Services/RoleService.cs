@@ -3,6 +3,7 @@ using Desyco.Iam.Contracts.Roles;
 using Desyco.Iam.Infrastructure.Persistence.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+// ReSharper disable NullableWarningSuppressionIsUsed
 
 namespace Desyco.Iam.Infrastructure.Authentication.Services;
 
@@ -15,6 +16,14 @@ public class RoleService(RoleManager<ApplicationRole> roleManager) : IRoleServic
             .Select(r => new RoleDto(r.Id, r.Name!, r.Description))
             .ToListAsync();
     }
+    
+    public async Task<List<string>> GetNamesAsync()
+    {
+        return await roleManager.Roles
+            .OrderBy(r => r.Name)
+            .Select(r => r.Name!)
+            .ToListAsync();
+    }
 
     public async Task<RoleDto?> GetByIdAsync(Guid id)
     {
@@ -22,7 +31,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager) : IRoleServic
         return role == null ? null : new RoleDto(role.Id, role.Name!, role.Description);
     }
 
-    public async Task<RoleDto> CreateAsync(CreateRoleDto request)
+    public async Task<RoleDto> CreateAsync(RoleDto request)
     {
         var role = new ApplicationRole(request.Name)
         {
@@ -38,7 +47,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager) : IRoleServic
         return new RoleDto(role.Id, role.Name!, role.Description);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateRoleDto request)
+    public async Task UpdateAsync(Guid id, RoleDto request)
     {
         var role = await roleManager.FindByIdAsync(id.ToString());
         if (role == null) throw new KeyNotFoundException($"Role with ID {id} not found.");

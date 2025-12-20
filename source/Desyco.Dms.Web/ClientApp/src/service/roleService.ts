@@ -1,5 +1,5 @@
 import api from "./api";
-import type { RoleDto, CreateRoleDto, UpdateRoleDto } from "@/types/role";
+import type { RoleDto } from "@/types/role";
 
 const ROLES_API_URL = "roles";
 
@@ -9,17 +9,22 @@ export const roleService = {
         return response.data;
     },
 
+    async getNames(): Promise<string[]> {
+        const response = await api.get<string[]>(`${ROLES_API_URL}/names`);
+        return response.data;
+    },
+
     async getById(id: string): Promise<RoleDto> {
         const response = await api.get<RoleDto>(`${ROLES_API_URL}/${id}`);
         return response.data;
     },
 
-    async create(data: CreateRoleDto): Promise<RoleDto> {
+    async create(data: RoleDto): Promise<RoleDto> {
         const response = await api.post<RoleDto>(ROLES_API_URL, data);
         return response.data;
     },
 
-    async update(id: string, data: UpdateRoleDto): Promise<void> {
+    async update(id: string, data: RoleDto): Promise<void> {
         await api.put(`${ROLES_API_URL}/${id}`, data);
     },
 

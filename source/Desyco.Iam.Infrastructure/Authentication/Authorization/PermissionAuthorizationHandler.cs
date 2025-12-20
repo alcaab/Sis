@@ -5,15 +5,15 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Desyco.Iam.Infrastructure.Authentication.Authorization;
 
-public class PermissionAuthorizationHandler(IPermissionService permissionService) 
+public class PermissionAuthorizationHandler(IPermissionService permissionService)
     : AuthorizationHandler<PermissionRequirement>
 {
     protected override async Task HandleRequirementAsync(
-        AuthorizationHandlerContext context, 
+        AuthorizationHandlerContext context,
         PermissionRequirement requirement)
     {
         // Try standard ClaimTypes.NameIdentifier or "sub" or "uid"
-        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
+        var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier) ??
                      context.User.FindFirstValue(JwtRegisteredClaimNames.Sub) ??
                      context.User.FindFirstValue("sub");
 

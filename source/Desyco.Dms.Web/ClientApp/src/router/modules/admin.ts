@@ -4,7 +4,7 @@ const adminRoutes: RouteRecordRaw[] = [
     {
         path: "/admin",
         name: "admin",
-        redirect: { name: "roles-list" },
+        redirect: { name: "users-list" },
         component: () => import("@/views/admin/AdminSettings.vue"),
         meta: {
             breadcrumb: "Administration",
@@ -27,7 +27,38 @@ const adminRoutes: RouteRecordRaw[] = [
                     breadcrumb: "Role Permissions",
                 },
             },
-            // ... Aquí podríamos añadir usuarios, etc.
+            {
+                path: "users",
+                name: "users-list",
+                component: () => import("@/views/admin/users/UsersList.vue"),
+                meta: {
+                    breadcrumb: "Users",
+                },
+            },
+            {
+                path: "users/create",
+                name: "user-create",
+                component: () => import("@/views/admin/users/UserCreate.vue"),
+                meta: {
+                    breadcrumb: "Create User",
+                },
+            },
+            {
+                path: "users/:id/edit",
+                name: "user-edit",
+                component: () => import("@/views/admin/users/UserEdit.vue"),
+                meta: {
+                    breadcrumb: "Edit User",
+                },
+            },
+            {
+                path: "users/:id/permissions",
+                name: "user-permissions",
+                component: () => import("@/views/admin/users/UserPermissions.vue"),
+                meta: {
+                    breadcrumb: "User Permissions",
+                },
+            },
         ],
     },
 ];

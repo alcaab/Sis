@@ -7,6 +7,7 @@
     import { toTypedSchema } from "@vee-validate/yup";
     import { useI18n } from "vue-i18n";
 
+    const { t } = useI18n();
     const props = defineProps<{
         initialData?: Partial<AcademicYearDto>;
         isEditing: boolean;
@@ -14,21 +15,14 @@
     }>();
 
     const emit = defineEmits(["submit", "cancel"]);
-    const { t } = useI18n();
 
     const schema = toTypedSchema(
         yup.object({
             id: yup.number().optional(),
-            name: yup.string().required(t("schoolSettings.academicYear.form.validation.nameRequired")),
-            startDate: yup
-                .date()
-                .typeError(t("schoolSettings.academicYear.form.validation.startDateRequired"))
-                .required(t("schoolSettings.academicYear.form.validation.startDateRequired")),
-            endDate: yup
-                .date()
-                .typeError(t("schoolSettings.academicYear.form.validation.endDateRequired"))
-                .required(t("schoolSettings.academicYear.form.validation.endDateRequired")),
-            status: yup.number().required(t("schoolSettings.academicYear.form.validation.statusRequired")),
+            name: yup.string().required(),
+            startDate: yup.date().typeError(t("common.validations.required")).required(),
+            endDate: yup.date().typeError(t("common.validations.required")).required(),
+            status: yup.number().required(),
         }),
     );
 
@@ -95,9 +89,9 @@
     );
 
     const statuses = computed(() => [
-        { label: t("schoolSettings.academicYear.list.statusLabels.upcoming"), value: AcademicYearStatus.Upcoming },
-        { label: t("schoolSettings.academicYear.list.statusLabels.current"), value: AcademicYearStatus.Current },
-        { label: t("schoolSettings.academicYear.list.statusLabels.closed"), value: AcademicYearStatus.Closed },
+        { label: t("schoolSettings.academicYear.statusLabels.upcoming"), value: AcademicYearStatus.Upcoming },
+        { label: t("schoolSettings.academicYear.statusLabels.current"), value: AcademicYearStatus.Current },
+        { label: t("schoolSettings.academicYear.statusLabels.closed"), value: AcademicYearStatus.Closed },
     ]);
 
     const onSubmit = handleSubmit((values) => {
@@ -110,92 +104,79 @@
 </script>
 
 <template>
-    <div class="p-2">
-        <div class="font-semibold text-xl mb-6">
-            {{
-                isEditing
-                    ? t("schoolSettings.academicYear.form.editHeader")
-                    : t("schoolSettings.academicYear.form.createHeader")
-            }}
-        </div>
-        <form
-            @submit="onSubmit"
-            class="flex flex-col gap-4"
+    <form
+        @submit="onSubmit"
+        class="flex flex-col gap-4"
+    >
+        <FormField
+            :label="t('schoolSettings.academicYear.name')"
+            id="name"
+            required
         >
-            <FormField
-                :label="t('schoolSettings.academicYear.form.nameLabel')"
+            <InputText
                 id="name"
-                required
-                :error="errors.name"
-            >
-                <InputText
-                    id="name"
-                    v-model="name"
-                    class="w-full"
-                    :invalid="!!errors.name"
-                />
-            </FormField>
+                v-model="name"
+                class="w-full"
+                :invalid="!!errors.name"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.academicYear.form.startDateLabel')"
+        <FormField
+            :label="t('schoolSettings.academicYear.startDate')"
+            id="startDate"
+            required
+        >
+            <DatePicker
                 id="startDate"
-                required
-                :error="errors.startDate"
-            >
-                <DatePicker
-                    id="startDate"
-                    v-model="startDateProxy"
-                    showIcon
-                    dateFormat="yy-mm-dd"
-                    :invalid="!!errors.startDate"
-                />
-            </FormField>
+                v-model="startDateProxy"
+                showIcon
+                dateFormat="yy-mm-dd"
+                :invalid="!!errors.startDate"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.academicYear.form.endDateLabel')"
+        <FormField
+            :label="t('schoolSettings.academicYear.endDate')"
+            id="endDate"
+            required
+        >
+            <DatePicker
                 id="endDate"
-                required
-                :error="errors.endDate"
-            >
-                <DatePicker
-                    id="endDate"
-                    v-model="endDateProxy"
-                    showIcon
-                    dateFormat="yy-mm-dd"
-                    :invalid="!!errors.endDate"
-                />
-            </FormField>
+                v-model="endDateProxy"
+                showIcon
+                dateFormat="yy-mm-dd"
+                :invalid="!!errors.endDate"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.academicYear.form.statusLabel')"
-                id="status"
-                required
-                :error="errors.status"
-            >
-                <SelectButton
-                    v-model="status"
-                    :options="statuses"
-                    optionLabel="label"
-                    optionValue="value"
-                    class="w-full md:w-auto"
-                    :invalid="!!errors.status"
-                />
-            </FormField>
+        <FormField
+            :label="t('schoolSettings.academicYear.status')"
+            id="status"
+            required
+        >
+            <SelectButton
+                v-model="status"
+                :options="statuses"
+                optionLabel="label"
+                optionValue="value"
+                class="w-full md:w-auto"
+                :invalid="!!errors.status"
+            />
+        </FormField>
 
-            <div class="flex justify-end gap-2 mt-4">
-                <Button
-                    :label="t('schoolSettings.academicYear.form.cancelButton')"
-                    severity="secondary"
-                    outlined
-                    @click="handleCancel"
-                />
-                <Button
-                    :label="t('schoolSettings.academicYear.form.saveButton')"
-                    type="submit"
-                    :loading="loading"
-                    icon="pi pi-check"
-                />
-            </div>
-        </form>
-    </div>
+        <div class="flex justify-end gap-2 mt-4">
+            <Button
+                :label="t('common.buttons.cancel')"
+                severity="secondary"
+                outlined
+                @click="handleCancel"
+            />
+            <Button
+                :label="t('common.buttons.save')"
+                type="submit"
+                :loading="loading"
+                icon="pi pi-check"
+            />
+        </div>
+    </form>
 </template>

@@ -29,7 +29,7 @@
                 >{{ hint }}</small
             >
             <small
-                v-if="error && typeof error === 'string'"
+                v-if="error && typeof error === 'string' && error !== 'required'"
                 class="text-red-500 block mt-1"
                 >{{ error }}</small
             >

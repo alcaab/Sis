@@ -69,6 +69,7 @@ public static class IamModuleExtensions
         services.AddScoped<PermissionSeeder>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IRoleService, RoleService>(); // Register RoleService
+        services.AddScoped<IUserService, UserService>();
 
         // 6. Register Authorization (Granular Permissions)
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();

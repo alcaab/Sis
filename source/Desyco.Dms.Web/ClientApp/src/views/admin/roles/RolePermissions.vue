@@ -28,7 +28,7 @@
             await fetchRolePermissions();
         } else {
             router.push({ name: "roles-list" });
-            notify.showError(t("admin.roles.permissions.notifications.missingId"));
+            notify.showError(t("admin.permissions.notifications.missingId"));
         }
     });
 
@@ -45,7 +45,7 @@
                 expandAll();
             }
         } catch (error) {
-            notify.showError(error, t("admin.roles.permissions.notifications.loadError"));
+            notify.showError(error, t("admin.permissions.notifications.loadError"));
             router.push({ name: "roles-list" });
         } finally {
             loading.value = false;
@@ -191,9 +191,9 @@
             });
 
             await roleStore.updateRolePermissions(roleId.value!, updatedPermissions);
-            notify.showSuccess(t("admin.roles.permissions.notifications.updateSuccess"));
+            notify.showSuccess(t("admin.permissions.notifications.updateSuccess"));
         } catch (error) {
-            notify.showError(error, t("admin.roles.permissions.notifications.updateError"));
+            notify.showError(error, t("admin.permissions.notifications.updateError"));
         } finally {
             loading.value = false;
         }
@@ -214,7 +214,7 @@
                     @click="goBack"
                 >
                     <i class="pi pi-arrow-left text-sm"></i>
-                    <span class="text-sm font-medium">{{ t("admin.roles.permissions.backToRoles") }}</span>
+                    <span class="text-sm font-medium">{{ t("admin.permissions.backToRoles") }}</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -222,14 +222,14 @@
                     </div>
                     <div>
                         <h2 class="text-xl font-bold m-0">{{ roleName }}</h2>
-                        <span class="text-sm text-surface-500">{{ t("admin.roles.permissions.subtitle") }}</span>
+                        <span class="text-sm text-surface-500">{{ t("admin.permissions.subtitle") }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="flex items-center gap-2">
                 <Button
-                    :label="t('admin.roles.permissions.saveChanges')"
+                    :label="t('common.buttons.saveAll')"
                     icon="pi pi-check"
                     :loading="loading"
                     @click="updatePermissions"
@@ -250,14 +250,14 @@
                 </InputIcon>
                 <InputText
                     v-model="searchQuery"
-                    :placeholder="t('admin.roles.permissions.searchPlaceholder')"
+                    :placeholder="t('common.placeholders.search')"
                     class="w-full sm:w-80"
                 />
             </IconField>
 
             <div class="flex gap-2">
                 <Button
-                    :label="t('admin.roles.permissions.expandAll')"
+                    :label="t('admin.permissions.expandAll')"
                     icon="pi pi-angle-double-down"
                     size="small"
                     severity="secondary"
@@ -265,7 +265,7 @@
                     @click="expandAll"
                 />
                 <Button
-                    :label="t('admin.roles.permissions.collapseAll')"
+                    :label="t('admin.permissions.collapseAll')"
                     icon="pi pi-angle-double-up"
                     size="small"
                     severity="secondary"
@@ -299,16 +299,15 @@
                             ></Badge>
                         </div>
                     </template>
-
+                    <!--stripedRows-->
                     <DataTable
                         :value="group.features"
-                        stripedRows
                         size="small"
                         class="p-datatable-sm"
                     >
                         <Column
                             field="description"
-                            :header="t('admin.roles.permissions.featureHeader')"
+                            :header="t('admin.permissions.featureHeader')"
                             style="min-width: 250px"
                         >
                             <template #body="slotProps">
@@ -323,7 +322,7 @@
 
                         <!-- Full Access Toggle -->
                         <Column
-                            :header="t('admin.roles.permissions.allHeader')"
+                            :header="t('admin.permissions.allHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -333,13 +332,13 @@
                                     :modelValue="isFullAccess(slotProps.data)"
                                     @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)"
                                     binary
-                                    v-tooltip.top="t('admin.roles.permissions.toggleAllTooltip')"
+                                    v-tooltip.top="t('admin.permissions.toggleAllTooltip')"
                                 />
                             </template>
                         </Column>
 
                         <Column
-                            :header="t('admin.roles.permissions.readHeader')"
+                            :header="t('admin.permissions.readHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -352,7 +351,7 @@
                             </template>
                         </Column>
                         <Column
-                            :header="t('admin.roles.permissions.writeHeader')"
+                            :header="t('admin.permissions.writeHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -365,7 +364,7 @@
                             </template>
                         </Column>
                         <Column
-                            :header="t('admin.roles.permissions.deleteHeader')"
+                            :header="t('admin.permissions.deleteHeader')"
                             headerClass="text-center"
                             bodyClass="text-center"
                             style="width: 80px"
@@ -378,7 +377,7 @@
                             </template>
                         </Column>
                         <Column
-                            :header="t('admin.roles.permissions.customHeader')"
+                            :header="t('admin.permissions.customHeader')"
                             style="min-width: 200px"
                         >
                             <template #body="slotProps">
@@ -422,9 +421,9 @@
             class="text-center py-8"
         >
             <i class="pi pi-filter-slash text-4xl text-surface-400 mb-3"></i>
-            <p class="text-lg text-surface-600">{{ t("admin.roles.permissions.noResults", { query: searchQuery }) }}</p>
+            <p class="text-lg text-surface-600">{{ t("admin.permissions.noResults", { query: searchQuery }) }}</p>
             <Button
-                :label="t('admin.roles.permissions.clearSearch')"
+                :label="t('admin.permissions.clearSearch')"
                 size="small"
                 outlined
                 class="mt-2"
@@ -435,7 +434,7 @@
         <Message
             v-else
             severity="info"
-            >{{ t("admin.roles.permissions.noSchema") }}</Message
+            >{{ t("admin.permissions.noSchema") }}</Message
         >
     </div>
 </template>

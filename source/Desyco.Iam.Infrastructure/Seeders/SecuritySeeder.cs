@@ -43,8 +43,7 @@ public class SecuritySeeder(UserManager<ApplicationUser> userManager, RoleManage
                     Email = email,
                     FirstName = role, // Use Role as FirstName for easy ID
                     LastName = "TestUser",
-                    EmailConfirmed = true,
-                    IsActive = true
+                    EmailConfirmed = true
                 };
                 
                 var result = await userManager.CreateAsync(user, password);

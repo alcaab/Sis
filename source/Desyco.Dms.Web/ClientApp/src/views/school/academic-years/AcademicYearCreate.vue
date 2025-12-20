@@ -10,8 +10,8 @@
     const store = useAcademicYearStore();
     const router = useRouter();
     const notify = useNotification();
-    const loading = ref(false);
     const { t } = useI18n();
+    const loading = ref(false);
 
     const handleCreate = async (data: AcademicYearDto) => {
         loading.value = true;
@@ -26,10 +26,10 @@
             }
 
             await store.createAcademicYear(payload);
-            notify.showSuccess(t("schoolSettings.academicYear.form.notifications.createSuccess"));
+            notify.showSuccess(t("common.notifications.createSuccess"));
             router.push({ name: "academic-year-list" }).then();
         } catch (error: any) {
-            notify.showError(error, t("schoolSettings.academicYear.form.notifications.createError"));
+            notify.showError(error, t("common.notifications.createError"));
         } finally {
             loading.value = false;
         }
@@ -42,11 +42,16 @@
 
 <template>
     <div class="w-full animate fade-in">
-        <AcademicYearForm
-            :isEditing="false"
-            :loading="loading"
-            @submit="handleCreate"
-            @cancel="handleCancel"
-        />
+        <div class="p-2">
+            <div class="font-semibold text-xl mb-6">
+                {{ t("schoolSettings.academicYear.createHeader") }}
+            </div>
+            <AcademicYearForm
+                :isEditing="false"
+                :loading="loading"
+                @submit="handleCreate"
+                @cancel="handleCancel"
+            />
+        </div>
     </div>
 </template>

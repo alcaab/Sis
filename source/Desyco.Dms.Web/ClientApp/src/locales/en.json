@@ -1,110 +1,112 @@
 {
+    "common": {
+        "buttons": {
+            "new": "New",
+            "edit": "Edit",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "save": "Save",
+            "refresh": "Refresh",
+            "saveAll": "Save Changes",
+            "permissions": "Manage Permissions"
+        },
+        "placeholders": {
+            "search": "Search...",
+            "select": "Select..."
+        },
+        "notifications": {
+            "confirmDeleteTitle": "Confirm Deletion",
+            "confirmDelete": "Are you sure you want to delete this item: {name}?",
+            "updateSuccessTitle": "Update Successful",
+            "updateSuccess": "Your changes have been saved successfully.",
+            "createSuccessTitle": "Creation Successful",
+            "createSuccess": "The item was created successfully.",
+            "deleteSuccessTitle": "Deletion Successful",
+            "deleteSuccess": "The item was deleted successfully.",
+            "deleteErrorTitle": "Deletion Failed",
+            "deleteError": "The item could not be deleted. Please try again.",
+            "operationErrorTitle": "Operation Failed",
+            "operationError": "The operation could not be completed. Please try again later.",
+            "loadErrorTitle": "Load Failed",
+            "loadError": "The data could not be loaded. Please refresh the page or try again later."
+        },
+        "validations": {
+            "required": "This field is required.",
+            "email": "Please enter a valid email address."
+        },
+        "actions": "Actions",
+        "pageReportTemplate": "Showing {first} to {last} of {totalRecords} entries",
+        "activeState": {
+            "true": "Enabled",
+            "false": "Disabled"
+        }
+    },
     "admin": {
-        "security": "Security",
-        "rolesAndPermissions": "Roles & Permissions",
+        "panelGroups": {
+            "userManagement": {
+                "title": "User Management",
+                "users": "Manage Users",
+                "roles": "Manage Roles"
+            }
+        },
+        "permissions": {
+            "backToRoles": "Back to previous page",
+            "subtitle": "Manage role permissions and access levels",
+            "expandAll": "Expand All",
+            "collapseAll": "Collapse All",
+            "featureHeader": "Feature",
+            "allHeader": "All",
+            "toggleAllTooltip": "Toggle All Actions",
+            "readHeader": "Read",
+            "writeHeader": "Write",
+            "deleteHeader": "Delete",
+            "customHeader": "Custom",
+            "noResults": "No permissions found matching \"{query}\".",
+            "clearSearch": "Clear Search",
+            "noSchema": "No permissions schema available for this role.",
+            "notifications": {
+                "notFound": "User not found.",
+                "fetchError": "Failed to load user data.",
+                "fetchPermissionsError": "Failed to load user permissions.",
+                "noPermissionsFound": "No permissions found for this user.",
+                "noUsersFound": "No users found."
+            }
+        },
         "roles": {
             "title": "Roles",
-            "list": {
-                "header": "Roles",
-                "searchPlaceholder": "Search...",
-                "newButton": "New",
-                "nameHeader": "Name",
-                "descriptionHeader": "Description",
-                "actionsHeader": "Actions",
-                "managePermissionsTooltip": "Manage Permissions",
-                "confirmDeleteTitle": "Confirm Deletion",
-                "confirmDeleteMessage": "Are you sure you want to delete role: {name}?",
-                "notifications": {
-                    "loadError": "Failed to load roles",
-                    "updateSuccess": "Role Updated Successfully",
-                    "createSuccess": "Role Created Successfully",
-                    "operationError": "Operation Failed",
-                    "deleteSuccess": "Role Deleted Successfully",
-                    "deleteError": "Deletion Failed"
-                }
-            },
-            "form": {
-                "header": "Role Details",
-                "nameLabel": "Name",
-                "nameRequired": "Name is required",
-                "descriptionLabel": "Description",
-                "cancelButton": "Cancel",
-                "saveButton": "Save"
-            },
-            "permissions": {
-                "backToRoles": "Back to Roles",
-                "subtitle": "Manage role permissions and access levels",
-                "saveChanges": "Save Changes",
-                "searchPlaceholder": "Search features...",
-                "expandAll": "Expand All",
-                "collapseAll": "Collapse All",
-                "featureHeader": "Feature",
-                "allHeader": "All",
-                "toggleAllTooltip": "Toggle All Actions",
-                "readHeader": "Read",
-                "writeHeader": "Write",
-                "deleteHeader": "Delete",
-                "customHeader": "Custom",
-                "noResults": "No permissions found matching \"{query}\".",
-                "clearSearch": "Clear Search",
-                "noSchema": "No permissions schema available for this role.",
-                "notifications": {
-                    "missingId": "Role ID not provided.",
-                    "loadError": "Failed to load role permissions",
-                    "updateSuccess": "Permissions updated successfully!",
-                    "updateError": "Failed to update permissions"
-                }
-            }
+            "dialogHeader": "Role Details",
+            "name": "Name",
+            "description": "Description"
+        },
+        "users": {
+            "userName": "Username",
+            "email": "Email",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "lockoutEnabled": "Enabled",
+            "phoneNumber": "Phone number",
+            "roles": "Roles",
+            "title": "Users",
+            "createHeader": "Create User",
+            "editHeader": "Edit User: {userName}",
+            "listTitle": "Users",
+            "createButton": "New User"
         }
     },
     "schoolSettings": {
         "academicYear": {
             "title": "Academic Years",
-            "list": {
-                "header": "Academic Years",
-                "searchPlaceholder": "Search...",
-                "newButton": "New",
-                "nameHeader": "Name",
-                "startDateHeader": "Start Date",
-                "endDateHeader": "End Date",
-                "statusHeader": "Status",
-                "actionsHeader": "Actions",
-                "confirmDeleteTitle": "Confirm Deletion",
-                "confirmDeleteMessage": "Are you sure you want to delete {name}?",
-                "notifications": {
-                    "loadError": "Failed to load data",
-                    "deleteSuccess": "Academic Year Deleted",
-                    "deleteError": "Delete failed"
-                },
-                "statusLabels": {
-                    "upcoming": "Upcoming",
-                    "current": "Current",
-                    "closed": "Closed",
-                    "unknown": "Unknown"
-                }
-            },
-            "form": {
-                "createHeader": "Create Academic Year",
-                "editHeader": "Edit Academic Year",
-                "nameLabel": "Name",
-                "startDateLabel": "Start Date",
-                "endDateLabel": "End Date",
-                "statusLabel": "Status",
-                "cancelButton": "Cancel",
-                "saveButton": "Save",
-                "validation": {
-                    "nameRequired": "Name is required",
-                    "startDateRequired": "Start Date is required",
-                    "endDateRequired": "End Date is required",
-                    "statusRequired": "Status is required"
-                },
-                "notifications": {
-                    "createSuccess": "Academic Year Created",
-                    "createError": "Creation failed",
-                    "updateSuccess": "Academic Year Updated",
-                    "updateError": "Update failed",
-                    "loadError": "Failed to load data"
-                }
+            "createHeader": "Create Academic Year",
+            "editHeader": "Edit Academic Year",
+            "name": "Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "status": "Status",
+            "statusLabels": {
+                "upcoming": "Upcoming",
+                "current": "Current",
+                "closed": "Closed",
+                "unknown": "Unknown"
             }
         },
         "yearsDaysTimes": {

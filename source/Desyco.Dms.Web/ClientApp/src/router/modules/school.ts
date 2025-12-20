@@ -13,7 +13,7 @@ const schoolRoutes: RouteRecordRaw[] = [
             {
                 path: "academic-year",
                 name: "academic-year-list",
-                component: () => import("@/views/school/academic-years/AcademicYear.vue"),
+                component: () => import("@/views/school/academic-years/AcademicYearList.vue"),
                 meta: {
                     breadcrumb: "Academic Years",
                 },

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Desyco.Iam.Infrastructure.Migrations
 {
     [DbContext(typeof(IamDbContext))]
-    [Migration("20251213232419_Initial")]
+    [Migration("20251215231728_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -115,9 +115,6 @@ namespace Desyco.Iam.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -143,12 +140,6 @@ namespace Desyco.Iam.Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -334,88 +325,6 @@ namespace Desyco.Iam.Infrastructure.Migrations
                     b.ToTable("RefreshTokens", "dls");
                 });
 
-            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.LanguageEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("Language", "dls", t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "en",
-                            IsActive = true,
-                            Name = "English"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "es",
-                            IsActive = true,
-                            Name = "Español"
-                        });
-                });
-
-            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.TranslationEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("Key", "LanguageId")
-                        .IsUnique();
-
-                    b.ToTable("Translation", "dls", t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
-                });
-
             modelBuilder.Entity("Desyco.Iam.Infrastructure.Persistence.Entities.ApplicationRoleClaim", b =>
                 {
                     b.HasOne("Desyco.Iam.Infrastructure.Persistence.Entities.ApplicationRole", null)
@@ -476,17 +385,6 @@ namespace Desyco.Iam.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Desyco.Shared.Contracts.Entities.TranslationEntity", b =>
-                {
-                    b.HasOne("Desyco.Shared.Contracts.Entities.LanguageEntity", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Language");
                 });
 #pragma warning restore 612, 618
         }

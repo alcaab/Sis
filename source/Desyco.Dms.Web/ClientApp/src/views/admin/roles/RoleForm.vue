@@ -4,7 +4,7 @@
     import { useI18n } from "vue-i18n";
     import * as yup from "yup";
     import { toTypedSchema } from "@vee-validate/yup";
-    import type { RoleDto, CreateRoleDto } from "@/types/role";
+    import type { RoleDto } from "@/types/role";
     import FormField from "@/components/common/FormField.vue";
 
     const props = defineProps<{
@@ -18,12 +18,12 @@
 
     const schema = toTypedSchema(
         yup.object({
-            name: yup.string().required(t("admin.roles.form.nameRequired")),
+            name: yup.string().required(),
             description: yup.string().nullable().optional(),
         }),
     );
 
-    const { defineField, handleSubmit, resetForm, errors } = useForm<CreateRoleDto>({
+    const { defineField, handleSubmit, resetForm, errors } = useForm<RoleDto>({
         validationSchema: schema,
         initialValues: {
             name: "",
@@ -70,10 +70,9 @@
     <form @submit="onSubmit">
         <div class="flex flex-col gap-4">
             <FormField
-                :label="t('admin.roles.form.nameLabel')"
+                :label="t('admin.roles.name')"
                 id="name"
                 required
-                :error="errors.name"
             >
                 <InputText
                     id="name"
@@ -85,7 +84,7 @@
             </FormField>
 
             <FormField
-                :label="t('admin.roles.form.descriptionLabel')"
+                :label="t('admin.roles.description')"
                 id="description"
                 :error="errors.description"
             >
@@ -101,13 +100,13 @@
 
         <div class="flex justify-end gap-2 mt-6">
             <Button
-                :label="t('admin.roles.form.cancelButton')"
+                :label="t('common.buttons.cancel')"
                 icon="pi pi-times"
                 text
                 @click="handleCancel"
             />
             <Button
-                :label="t('admin.roles.form.saveButton')"
+                :label="t('common.buttons.save')"
                 icon="pi pi-check"
                 type="submit"
                 :loading="loading"

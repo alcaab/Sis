@@ -40,10 +40,16 @@ builder.Logging.AddSerilog(Log.Logger);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.ConfigureServices(builder.Configuration, builder.Environment);
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); // Register custom exception handler
-builder.Services.AddProblemDetails(); // Required for IExceptionHandler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(Desyco.Iam.Web.Extensions.IamModuleExtensions).Assembly);
+    .AddApplicationPart(typeof(Desyco.Iam.Web.Extensions.IamModuleExtensions).Assembly)
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition =
+            System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    });
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -82,8 +88,14 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHsts();
-    //app.UseDefaultFiles();
-    //app.UseStaticFiles();
+     /*
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
+      }
+     */
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
 }
 
 app.UseHttpsRedirection();

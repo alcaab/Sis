@@ -8,9 +8,9 @@ public class ApplicationUser : IdentityUser<Guid>
 
     public string? LastName { get; set; }
 
-    public bool IsActive { get; set; } = true;
+    // public bool IsActive { get; set; } = true;
 
-    public string? RefreshToken { get; set; }
-
-    public DateTime? RefreshTokenExpiryTime { get; set; }
+    // public string? RefreshToken { get; set; }
+    //
+    // public DateTime? RefreshTokenExpiryTime { get; set; }
 }
