@@ -167,7 +167,7 @@
                 style="min-width: 4rem"
             >
                 <template #header>
-                    <div class="flex justify-end w-full">{{ t("common.actions") }}</div>
+                    <div class="flex justify-center w-full">{{ t("common.actions") }}</div>
                 </template>
                 <template #body="slotProps">
                     <TableActions

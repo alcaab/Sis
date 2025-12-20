@@ -7,7 +7,7 @@ import type { PermissionSchema, FeaturePermission } from "@/types/permissions";
 
 export const useRoleStore = defineStore("role", () => {
     const roles = ref<RoleDto[]>([]);
-    const currentRolePermissions = ref<PermissionSchema | null>(null);
+    const currentPermissions = ref<PermissionSchema | null>(null);
     const loading = ref(false);
 
     async function fetchAllRoles() {
@@ -65,7 +65,7 @@ export const useRoleStore = defineStore("role", () => {
     async function fetchRolePermissions(roleId: string) {
         loading.value = true;
         try {
-            currentRolePermissions.value = await permissionService.getPermissionSchemaForRole(roleId);
+            currentPermissions.value = await permissionService.getPermissionSchemaForRole(roleId);
         } catch (error) {
             console.error(`Failed to fetch permissions for role ${roleId}:`, error);
             throw error;
@@ -90,7 +90,7 @@ export const useRoleStore = defineStore("role", () => {
 
     return {
         roles,
-        currentRolePermissions,
+        currentRolePermissions: currentPermissions,
         loading,
         fetchAllRoles,
         createRole,

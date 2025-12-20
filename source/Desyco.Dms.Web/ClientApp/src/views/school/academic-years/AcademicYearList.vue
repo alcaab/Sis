@@ -64,8 +64,8 @@
 
     const confirmDeleteAcademicYear = (item: AcademicYearDto) => {
         confirm.require({
-            message: t("schoolSettings.academicYear.list.confirmDeleteMessage", { name: item.name }),
-            header: t("schoolSettings.academicYear.list.confirmDeleteTitle"),
+            message: t("common.notifications.confirmDelete", { name: item.name }),
+            header: t("common.notifications.confirmDeleteTitle"),
             icon: "pi pi-exclamation-triangle",
             accept: async () => {
                 isDeleting.value = true;
@@ -73,10 +73,10 @@
                 try {
                     if (item.id) {
                         await store.deleteAcademicYear(item.id);
-                        notify.showSuccess(t("schoolSettings.academicYear.list.notifications.deleteSuccess"));
+                        notify.showSuccess(t("common.notifications.deleteSuccess"));
                     }
                 } catch (error: any) {
-                    notify.showError(error, t("schoolSettings.academicYear.list.notifications.deleteError"));
+                    notify.showError(error, t("common.notifications.deleteError"));
                 } finally {
                     isDeleting.value = false;
                     deletingItemId.value = null; // Reset after deletion
@@ -203,7 +203,7 @@
                 style="min-width: 8rem"
             >
                 <template #header>
-                    <div class="flex justify-end w-full">{{ t("common.actions") }}</div>
+                    <div class="flex justify-center w-full">{{ t("common.actions") }}</div>
                 </template>
                 <template #body="slotProps">
                     <TableActions

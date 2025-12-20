@@ -5,9 +5,9 @@ namespace Desyco.Iam.Contracts.Interfaces;
 
 public interface IPermissionService
 {
-    Task<List<FeatureDto>> GetAllFeaturesAsync();
-    
-    Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId); // No translation needed here
+    // Task<List<FeatureDto>> GetAllFeaturesAsync();
+    //
+    // Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId); // No translation needed here
     
     Task UpdateRolePermissionsAsync(Guid roleId, List<FeaturePermission> updatedPermissions);
     

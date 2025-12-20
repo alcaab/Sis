@@ -13,37 +13,37 @@ public class PermissionService(
     RoleManager<ApplicationRole> roleManager,
     UserManager<ApplicationUser> userManager) : IPermissionService
 {
-    public async Task<List<FeatureDto>> GetAllFeaturesAsync()
-    {
-        return await (from f in dbContext.Features
-                      orderby f.Group, f.Order
-                      select new FeatureDto
-                      {
-                          Id = f.Id,
-                          Code = f.Code,
-                          Description = f.Description,
-                          Group = f.Group,
-                          Order = f.Order
-                      })
-                      .ToListAsync();
-    }
+    // public async Task<List<FeatureDto>> GetAllFeaturesAsync()
+    // {
+    //     return await (from f in dbContext.Features
+    //                   orderby f.Group, f.Order
+    //                   select new FeatureDto
+    //                   {
+    //                       Id = f.Id,
+    //                       Code = f.Code,
+    //                       Description = f.Description,
+    //                       Group = f.Group,
+    //                       Order = f.Order
+    //                   })
+    //                   .ToListAsync();
+    // }
 
-    public async Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId)
-    {
-        return await dbContext.RoleClaims
-            .Where(rc => rc.RoleId == roleId) // Get all role claims, not just granular
-            .Select(rc => new RoleClaimDto
-            {
-                Id = rc.Id,
-                RoleId = rc.RoleId,
-                ClaimType = rc.ClaimType!,
-                ClaimValue = rc.ClaimValue!,
-                FeatureId = rc.FeatureId,
-                PermissionAction = rc.PermissionAction,
-                Description = rc.Description
-            })
-            .ToListAsync();
-    }
+    // public async Task<List<RoleClaimDto>> GetRoleClaimsAsync(Guid roleId)
+    // {
+    //     return await dbContext.RoleClaims
+    //         .Where(rc => rc.RoleId == roleId) // Get all role claims, not just granular
+    //         .Select(rc => new RoleClaimDto
+    //         {
+    //             Id = rc.Id,
+    //             RoleId = rc.RoleId,
+    //             ClaimType = rc.ClaimType!,
+    //             ClaimValue = rc.ClaimValue!,
+    //             FeatureId = rc.FeatureId,
+    //             PermissionAction = rc.PermissionAction,
+    //             Description = rc.Description
+    //         })
+    //         .ToListAsync();
+    // }
 
     public async Task UpdateRolePermissionsAsync(Guid roleId, List<FeaturePermission> updatedPermissions)
     {
@@ -71,14 +71,14 @@ public class PermissionService(
                     // Match standard permission (Action matches)
                     (up.Action != PermissionAction.None && up.Action == claim.PermissionAction) ||
                     // Match custom permission (Action is None, match by name suffix in ClaimValue)
-                    (up.Action == PermissionAction.None && (claim.PermissionAction == null || claim.PermissionAction == PermissionAction.None) &&
+                    (up.Action == PermissionAction.None && claim.PermissionAction is null or PermissionAction.None &&
                      !string.IsNullOrEmpty(up.CustomActionName) &&
                      claim.ClaimValue!.EndsWith($".{up.CustomActionName}", StringComparison.OrdinalIgnoreCase))
                 )
             );
 
             // If no match found in request, or found but explicitly revoked (IsGranted=false) -> Remove
-            if (match == null || !match.IsGranted)
+            if (match is not { IsGranted: true })
             {
                 claimsToRemove.Add(claim);
             }
@@ -93,11 +93,11 @@ public class PermissionService(
         foreach (var up in updatedPermissions.Where(u => u.IsGranted))
         {
             // Check if this permission already exists in the database
-            bool exists = existingClaims.Any(claim => 
+            var exists = existingClaims.Any(claim => 
                 claim.FeatureId == up.FeatureId &&
                 (
                     (up.Action != PermissionAction.None && up.Action == claim.PermissionAction) ||
-                    (up.Action == PermissionAction.None && (claim.PermissionAction == null || claim.PermissionAction == PermissionAction.None) &&
+                    (up.Action == PermissionAction.None && claim.PermissionAction is null or PermissionAction.None &&
                      !string.IsNullOrEmpty(up.CustomActionName) &&
                      claim.ClaimValue!.EndsWith($".{up.CustomActionName}", StringComparison.OrdinalIgnoreCase))
                 )
@@ -179,9 +179,9 @@ public class PermissionService(
             .Where(uc => uc.UserId == userId)
             .Select(uc => new GenericClaimDto(uc.FeatureId, uc.PermissionAction, uc.ClaimValue))
             .ToListAsync();
-
+        
         // BuildPermissionSchema now receives FeatureDto
-        return BuildPermissionSchema(userId, user.Email!, allFeaturesDto, claims);
+        return BuildPermissionSchema(userId, GetComposedName(user), allFeaturesDto, claims);
     }
 
     private static PermissionSchemaDto BuildPermissionSchema(
@@ -204,7 +204,7 @@ public class PermissionService(
                 let canRead = featureClaims.Any(c => c.PermissionAction == PermissionAction.Read)
                 let canWrite = featureClaims.Any(c => c.PermissionAction == PermissionAction.Write)
                 let canDelete = featureClaims.Any(c => c.PermissionAction == PermissionAction.Delete)
-                let customPermissions = featureClaims.Where(c => c.PermissionAction == null || c.PermissionAction == PermissionAction.None)
+                let customPermissions = featureClaims.Where(c => c.PermissionAction is null or PermissionAction.None)
                     .Select(c => c.ClaimValue!.Split('.').Last()) // Extract "Print" from "Permissions.Feature.Print"
                     .ToList()
                 let availableCustomPermissions = string.IsNullOrEmpty(feature.CustomPermissions) 
@@ -266,5 +266,12 @@ public class PermissionService(
             .Select(_ => 1);
 
         return await roleClaimsQuery.Union(userClaimsQuery).AnyAsync();
+    }
+
+    private static string GetComposedName(ApplicationUser user)
+    {
+        var name = $"{user.FirstName} {user.LastName}".Trim();
+
+        return (string.IsNullOrWhiteSpace(name) ? user.UserName : $"{name} ( {user.UserName} )") ?? "Unassigned";
     }
 }

@@ -27,9 +27,11 @@ public class UserService(UserManager<ApplicationUser> userManager) : IUserServic
     public async Task<UserDto?> GetByIdAsync(Guid id)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
-        
-        if(user is null)
+
+        if (user is null)
+        {
             return  null;
+        }
         
         return new UserDto(
             user.Id,

@@ -13,58 +13,52 @@
     const notify = useNotification();
     const { t } = useI18n();
 
-    const roleId = ref<string | null>(null);
+    const roleId = computed(() => route.params.id as string);
     const roleName = ref<string | null>(null);
     const loading = ref(false);
     const searchQuery = ref("");
     const activeAccordionIndices = ref<number[]>([]);
 
     // Mutable schema for UI
-    const editableSchema = ref<PermissionSchema | null>(null);
+    const permissionSchema = ref<PermissionSchema | null>(null);
 
     onMounted(async () => {
-        roleId.value = route.params.id as string;
         if (roleId.value) {
-            await fetchRolePermissions();
+            await loadRolePermissions();
         } else {
-            router.push({ name: "roles-list" });
+            router.push({ name: "roles-list" }).then();
             notify.showError(t("admin.permissions.notifications.missingId"));
         }
     });
 
-    const fetchRolePermissions = async () => {
+    const loadRolePermissions = async () => {
         loading.value = true;
         try {
             await roleStore.fetchRolePermissions(roleId.value!);
             const rawData = roleStore.currentRolePermissions;
 
             if (rawData) {
-                // Deep copy for editing
-                editableSchema.value = JSON.parse(JSON.stringify(rawData));
+                permissionSchema.value = JSON.parse(JSON.stringify(rawData));
                 roleName.value = rawData.entityName || "Unknown Role";
                 expandAll();
             }
         } catch (error) {
-            notify.showError(error, t("admin.permissions.notifications.loadError"));
-            router.push({ name: "roles-list" });
+            notify.showError(error, t("common.notifications.loadError"));
+            router.push({ name: "roles-list" }).then();
         } finally {
             loading.value = false;
         }
     };
 
-    // Filter logic
     const filteredGroups = computed(() => {
-        if (!editableSchema.value) return [];
+        if (!permissionSchema.value) return [];
 
         const query = searchQuery.value.toLowerCase().trim();
-        if (!query) return editableSchema.value.groups;
+        if (!query) return permissionSchema.value.groups;
 
-        return editableSchema.value.groups
+        return permissionSchema.value.groups
             .map((group) => {
-                // Check if group name matches
                 const groupMatches = group.groupName.toLowerCase().includes(query);
-
-                // Filter features
                 const matchingFeatures = group.features.filter(
                     (f) => f.description.toLowerCase().includes(query) || f.code.toLowerCase().includes(query),
                 );
@@ -135,8 +129,8 @@
     };
 
     const expandAll = () => {
-        if (editableSchema.value) {
-            activeAccordionIndices.value = editableSchema.value.groups.map((_, i) => i);
+        if (permissionSchema.value) {
+            activeAccordionIndices.value = permissionSchema.value.groups.map((_, i) => i);
         }
     };
 
@@ -147,12 +141,12 @@
     const updatePermissions = async () => {
         loading.value = true;
         try {
-            if (!editableSchema.value) return;
+            if (!permissionSchema.value) return;
 
             const updatedPermissions: FeaturePermission[] = [];
 
             // Iterate over the FULL schema (editableSchema), not the filtered view
-            editableSchema.value.groups.forEach((group) => {
+            permissionSchema.value.groups.forEach((group) => {
                 group.features.forEach((feature) => {
                     if (feature.read)
                         updatedPermissions.push({
@@ -276,11 +270,11 @@
         </div>
 
         <ProgressSpinner
-            v-if="loading && !editableSchema"
+            v-if="loading && !permissionSchema"
             class="flex justify-center"
         />
 
-        <div v-else-if="editableSchema && filteredGroups.length > 0">
+        <div v-else-if="permissionSchema && filteredGroups.length > 0">
             <Accordion
                 :multiple="true"
                 :activeIndex="activeAccordionIndices"
@@ -417,7 +411,7 @@
             </Accordion>
         </div>
         <div
-            v-else-if="editableSchema && filteredGroups.length === 0"
+            v-else-if="permissionSchema && filteredGroups.length === 0"
             class="text-center py-8"
         >
             <i class="pi pi-filter-slash text-4xl text-surface-400 mb-3"></i>
