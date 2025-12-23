@@ -12,29 +12,46 @@ public class PermissionSeeder(
 {
     public async Task SeedAsync()
     {
-        // 1. Get Admin Role
         var adminRole = await roleManager.FindByNameAsync("Admin");
-        if (adminRole == null) return; // Should not happen if SecuritySeeder ran first
 
-        // 2. Get All Features
+        if (adminRole == null)
+        {
+            return;
+        }
+
         var allFeatures = await dbContext.Features.ToListAsync();
-        if (allFeatures.Count == 0) return;
 
-        // 3. Define Actions to Grant (Full Access)
-        var actions = new[] { PermissionAction.Read, PermissionAction.Write, PermissionAction.Delete };
+        if (allFeatures.Count == 0)
+        {
+            return;
+        }
 
-        // 4. Assign Permissions
+        var defaultActions = new List<(PermissionAction action, string description)>
+        {
+            (PermissionAction.Read, string.Empty),
+            (PermissionAction.Write, string.Empty),
+            (PermissionAction.Delete, string.Empty)
+        };
+
         foreach (var feature in allFeatures)
         {
+            var actions = defaultActions.Concat(
+                feature.CustomPermissions?
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(e => (PermissionAction.None, e.Trim()))
+                    .ToList()
+                ?? []
+            );
+
             foreach (var action in actions)
             {
-                var claimValue = $"Permissions.{feature.Code}.{action}";
+                object actionName = action.Item1 == PermissionAction.None ? action.Item2 : action.Item1;
+                var claimValue = $"Permissions.{feature.Code}.{actionName}";
                 
-                // Check if permission already exists to avoid duplicates
                 var exists = await dbContext.RoleClaims
-                    .AnyAsync(rc => rc.RoleId == adminRole.Id && 
-                                    rc.FeatureId == feature.Id && 
-                                    rc.PermissionAction == action);
+                    .AnyAsync(rc => rc.RoleId == adminRole.Id &&
+                                    rc.FeatureId == feature.Id &&
+                                    rc.PermissionAction == action.Item1);
 
                 if (!exists)
                 {
@@ -44,7 +61,7 @@ public class PermissionSeeder(
                         ClaimType = "Permission",
                         ClaimValue = claimValue,
                         FeatureId = feature.Id,
-                        PermissionAction = action,
+                        PermissionAction = action.Item1,
                         Description = $"Auto-generated permission for Admin: {feature.Code} {action}"
                     });
                 }

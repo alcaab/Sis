@@ -11,14 +11,64 @@ public class FeatureSeeder(IamDbContext context)
     {
         var features = new List<Feature>
         {
-            new Feature { Code = Permissions.AcademicYears.Code, Description = "feature.academicyears", Group = "Academic", Order = 100 },
-            new Feature { Code = Permissions.Students.Code, Description = "feature.students", Group = "Academic", Order = 200, CustomPermissions = "Export" },
-            new Feature { Code = Permissions.Teachers.Code, Description = "feature.teachers", Group = "Academic", Order = 300 },
-            new Feature { Code = Permissions.Classrooms.Code, Description = "feature.classrooms", Group = "Academic", Order = 400 },
-            new Feature { Code = Permissions.Enrollments.Code, Description = "feature.enrollments", Group = "Academic", Order = 500, CustomPermissions = "Approve,Reject" },
-            new Feature { Code = Permissions.Security.Code, Description = "feature.permissions", Group = "Administration", Order = 1000 },
-            new Feature { Code = Permissions.Users.Code, Description = "feature.users", Group = "Administration", Order = 1100 },
-            new Feature { Code = Permissions.Roles.Code, Description = "feature.roles", Group = "Administration", Order = 1200 }
+            new()
+            {
+                Code = Permissions.AcademicYears.Code,
+                Description = "feature.academicyears",
+                Group = "Academic",
+                Order = 100
+            },
+            new()
+            {
+                Code = Permissions.Students.Code,
+                Description = "feature.students",
+                Group = "Academic",
+                Order = 200,
+                CustomPermissions = "Export"
+            },
+            new()
+            {
+                Code = Permissions.Teachers.Code,
+                Description = "feature.teachers",
+                Group = "Academic",
+                Order = 300
+            },
+            new()
+            {
+                Code = Permissions.Classrooms.Code,
+                Description = "feature.classrooms",
+                Group = "Academic",
+                Order = 400
+            },
+            new()
+            {
+                Code = Permissions.Enrollments.Code,
+                Description = "feature.enrollments",
+                Group = "Academic",
+                Order = 500,
+                CustomPermissions = "Approve:Approve Enrollment,Reject:Reject Enrollment"
+            },
+            new()
+            {
+                Code = Permissions.Security.Code,
+                Description = "feature.permissions",
+                Group = "Administration",
+                Order = 1000
+            },
+            new()
+            {
+                Code = Permissions.Users.Code,
+                Description = "feature.users",
+                Group = "Administration",
+                Order = 1100
+            },
+            new()
+            {
+                Code = Permissions.Roles.Code,
+                Description = "feature.roles",
+                Group = "Administration",
+                Order = 1200
+            }
         };
 
         foreach (var feature in features)

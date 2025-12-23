@@ -4,5 +4,5 @@ public record PredefinedPermission(bool Value)
 {
     public bool Inherited { get; set; }
     
-   public string? Name { get; init; }
+   public string? Name { get; set; }
 }

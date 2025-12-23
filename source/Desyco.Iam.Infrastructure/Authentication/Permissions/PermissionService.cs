@@ -259,7 +259,7 @@ public class PermissionService(
 
         return customPermissions
             .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .ToDictionary(k => k, name => new PredefinedPermission(false) { Name = name });
+            .ToDictionary(k => k, name => new PredefinedPermission(false) { Name = name.Split(':').Last() });
     }
 
     private static string GetComposedName(ApplicationUser user)
@@ -272,5 +272,7 @@ public class PermissionService(
     private record GenericClaimDto(Guid? FeatureId, PermissionAction? PermissionAction, string? ClaimValue)
     {
         public bool Inherited { get; init; }
+        
+        public string? Name { get; set; }
     }
 }
