@@ -13,9 +13,10 @@ public class ApplicationRoleClaimConfiguration : IEntityTypeConfiguration<Applic
         builder.Property(rc => rc.Description).HasMaxLength(256);
         builder.Property(rc => rc.ClaimType).HasMaxLength(64);
         builder.Property(rc => rc.ClaimValue).HasMaxLength(100);
-        builder.HasIndex(p => new {p.RoleId, p.ClaimType, p.ClaimValue }).IsUnique();
-
         builder.Property(rc => rc.PermissionAction)
             .HasConversion<int>();
+        
+        builder.HasIndex(p => new {p.RoleId, p.ClaimType, p.ClaimValue }).IsUnique();
+        builder.HasIndex(p => p.FeatureId);
     }
 }

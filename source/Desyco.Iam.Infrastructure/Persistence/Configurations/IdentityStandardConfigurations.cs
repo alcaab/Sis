@@ -12,6 +12,7 @@ public class IdentityStandardConfigurations :
     public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
     {
         builder.ToTable("UserRoles");
+        builder.HasIndex(ur => ur.RoleId);
     }
 
     public void Configure(EntityTypeBuilder<ApplicationUserLogin> builder)
@@ -19,6 +20,7 @@ public class IdentityStandardConfigurations :
         builder.ToTable("UserLogins");
         
         builder.Property(p => p.LoginProvider).HasMaxLength(128);
+        builder.HasIndex(ul => ul.UserId);
     }
 
     public void Configure(EntityTypeBuilder<ApplicationUserToken> builder)

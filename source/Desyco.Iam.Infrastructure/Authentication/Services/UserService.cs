@@ -91,13 +91,10 @@ public class UserService(UserManager<ApplicationUser> userManager) : IUserServic
         user.LastName = request.LastName;
         user.LockoutEnabled = request.LockoutEnabled;
 
-        if (request.Roles.Count > 0)
-        {
-            var roles = await userManager.GetRolesAsync(user);
-            await userManager.RemoveFromRolesAsync(user, roles.Except(request.Roles));
-            await userManager.AddToRolesAsync(user, request.Roles.Except(roles));
-        }
-
+        var roles = await userManager.GetRolesAsync(user);
+        await userManager.RemoveFromRolesAsync(user, roles.Except(request.Roles));
+        await userManager.AddToRolesAsync(user, request.Roles.Except(roles));
+        
         var result = await userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {

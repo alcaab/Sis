@@ -14,10 +14,10 @@ public class ApplicationUserClaimConfiguration : IEntityTypeConfiguration<Applic
         
         builder.Property(rc => rc.ClaimType).HasMaxLength(64);
         builder.Property(rc => rc.ClaimValue).HasMaxLength(100);
-        
-        builder.HasIndex(p => new {p.UserId, p.ClaimType, p.ClaimValue }).IsUnique();
-        
         builder.Property(uc => uc.PermissionAction)
             .HasConversion<int>();
+        
+        builder.HasIndex(p => new {p.UserId, p.ClaimType, p.ClaimValue }).IsUnique();
+        builder.HasIndex(p => p.FeatureId);
     }
 }

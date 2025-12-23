@@ -14,5 +14,7 @@ public class ApplicationRoleConfiguration : IEntityTypeConfiguration<Application
         
         builder.Property(r => r.Name).HasMaxLength(256);
         builder.Property(r => r.NormalizedName).HasMaxLength(256);
+        
+        builder.HasIndex(r => r.NormalizedName).IsUnique();
     }
 }

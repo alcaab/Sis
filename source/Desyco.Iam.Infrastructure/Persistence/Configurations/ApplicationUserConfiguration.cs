@@ -20,8 +20,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.Property(u => u.ConcurrencyStamp).HasMaxLength(128);
         builder.Property(u => u.PhoneNumber).HasMaxLength(32);
 
-        // Indexes are typically handled by base Identity configuration, 
-        // but can be reiterated here if needed for exact match with snapshot.
-        // The snapshot shows standard Identity indexes.
+        builder.HasIndex(u => u.NormalizedUserName).IsUnique();
+        builder.HasIndex(u => u.NormalizedEmail);
     }
 }

@@ -32,6 +32,7 @@ declare module 'vue' {
     HighlightsWidget: typeof import('./src/components/landing/HighlightsWidget.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']
     InputIcon: typeof import('primevue/inputicon')['default']
+    InputMask: typeof import('primevue/inputmask')['default']
     InputSwitch: typeof import('primevue/inputswitch')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']

@@ -118,9 +118,10 @@
             :label="t('admin.users.phoneNumber')"
             :error="errors.phoneNumber"
         >
-            <InputText
+            <InputMask
                 id="phoneNumber"
                 v-model="phoneNumber"
+                mask="(999) 999-9999"
                 :invalid="!!errors.phoneNumber"
             />
         </FormField>

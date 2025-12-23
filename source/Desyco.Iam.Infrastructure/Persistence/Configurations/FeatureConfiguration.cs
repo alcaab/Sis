@@ -15,7 +15,7 @@ public class FeatureConfiguration : IEntityTypeConfiguration<Feature>
         builder.HasIndex(f => f.Code).IsUnique();
 
         builder.Property(f => f.Code)
-            .IsRequired(); // Assumed from snapshot "IsRequired()"
+            .IsRequired();
 
         builder.Property(f => f.Description)
             .IsRequired()

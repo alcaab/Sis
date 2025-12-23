@@ -5,7 +5,8 @@
         PermissionSchema,
         FeaturePermission,
         PermissionGroup,
-        PermissionItem
+        PermissionItem,
+        PredefinedPermission,
     } from "@/types/permissions";
     import { PermissionAction } from "@/types/permissions";
     import Accordion from "primevue/accordion";
@@ -80,7 +81,7 @@
 
     const isFullAccess = (item: any) => {
         const standard = item.read.value && item.write.value && item.delete.value;
-        const availableCustomPermissions = item.availableCustomPermissions ?? [];
+        const availableCustomPermissions = Object.keys(item.availableCustomPermissions);
         const custom =
             availableCustomPermissions.length == 0 ||
             (availableCustomPermissions.length > 0 &&
@@ -89,11 +90,21 @@
         return standard && custom;
     };
 
+    const disableFullAccess = (item: any) => {
+        const standard = item.read.inherited || item.write.inherited || item.delete.inherited;
+
+        if (standard) {
+            return true;
+        }
+        const permissions = Object.values(item.availableCustomPermissions) as PredefinedPermission[];
+        const custom = permissions.length > 0 && permissions.some((p: PredefinedPermission) => p.inherited);
+
+        return standard || custom;
+    };
+
     const isCustomGranted = (feature: PermissionItem, permName: any) => {
         return feature.customPermissions && feature.customPermissions.includes(permName);
     };
-
-    // const isCustomInherited = (inherited: boolean, value: boolean) => inherited && value;
 
     const toggleCustom = (feature: PermissionItem, permName: any, value: boolean) => {
         if (!feature.customPermissions) feature.customPermissions = [];
@@ -306,10 +317,11 @@
                             >
                                 <template #body="slotProps">
                                     <Checkbox
+                                        :title="t('admin.permissions.toggleAllTooltip')"
                                         :modelValue="isFullAccess(slotProps.data)"
+                                        :disabled="disableFullAccess(slotProps.data)"
                                         @update:modelValue="(val) => toggleFullAccess(slotProps.data, val)"
                                         binary
-                                        :title="t('admin.permissions.toggleAllTooltip')"
                                     />
                                 </template>
                             </Column>
@@ -323,6 +335,7 @@
                                 <template #body="slotProps">
                                     <Checkbox
                                         v-model="slotProps.data.read.value"
+                                        :disabled="slotProps.data.read.inherited"
                                         binary
                                     />
                                 </template>
@@ -336,6 +349,7 @@
                                 <template #body="slotProps">
                                     <Checkbox
                                         v-model="slotProps.data.write.value"
+                                        :disabled="slotProps.data.write.inherited"
                                         binary
                                     />
                                 </template>
@@ -349,46 +363,11 @@
                                 <template #body="slotProps">
                                     <Checkbox
                                         v-model="slotProps.data.delete.value"
+                                        :disabled="slotProps.data.delete.inherited"
                                         binary
                                     />
                                 </template>
                             </Column>
-                            <!--                            <Column-->
-                            <!--                                :header="t('admin.permissions.customHeader')"-->
-                            <!--                                style="min-width: 200px"-->
-                            <!--                            >-->
-                            <!--                                <template #body="slotProps">-->
-                            <!--                                    <div-->
-                            <!--                                        v-if="-->
-                            <!--                                            slotProps.data.availableCustomPermissions &&-->
-                            <!--                                            slotProps.data.availableCustomPermissions.length-->
-                            <!--                                        "-->
-                            <!--                                        class="flex gap-3 flex-wrap items-center"-->
-                            <!--                                    >-->
-                            <!--                                        <div-->
-                            <!--                                            v-for="perm in slotProps.data.availableCustomPermissions"-->
-                            <!--                                            :key="perm"-->
-                            <!--                                            class="flex items-center gap-1"-->
-                            <!--                                        >-->
-                            <!--                                            <Checkbox-->
-                            <!--                                                :inputId="`${slotProps.data.code}-${perm}`"-->
-                            <!--                                                :modelValue="isCustomGranted(slotProps.data, perm)"-->
-                            <!--                                                @update:modelValue="(val) => toggleCustom(slotProps.data, perm, val)"-->
-                            <!--                                                binary-->
-                            <!--                                            />-->
-                            <!--                                            <label-->
-                            <!--                                                :for="`${slotProps.data.code}-${perm}`"-->
-                            <!--                                                class="text-sm cursor-pointer select-none"-->
-                            <!--                                                >{{ perm }}</label-->
-                            <!--                                            >-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                    <span-->
-                            <!--                                        v-else-->
-                            <!--                                        class="text-surface-400 text-xs italic"-->
-                            <!--                                    ></span>-->
-                            <!--                                </template>-->
-                            <!--                            </Column>-->
                             <Column
                                 :header="t('admin.permissions.customHeader')"
                                 style="min-width: 200px"

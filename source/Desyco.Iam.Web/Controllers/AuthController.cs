@@ -36,7 +36,7 @@ public class AuthController(IIdentityService identityService, IOptions<JwtSettin
 
         if (!result.IsSuccess)
         {
-            return Unauthorized(new { Errors = result.Errors });
+            return Unauthorized(new { result.Errors });
         }
 
         SetRefreshTokenCookie(result.Token!.RefreshToken);
@@ -58,7 +58,7 @@ public class AuthController(IIdentityService identityService, IOptions<JwtSettin
 
         if (!result.IsSuccess)
         {
-            return Unauthorized(new { Errors = result.Errors });
+            return Unauthorized(new { result.Errors });
         }
 
         SetRefreshTokenCookie(result.Token!.RefreshToken);

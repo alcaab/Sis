@@ -11,24 +11,6 @@ namespace Desyco.Iam.Web.Controllers;
 [Authorize]
 public class PermissionsController(IPermissionService permissionService) : ControllerBase
 {
-    // [HttpGet("features")]
-    // [Authorize(Policy = Permissions.Security.Read)]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // public async Task<ActionResult<List<FeatureDto>>> GetAllFeatures()
-    // {
-    //     var features = await permissionService.GetAllFeaturesAsync();
-    //     return Ok(features);
-    // }
-
-    // [HttpGet("roles/{roleId:guid}")]
-    // [Authorize(Policy = Permissions.Security.Read)]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // public async Task<ActionResult<List<RoleClaimDto>>> GetRolePermissions(Guid roleId)
-    // {
-    //     var permissions = await permissionService.GetRoleClaimsAsync(roleId);
-    //     return Ok(permissions);
-    // }
-
     [HttpPut("roles/{roleId:guid}")]
     [Authorize(Policy = Permissions.Security.Write)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
