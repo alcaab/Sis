@@ -31,7 +31,10 @@ public static class IamModuleExtensions
                 b => b.MigrationsAssembly(typeof(IamDbContext).Assembly.FullName)));
 
         // 3. Configure Identity
-        services.AddIdentityCore<ApplicationUser>()
+        services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.ClaimsIdentity.RoleClaimType = "role";
+            })
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<IamDbContext>()
             .AddSignInManager<SignInManager<ApplicationUser>>()

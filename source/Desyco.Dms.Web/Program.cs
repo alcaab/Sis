@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.Json;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Desyco.Dms.Application;
@@ -48,6 +49,9 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.DefaultIgnoreCondition =
             System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+        
+        // options.JsonSerializerOptions.DictionaryKeyPolicy =
+        //     JsonNamingPolicy.CamelCase;
     });
 
 builder.Services.AddHttpContextAccessor();

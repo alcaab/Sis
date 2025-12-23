@@ -17,6 +17,8 @@ public class IdentityStandardConfigurations :
     public void Configure(EntityTypeBuilder<ApplicationUserLogin> builder)
     {
         builder.ToTable("UserLogins");
+        
+        builder.Property(p => p.LoginProvider).HasMaxLength(128);
     }
 
     public void Configure(EntityTypeBuilder<ApplicationUserToken> builder)

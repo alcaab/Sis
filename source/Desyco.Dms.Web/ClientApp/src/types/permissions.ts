@@ -30,7 +30,8 @@ export interface PermissionItem {
     write: PredefinedPermission;
     delete: PredefinedPermission;
     customPermissions: string[]; // e.g., ["Print"] - Granted ones
-    availableCustomPermissions: string[]; // e.g., ["Approve", "Reject"] - Possible ones
+    //availableCustomPermissions: string[]; // e.g., ["Approve", "Reject"] - Possible ones
+    availableCustomPermissions: Record<string, PredefinedPermission>; // e.g., ["Approve", "Reject"] - Possible ones
 }
 
 export interface FeatureDto {

@@ -1,7 +1,12 @@
 <script setup lang="ts">
     import { ref, computed, watch } from "vue";
     import { useI18n } from "vue-i18n";
-    import { PermissionSchema, FeaturePermission, PermissionGroup, PermissionItem } from "@/types/permissions";
+    import {
+        PermissionSchema,
+        FeaturePermission,
+        PermissionGroup,
+        PermissionItem
+    } from "@/types/permissions";
     import { PermissionAction } from "@/types/permissions";
     import Accordion from "primevue/accordion";
     import AccordionPanel from "primevue/accordionpanel";
@@ -73,20 +78,6 @@
         return count;
     };
 
-    const toggleFullAccess = (item: PermissionItem, value: boolean) => {
-        item.read.value = value;
-        item.write.value = value;
-        item.delete.value = value;
-
-        if (item.availableCustomPermissions) {
-            if (value) {
-                item.customPermissions = [...item.availableCustomPermissions];
-            } else {
-                item.customPermissions = [];
-            }
-        }
-    };
-
     const isFullAccess = (item: any) => {
         const standard = item.read.value && item.write.value && item.delete.value;
         const availableCustomPermissions = item.availableCustomPermissions ?? [];
@@ -98,11 +89,13 @@
         return standard && custom;
     };
 
-    const isCustomGranted = (feature: PermissionItem, permName: string) => {
+    const isCustomGranted = (feature: PermissionItem, permName: any) => {
         return feature.customPermissions && feature.customPermissions.includes(permName);
     };
 
-    const toggleCustom = (feature: PermissionItem, permName: string, value: boolean) => {
+    // const isCustomInherited = (inherited: boolean, value: boolean) => inherited && value;
+
+    const toggleCustom = (feature: PermissionItem, permName: any, value: boolean) => {
         if (!feature.customPermissions) feature.customPermissions = [];
 
         if (value) {
@@ -111,6 +104,21 @@
             }
         } else {
             feature.customPermissions = feature.customPermissions.filter((p: string) => p !== permName);
+        }
+    };
+
+    const toggleFullAccess = (item: PermissionItem, value: boolean) => {
+        item.read.value = value;
+        item.write.value = value;
+        item.delete.value = value;
+
+        if (item.availableCustomPermissions) {
+            if (value) {
+                const permissions = Object.keys(item.availableCustomPermissions).map((m) => m);
+                item.customPermissions = [...permissions];
+            } else {
+                item.customPermissions = [];
+            }
         }
     };
 
@@ -345,33 +353,67 @@
                                     />
                                 </template>
                             </Column>
+                            <!--                            <Column-->
+                            <!--                                :header="t('admin.permissions.customHeader')"-->
+                            <!--                                style="min-width: 200px"-->
+                            <!--                            >-->
+                            <!--                                <template #body="slotProps">-->
+                            <!--                                    <div-->
+                            <!--                                        v-if="-->
+                            <!--                                            slotProps.data.availableCustomPermissions &&-->
+                            <!--                                            slotProps.data.availableCustomPermissions.length-->
+                            <!--                                        "-->
+                            <!--                                        class="flex gap-3 flex-wrap items-center"-->
+                            <!--                                    >-->
+                            <!--                                        <div-->
+                            <!--                                            v-for="perm in slotProps.data.availableCustomPermissions"-->
+                            <!--                                            :key="perm"-->
+                            <!--                                            class="flex items-center gap-1"-->
+                            <!--                                        >-->
+                            <!--                                            <Checkbox-->
+                            <!--                                                :inputId="`${slotProps.data.code}-${perm}`"-->
+                            <!--                                                :modelValue="isCustomGranted(slotProps.data, perm)"-->
+                            <!--                                                @update:modelValue="(val) => toggleCustom(slotProps.data, perm, val)"-->
+                            <!--                                                binary-->
+                            <!--                                            />-->
+                            <!--                                            <label-->
+                            <!--                                                :for="`${slotProps.data.code}-${perm}`"-->
+                            <!--                                                class="text-sm cursor-pointer select-none"-->
+                            <!--                                                >{{ perm }}</label-->
+                            <!--                                            >-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                    <span-->
+                            <!--                                        v-else-->
+                            <!--                                        class="text-surface-400 text-xs italic"-->
+                            <!--                                    ></span>-->
+                            <!--                                </template>-->
+                            <!--                            </Column>-->
                             <Column
                                 :header="t('admin.permissions.customHeader')"
                                 style="min-width: 200px"
                             >
                                 <template #body="slotProps">
                                     <div
-                                        v-if="
-                                            slotProps.data.availableCustomPermissions &&
-                                            slotProps.data.availableCustomPermissions.length
-                                        "
+                                        v-if="slotProps.data.availableCustomPermissions"
                                         class="flex gap-3 flex-wrap items-center"
                                     >
                                         <div
-                                            v-for="perm in slotProps.data.availableCustomPermissions"
-                                            :key="perm"
+                                            v-for="(item, key) in slotProps.data.availableCustomPermissions"
+                                            :key="key"
                                             class="flex items-center gap-1"
                                         >
                                             <Checkbox
-                                                :inputId="`${slotProps.data.code}-${perm}`"
-                                                :modelValue="isCustomGranted(slotProps.data, perm)"
-                                                @update:modelValue="(val) => toggleCustom(slotProps.data, perm, val)"
+                                                :inputId="`${slotProps.data.code}-${key}`"
+                                                :modelValue="item.inherited || isCustomGranted(slotProps.data, key)"
+                                                :disabled="item.inherited"
                                                 binary
+                                                @update:modelValue="(val) => toggleCustom(slotProps.data, key, val)"
                                             />
                                             <label
-                                                :for="`${slotProps.data.code}-${perm}`"
+                                                :for="`${slotProps.data.code}-${key}`"
                                                 class="text-sm cursor-pointer select-none"
-                                                >{{ perm }}</label
+                                                >{{ item.name }}</label
                                             >
                                         </div>
                                     </div>

@@ -11,9 +11,12 @@ public class ApplicationUserClaimConfiguration : IEntityTypeConfiguration<Applic
         builder.ToTable("UserClaims");
 
         builder.Property(uc => uc.Description).HasMaxLength(256);
-
-        // Snapshot says "int?", so we configure it as such if needed, 
-        // usually enums are int by default in EF Core.
+        
+        builder.Property(rc => rc.ClaimType).HasMaxLength(64);
+        builder.Property(rc => rc.ClaimValue).HasMaxLength(100);
+        
+        builder.HasIndex(p => new {p.UserId, p.ClaimType, p.ClaimValue }).IsUnique();
+        
         builder.Property(uc => uc.PermissionAction)
             .HasConversion<int>();
     }

@@ -1,6 +1,8 @@
 ﻿namespace Desyco.Iam.Contracts.Permissions;
 
-public record PredefinedPermission<T>(T Value, bool Inherited = false)
+public record PredefinedPermission(bool Value)
 {
-   // public bool Inherited { get; init; }
+    public bool Inherited { get; set; }
+    
+   public string? Name { get; init; }
 }
