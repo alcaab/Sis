@@ -5,23 +5,21 @@
     import { AcademicYearStatus, type AcademicYearDto } from "@/types/academic-year";
     import { FilterMatchMode } from "@primevue/core/api";
     import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModels";
-    import { useConfirm } from "primevue/useconfirm";
     import { useDataTableUtils } from "@/utils/useDataTableUtils";
     import { useDebounce } from "@/utils/useDebounce";
     import TableActions from "@/components/common/TableActions.vue";
     import { useNotification } from "@/composables/useNotification";
+    import { useDeleteConfirm } from "@/composables/useDeleteConfirm";
     import { useI18n } from "vue-i18n";
 
     const router = useRouter();
     const store = useAcademicYearStore();
     const { paginate } = useDataTableUtils(handlePagination);
     const notify = useNotification();
-    const confirm = useConfirm();
+    const { confirmDelete, deletingItemId } = useDeleteConfirm();
     const { t } = useI18n();
 
     const dt = ref();
-    const isDeleting = ref(false);
-    const deletingItemId = ref<number | null>(null);
 
     const filters = ref({
         global: { value: "", matchMode: FilterMatchMode.CONTAINS },
@@ -44,12 +42,10 @@
         });
     }
 
-    // Manual refresh
     const onSearch = () => {
         dt.value.filter({});
     };
 
-    // Debounced search for input
     const onDebouncedSearch = useDebounce(() => {
         onSearch();
     }, 600);
@@ -62,40 +58,21 @@
         router.push({ name: "academic-year-edit", params: { id: item.id } });
     };
 
-    const confirmDeleteAcademicYear = (item: AcademicYearDto) => {
-        confirm.require({
-            message: t("common.notifications.confirmDelete", { name: item.name }),
-            header: t("common.notifications.confirmDeleteTitle"),
-            icon: "pi pi-exclamation-triangle",
-            accept: async () => {
-                isDeleting.value = true;
-                deletingItemId.value = item.id as number; // Set the ID of the item being deleted
-                try {
-                    if (item.id) {
-                        await store.deleteAcademicYear(item.id);
-                        notify.showSuccess(t("common.notifications.deleteSuccess"));
-                    }
-                } catch (error: any) {
-                    notify.showError(error, t("common.notifications.deleteError"));
-                } finally {
-                    isDeleting.value = false;
-                    deletingItemId.value = null; // Reset after deletion
-                }
-            },
+    const onConfirmDelete = (item: AcademicYearDto) => {
+        confirmDelete({
+                item: { id: item.id, name: item.name },
+            deleteAction: store.deleteAcademicYear,
         });
     };
 
     const getStatusLabel = (status: AcademicYearStatus) => {
-        switch (status) {
-            case AcademicYearStatus.Upcoming:
-                return t("schoolSettings.academicYear.statusLabels.upcoming");
-            case AcademicYearStatus.Current:
-                return t("schoolSettings.academicYear.statusLabels.current");
-            case AcademicYearStatus.Closed:
-                return t("schoolSettings.academicYear.statusLabels.closed");
-            default:
-                return t("schoolSettings.academicYear.statusLabels.unknown");
+
+        if(!status)
+        {
+            return t("schoolSettings.academicYear.statusLabels.unknown");
         }
+
+        return t(`schoolSettings.academicYear.statusLabels.${AcademicYearStatus[status].toLowerCase()}`);
     };
 
     const getStatusSeverity = (status: AcademicYearStatus) => {
@@ -121,7 +98,7 @@
             :paginator="true"
             :rows="lazyParams.rows"
             :totalRecords="store.totalRecords"
-            :loading="store.loading || isDeleting"
+            :loading="store.loading || !!deletingItemId"
             dataKey="id"
             :sortField="lazyParams.sortField"
             :sortOrder="lazyParams.sortOrder === null ? undefined : lazyParams.sortOrder"
@@ -210,7 +187,7 @@
                         :id="slotProps.data.id"
                         :loading="deletingItemId === slotProps.data.id"
                         @edit="editAcademicYear(slotProps.data)"
-                        @delete="confirmDeleteAcademicYear(slotProps.data)"
+                        @delete="onConfirmDelete(slotProps.data)"
                     />
                 </template>
             </Column>

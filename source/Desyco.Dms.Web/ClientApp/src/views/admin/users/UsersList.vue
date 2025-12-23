@@ -3,7 +3,7 @@
     import { useRouter } from "vue-router";
     import { useUserStore } from "@/stores/userStore";
     import { useNotification } from "@/composables/useNotification";
-    import { useConfirm } from "primevue/useconfirm";
+    import { useDeleteConfirm } from "@/composables/useDeleteConfirm";
     import { useI18n } from "vue-i18n";
     import { FilterMatchMode } from "@primevue/core/api";
     import TableActions from "@/components/common/TableActions.vue";
@@ -12,12 +12,10 @@
     const router = useRouter();
     const userStore = useUserStore();
     const notify = useNotification();
-    const confirm = useConfirm();
+    const { confirmDelete, deletingItemId } = useDeleteConfirm();
     const { t } = useI18n();
 
     const dt = ref();
-    const isDeleting = ref(false);
-    const deletingItemId = ref<string | null>(null);
     const users = ref<UserDto[]>([]);
     const loading = ref(false);
 
@@ -49,24 +47,11 @@
         router.push({ name: "user-create" });
     };
 
-    const confirmDelete = (user: UserDto) => {
-        confirm.require({
-            message: t("common.notifications.confirmDelete", { name: user.userName }),
-            header: t("common.notifications.confirmDeleteTitle"),
-            icon: "pi pi-exclamation-triangle",
-            accept: async () => {
-                isDeleting.value = true;
-                deletingItemId.value = user.id;
-                try {
-                    await userStore.deleteUser(user.id);
-                    notify.showSuccess(t("common.notifications.deleteSuccess"));
-                } catch (error) {
-                    notify.showError(error, t("common.notifications.deleteError"));
-                } finally {
-                    isDeleting.value = false;
-                    deletingItemId.value = null;
-                }
-            },
+    const onConfirmDelete = (user: UserDto) => {
+        confirmDelete({
+            item: { id: user.id, name: user.userName },
+            deleteAction: userStore.deleteUser,
+            onSuccess: fetchUsers,
         });
     };
 
@@ -84,7 +69,7 @@
             ref="dt"
             :value="users"
             dataKey="id"
-            :loading="loading || isDeleting"
+            :loading="loading || !!deletingItemId"
             :paginator="true"
             :rows="10"
             :filters="filters"
@@ -168,7 +153,7 @@
                     <TableActions
                         :id="slotProps.data.id"
                         :loading="deletingItemId === slotProps.data.id"
-                        @delete="confirmDelete(slotProps.data)"
+                        @delete="onConfirmDelete(slotProps.data)"
                         @edit="editUser(slotProps.data)"
                         :editTooltip="t('common.buttons.edit')"
                         :deleteTooltip="t('common.buttons.delete')"

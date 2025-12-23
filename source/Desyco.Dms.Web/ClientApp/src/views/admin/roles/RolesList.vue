@@ -3,7 +3,7 @@
     import { useRouter } from "vue-router";
     import { useRoleStore } from "@/stores/roleStore";
     import { useNotification } from "@/composables/useNotification";
-    import { useConfirm } from "primevue/useconfirm";
+    import { useDeleteConfirm } from "@/composables/useDeleteConfirm";
     import { useI18n } from "vue-i18n";
     import { FilterMatchMode } from "@primevue/core/api";
     import type { RoleDto } from "@/types/role";
@@ -14,12 +14,10 @@
     const router = useRouter();
     const roleStore = useRoleStore();
     const notify = useNotification();
-    const confirm = useConfirm();
+    const { confirmDelete, deletingItemId } = useDeleteConfirm();
     const { t } = useI18n();
 
     const dt = ref();
-    const isDeleting = ref(false);
-    const deletingItemId = ref<string | null>(null);
 
     const roles = ref<RoleDto[]>([]);
     const selectedRole = ref<RoleDto | null>(null);
@@ -84,25 +82,11 @@
         roleDialog.value = true;
     };
 
-    const confirmDeleteRole = (role: RoleDto) => {
-        confirm.require({
-            message: t("common.notifications.confirmDelete", { name: role.name }),
-            header: t("common.notifications.confirmDeleteTitle"),
-            icon: "pi pi-exclamation-triangle",
-            accept: async () => {
-                isDeleting.value = true;
-                deletingItemId.value = role.id;
-                try {
-                    await roleStore.deleteRole(role.id);
-                    notify.showSuccess(t("common.notifications.deleteSuccess"));
-                    await fetchRoles();
-                } catch (error) {
-                    notify.showError(error, t("common.notifications.deleteError"));
-                } finally {
-                    isDeleting.value = false;
-                    deletingItemId.value = null;
-                }
-            },
+    const onConfirmDelete = (role: RoleDto) => {
+        confirmDelete({
+            item: { id: role.id, name: role.name },
+            deleteAction: roleStore.deleteRole,
+            onSuccess: fetchRoles,
         });
     };
 
@@ -117,7 +101,7 @@
             ref="dt"
             :value="roles"
             dataKey="id"
-            :loading="loading || isDeleting"
+            :loading="loading || !!deletingItemId"
             :paginator="true"
             :rows="10"
             :filters="filters"
@@ -174,7 +158,7 @@
                         :id="slotProps.data.id"
                         :loading="deletingItemId === slotProps.data.id"
                         @edit="editRole(slotProps.data)"
-                        @delete="confirmDeleteRole(slotProps.data)"
+                        @delete="onConfirmDelete(slotProps.data)"
                     >
                         <template #left>
                             <Button
