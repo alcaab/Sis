@@ -107,6 +107,7 @@
     <form
         @submit="onSubmit"
         class="flex flex-col gap-4"
+        v-focustrap
     >
         <FormField
             :label="t('schoolSettings.academicYear.name')"
@@ -118,6 +119,7 @@
                 v-model="name"
                 class="w-full"
                 :invalid="!!errors.name"
+                autofocus
             />
         </FormField>
 

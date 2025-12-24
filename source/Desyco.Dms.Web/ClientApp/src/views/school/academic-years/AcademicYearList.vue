@@ -60,15 +60,13 @@
 
     const onConfirmDelete = (item: AcademicYearDto) => {
         confirmDelete({
-                item: { id: item.id, name: item.name },
+            item: { id: item.id, name: item.name },
             deleteAction: store.deleteAcademicYear,
         });
     };
 
     const getStatusLabel = (status: AcademicYearStatus) => {
-
-        if(!status)
-        {
+        if (!status) {
             return t("schoolSettings.academicYear.statusLabels.unknown");
         }
 
