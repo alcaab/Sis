@@ -7,9 +7,9 @@ public class AcademicYearEntity : EntityBase<int>
     [OrderByProp]
     public string Name { get; set; } = string.Empty;
 
-    public DateOnly? StartDate { get; set; }
+    public DateOnly StartDate { get; set; }
 
-    public DateOnly? EndDate { get; set; }
+    public DateOnly EndDate { get; set; }
 
     public AcademicYearStatus Status { get; set; } = AcademicYearStatus.Upcoming;
 }
