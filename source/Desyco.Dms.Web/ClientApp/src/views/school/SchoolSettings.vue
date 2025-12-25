@@ -13,7 +13,7 @@
             icon: "pi pi-fw pi-calendar",
             items: [
                 { label: t("schoolSettings.yearsDaysTimes.manageSchoolYears"), to: "/school-settings/academic-year" },
-                { label: t("schoolSettings.yearsDaysTimes.manageTerms"), to: "/school/years-days-times/manage-terms" },
+                { label: t("schoolSettings.yearsDaysTimes.manageTerms"), to: "/school-settings/evaluation-period" },
                 {
                     label: t("schoolSettings.yearsDaysTimes.daysOfTheWeek"),
                     to: "/school/years-days-times/days-of-the-week",

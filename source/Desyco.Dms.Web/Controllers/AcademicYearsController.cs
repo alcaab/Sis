@@ -45,7 +45,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
     {
         var command = new CreateAcademicYearCommand(dto);
         var result = await mediator.Send(command, cancellationToken);
-        // Assuming the command returns the created DTO, which includes its generated ID.
+
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
@@ -66,8 +66,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
         try
         {
             var result = await mediator.Send(command, cancellationToken);
-            // The handler for UpdateAcademicYearCommand returns the updated DTO. -
-            // Returning 200 OK with the updated resource is a valid REST practice.
+
             return Ok(result);
         }
         catch (Exception ex) when (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
@@ -87,7 +86,7 @@ public class AcademicYearsController(IMediator mediator) : ControllerBase
         try
         {
             await mediator.Send(new DeleteAcademicYearCommand(id), cancellationToken);
-            return NoContent(); // 204 No Content for successful deletion.
+            return NoContent();
         }
         catch (Exception ex) when (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
         {

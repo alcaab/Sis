@@ -14,9 +14,16 @@ public class FeatureSeeder(IamDbContext context)
             new()
             {
                 Code = Permissions.AcademicYears.Code,
-                Description = "feature.academicyears",
+                Description = "feature.academicYears",
                 Group = "Academic",
                 Order = 100
+            },
+            new()
+            {
+                Code = Permissions.EvaluationPeriods.Code,
+                Description = "feature.evaluationPeriods",
+                Group = "Academic",
+                Order = 150
             },
             new()
             {

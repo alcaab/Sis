@@ -1,0 +1,86 @@
+Context:
+You have access to the existing frontend project.
+Follow existing patterns strictly.
+
+Stack (do not deviate):
+- Vue 3
+- Composition API only (no Options API)
+- PrimeVue
+- Tailwind CSS
+- Axios
+- Pinia stores
+
+Reference:
+- Component: [ReferenceComponent].vue
+
+CRUD UI Mode:
+- Mode: [Modal-Based | Route-Based]
+
+  Modal-Based:
+  - Create/Edit handled via PrimeVue Dialog
+  - Single page with list + dialogs
+
+  Route-Based:
+  - Separate routes/pages for List / Create / Edit
+  - Use router navigation instead of dialogs
+
+Task:
+Create a new maintenance component.
+
+New component:
+- Name: [NewComponent].vue
+
+Rules:
+- Use the reference component as the single source of truth.
+- Follow the selected CRUD UI Mode strictly.
+- Reuse structure, layout, and UX patterns when applicable.
+- Do NOT copy domain-specific or business logic that does not apply.
+- Do NOT introduce new libraries, patterns, or architectural changes.
+- Follow existing naming conventions and folder structure.
+
+Reusable patterns (when applicable):
+- PrimeVue DataTable (pagination, sorting, filtering)
+- Forms using PrimeVue form components
+- Loading, error, and empty states
+- Tailwind utility classes for layout
+- Pinia store pattern (state, actions, loading, error)
+- Axios service pattern
+
+UI Mode specific patterns:
+
+Modal-Based:
+- PrimeVue Dialog for Create/Edit
+- Local dialog state management
+- Reuse form component inside Dialog when applicable
+
+Route-Based:
+- Vue Router navigation for Create/Edit
+- Separate views for:
+  - [NewComponent]List.vue
+  - [NewComponent]Create.vue
+  - [NewComponent]Edit.vue
+- Reuse form component across Create/Edit pages
+- Respect existing routing conventions
+
+Backend:
+- Existing .NET Core controller must be used.
+- Do NOT create new endpoints.
+- Match frontend models/DTOs strictly to controller contracts.
+- Do not assume fields, enums, or behaviors not explicitly defined.
+
+Steps:
+1. Analyze the reference component.
+2. Identify reusable vs domain-specific logic.
+3. Implement the new component following the selected CRUD UI Mode.
+4. Adapt Pinia store and Axios service if needed.
+5. Ensure visual and behavioral consistency.
+
+Output:
+- Vue 3 component(s) according to the selected UI mode
+- Pinia store (only if required)
+- Axios service or adaptation (only if required)
+- Short summary:
+  - Selected CRUD UI Mode
+  - Reused parts
+  - Adapted parts
+  - Omitted parts and reason

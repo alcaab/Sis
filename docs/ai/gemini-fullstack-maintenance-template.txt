@@ -1,0 +1,167 @@
+Context:
+You have access to the existing frontend and backend projects.
+Follow existing architecture and conventions strictly.
+
+=====================================
+BACKEND (IMPLEMENT FIRST)
+=====================================
+
+Backend Stack (do not deviate):
+- ASP.NET Core
+- Entity Framework Core
+- CQRS pattern
+- FluentValidation
+- Riok.Mapperly for mapping
+- Repository pattern
+- MediatR (only if already used in the project)
+
+Backend Reference:
+- EF Core Entity: [EntityName]
+
+=====================================
+FRONTEND (IMPLEMENT AFTER BACKEND)
+=====================================
+
+Frontend Stack (do not deviate):
+- Vue 3
+- Composition API only (no Options API)
+- PrimeVue
+- Tailwind CSS
+- Axios
+- Pinia stores
+
+Frontend Reference:
+- Component: [FrontendReferenceComponent].vue
+
+CRUD UI Mode:
+- Mode: [Modal-Based | Route-Based]
+
+=====================================
+TASK
+=====================================
+
+Goal:
+Implement a full maintenance feature end-to-end (Backend first, then UI)
+based on existing patterns and references.
+
+=====================================
+BACKEND RULES
+=====================================
+
+- Use the EF Core entity as the single source of truth.
+- Do NOT modify the entity unless explicitly requested.
+- Follow CQRS separation strictly (Commands vs Queries).
+- Create ONE common DTO based on the entity.
+- Reuse the DTO across:
+  - Commands
+  - Queries
+  - Responses (when applicable)
+- Do NOT duplicate DTOs unless explicitly required.
+
+CQRS Structure:
+
+Commands:
+- Create[EntityName]Command
+- Update[EntityName]Command
+- Delete[EntityName]Command (if applicable)
+
+Queries:
+- Get[EntityName]ByIdQuery
+- Get[EntityName]ListQuery
+
+Validation:
+- Use FluentValidation only.
+- Validation must live exclusively in validators.
+- No validation logic inside handlers.
+
+Mapping:
+- Use Riok.Mapperly only.
+- Explicit mappings:
+  - Entity ↔ DTO
+
+Persistence:
+- ALWAYS use the Repository pattern.
+- Handlers must NOT access DbContext directly.
+- If a repository already exists:
+  - Follow its interface, naming, and structure.
+- If no repository exists:
+  - Create one following the exact same pattern
+    used by existing repositories in the project.
+- Repository responsibilities:
+  - Data access only
+  - No business logic
+  - Async methods only
+
+=====================================
+FRONTEND RULES
+=====================================
+
+- Implement frontend ONLY after backend contracts are defined.
+- Frontend models must match backend DTOs exactly.
+- Use the reference component as the single source of truth.
+- Follow the selected CRUD UI Mode strictly.
+- Reuse layout, UX, and code patterns when applicable.
+- Do NOT introduce new libraries or architectural changes.
+
+Reusable UI patterns (when applicable):
+- PrimeVue DataTable (pagination, sorting, filtering)
+- Create/Edit via Dialog (Modal-Based)
+- Create/Edit via Router views (Route-Based)
+- PrimeVue form components
+- Loading, error, and empty states
+- Tailwind utility classes
+- Pinia store (state, actions, loading, error)
+- Axios service pattern
+
+=====================================
+INTEGRATION RULES
+=====================================
+
+- Backend DTOs define the API contract.
+- Frontend must adapt to backend, never the opposite.
+- Naming consistency between:
+  - Entity
+  - DTO
+  - Commands / Queries
+  - API endpoints
+  - Frontend models
+- Respect pagination, filtering, and sorting contracts.
+- Do NOT assume fields, enums, or behaviors not explicitly defined.
+
+=====================================
+IMPLEMENTATION ORDER
+=====================================
+
+1. Analyze EF Core entity.
+2. Define the common backend DTO.
+3. Create or adapt the repository.
+4. Implement Commands + Handlers.
+5. Implement Queries + Handlers.
+6. Add FluentValidation validators.
+7. Add Mapperly mapper.
+8. Verify backend contracts.
+9. Implement frontend store, services, and components.
+
+=====================================
+OUTPUT
+=====================================
+
+Backend:
+- Repository interface + implementation
+- Common DTO
+- Commands + Handlers
+- Queries + Handlers
+- FluentValidation validators
+- Mapperly mapper
+
+Frontend:
+- Vue 3 component(s)
+- Pinia store (if required)
+- Axios service (if required)
+
+Summary:
+- CRUD UI Mode selected
+- Backend elements created
+- Frontend elements created
+- Reused patterns
+- Intentional omissions and reasons

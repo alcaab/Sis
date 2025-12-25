@@ -111,6 +111,19 @@
                 "unknown": "Unknown"
             }
         },
+        "evaluationPeriod": {
+            "title": "Evaluation Periods",
+            "createHeader": "Create Evaluation Period",
+            "editHeader": "Edit Evaluation Period",
+            "name": "Name",
+            "shortName": "Short Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "weight": "Weight (%)",
+            "sequence": "Sequence",
+            "academicYear": "Academic Year",
+            "levelType": "Level Type"
+        },
         "yearsDaysTimes": {
             "title": "YEARS, DAYS & TIMES",
             "daysOfTheWeek": "Days of the Week",

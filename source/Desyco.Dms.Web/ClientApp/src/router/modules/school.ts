@@ -34,6 +34,30 @@ const schoolRoutes: RouteRecordRaw[] = [
                     breadcrumb: "Edit Academic Year",
                 },
             },
+            {
+                path: "evaluation-period",
+                name: "evaluation-period-list",
+                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodList.vue"),
+                meta: {
+                    breadcrumb: "Evaluation Periods",
+                },
+            },
+            {
+                path: "evaluation-period/create",
+                name: "evaluation-period-create",
+                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodCreate.vue"),
+                meta: {
+                    breadcrumb: "Create Evaluation Period",
+                },
+            },
+            {
+                path: "evaluation-period/:id/edit",
+                name: "evaluation-period-edit",
+                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodEdit.vue"),
+                meta: {
+                    breadcrumb: "Edit Evaluation Period",
+                },
+            },
         ],
     },
 ];

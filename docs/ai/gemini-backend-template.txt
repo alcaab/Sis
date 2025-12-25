@@ -1,0 +1,89 @@
+Context:
+You have access to the existing backend project.
+Follow existing architecture and conventions strictly.
+
+Stack (do not deviate):
+- ASP.NET Core
+- Entity Framework Core
+- CQRS pattern
+- FluentValidation
+- Riok.Mapperly for mapping
+- MediatR (if already used in the project)
+
+Reference:
+- EF Core Entity: [EntityName]
+
+Task:
+Implement backend support for a new maintenance feature.
+
+Base rules:
+- Use the EF Core entity as the single source of truth.
+- Do NOT modify the entity unless explicitly requested.
+- Follow CQRS separation strictly (Commands vs Queries).
+- Do NOT introduce alternative patterns or libraries.
+
+DTO Strategy:
+- Create ONE common DTO based on the EF Core entity.
+- This DTO must be reused by:
+  - Commands
+  - Queries
+  - Responses (when applicable)
+- Do not create duplicated DTOs unless explicitly required.
+
+CQRS Structure:
+
+Commands:
+- Create[EntityName]Command
+- Update[EntityName]Command
+- Delete[EntityName]Command (if applicable)
+- Each command must:
+  - Use the common DTO
+  - Have a dedicated handler
+  - Have a FluentValidation validator
+
+Queries:
+- Get[EntityName]ByIdQuery
+- Get[EntityName]ListQuery
+- Each query must:
+  - Use the common DTO
+  - Support pagination/filtering if already used in the project
+  - Have a dedicated handler
+
+Validation:
+- Use FluentValidation
+- Validation rules must be based on:
+  - Entity constraints
+  - Business rules visible in the existing codebase
+- Do NOT duplicate validation logic inside handlers.
+
+Mapping:
+- Use Riok.Mapperly only.
+- Create a mapper for:
+  - Entity ↔ DTO
+  - DTO ↔ Command (if needed)
+- Do NOT use AutoMapper or manual mapping.
+
+Persistence:
+- Use EF Core DbContext directly inside handlers or via repositories,
+  depending on existing project conventions.
+- Do NOT introduce new persistence abstractions.
+
+Steps:
+1. Analyze the EF Core entity.
+2. Define the common DTO.
+3. Implement Commands and their handlers.
+4. Implement Queries and their handlers.
+5. Add FluentValidation validators.
+6. Add Mapperly mapper.
+7. Ensure consistency with existing conventions.
+
+Output:
+- Common DTO
+- Commands + Handlers
+- Queries + Handlers
+- FluentValidation validators
+- Mapperly mapper
+- Brief summary:
+  - What was generated
+  - How the DTO is reused
+  - Any assumptions made

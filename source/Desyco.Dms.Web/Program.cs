@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Text.Json;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Desyco.Dms.Application;
@@ -11,6 +10,7 @@ using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Desyco.Dms.Web.Infrastructure.Exceptions;
+using Microsoft.OpenApi.Models;
 
 const string CorsPolicy = "_allowedOrigins";
 
@@ -56,7 +56,33 @@ builder.Services.AddControllers()
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Introduce tu token JWT aquí. Ejemplo: eyJhbGciOiJIUz..."
+    });
+    
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            []
+        }
+    });
+});
 
 builder.Services.AddApiVersioning(settings =>
 {

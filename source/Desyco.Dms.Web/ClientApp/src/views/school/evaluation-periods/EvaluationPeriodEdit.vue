@@ -1,0 +1,69 @@
+<script setup lang="ts">
+    import { ref, onMounted } from "vue";
+    import { useRouter, useRoute } from "vue-router";
+    import { useEvaluationPeriodStore } from "@/stores/evaluationPeriodStore";
+    import { EvaluationPeriodService } from "@/service/EvaluationPeriodService";
+    import EvaluationPeriodForm from "./EvaluationPeriodForm.vue";
+    import { useNotification } from "@/composables/useNotification";
+    import { useI18n } from "vue-i18n";
+    import type { EvaluationPeriodDto } from "@/types/evaluation-period";
+
+    const router = useRouter();
+    const route = useRoute();
+    const store = useEvaluationPeriodStore();
+    const notify = useNotification();
+    const { t } = useI18n();
+
+    const evaluationPeriod = ref<EvaluationPeriodDto | null>(null);
+    const fetchingData = ref(true);
+
+    onMounted(async () => {
+        const id = Number(route.params.id);
+        if (id) {
+            try {
+                const response = await EvaluationPeriodService.getEvaluationPeriod(id);
+                evaluationPeriod.value = response.data;
+            } catch (error) {
+                notify.showError(error, t("common.notifications.loadError"));
+                router.push({ name: "evaluation-period-list" });
+            } finally {
+                fetchingData.value = false;
+            }
+        }
+    });
+
+    const handleUpdate = async (data: EvaluationPeriodDto) => {
+        const id = Number(route.params.id);
+        try {
+            await store.updateEvaluationPeriod(id, data);
+            notify.showSuccess(t("common.notifications.updateSuccess"));
+            router.push({ name: "evaluation-period-list" });
+        } catch (error) {
+            notify.showError(error, t("common.notifications.operationError"));
+        }
+    };
+
+    const handleCancel = () => {
+        router.push({ name: "evaluation-period-list" });
+    };
+</script>
+
+<template>
+    <div class="card">
+        <div class="font-semibold text-xl mb-4">{{ t("schoolSettings.evaluationPeriod.editHeader") }}</div>
+        <BlockUI
+            :blocked="fetchingData"
+            fullScreen
+        >
+            <ProgressSpinner v-if="fetchingData" />
+        </BlockUI>
+        <EvaluationPeriodForm
+            v-if="evaluationPeriod"
+            :initialData="evaluationPeriod"
+            :isEditing="true"
+            :loading="store.loading"
+            @submit="handleUpdate"
+            @cancel="handleCancel"
+        />
+    </div>
+</template>

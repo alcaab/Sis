@@ -1,6 +1,7 @@
+using Desyco.Dms.Application.AcademicYears.Commands;
 using FluentValidation;
 
-namespace Desyco.Dms.Application.AcademicYears.Commands;
+namespace Desyco.Dms.Application.AcademicYears.Validators;
 
 public class CreateAcademicYearCommandValidator : AbstractValidator<CreateAcademicYearCommand>
 {
