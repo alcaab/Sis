@@ -16,6 +16,7 @@
 
     const evaluationPeriod = ref<EvaluationPeriodDto | null>(null);
     const fetchingData = ref(true);
+    const returnUrl = (route.query.returnUrl as string) || "/school-settings/evaluation-period";
 
     onMounted(async () => {
         const id = Number(route.params.id);
@@ -25,7 +26,7 @@
                 evaluationPeriod.value = response.data;
             } catch (error) {
                 notify.showError(error, t("common.notifications.loadError"));
-                router.push({ name: "evaluation-period-list" });
+                router.push(returnUrl).then();
             } finally {
                 fetchingData.value = false;
             }
@@ -37,14 +38,14 @@
         try {
             await store.updateEvaluationPeriod(id, data);
             notify.showSuccess(t("common.notifications.updateSuccess"));
-            router.push({ name: "evaluation-period-list" });
+            router.push(returnUrl).then();
         } catch (error) {
             notify.showError(error, t("common.notifications.operationError"));
         }
     };
 
     const handleCancel = () => {
-        router.push({ name: "evaluation-period-list" });
+        router.push(returnUrl);
     };
 </script>
 

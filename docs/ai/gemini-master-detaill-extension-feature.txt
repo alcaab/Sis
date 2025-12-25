@@ -1,0 +1,54 @@
+Create a new Vue 3 (Composition API) component that functions as the DETAIL view
+in a Master/Detail pattern.
+
+CONTEXT:
+- The existing master component is: AcademicYearEdit.vue
+- The detail view must display the evaluation periods (EvaluationPeriods)
+  associated with the AcademicYear currently being edited.
+- The AcademicYearId is already available in AcademicYearEdit.vue
+  (prop, route param, or store; reuse the same pattern).
+
+MANDATORY STACK:
+- Vue 3 + Composition API
+- PrimeVue (DataTable, Column, Button, Dialog if applicable)
+- Axios for HTTP calls
+- Tailwind for styling
+- Pinia stores (if a related store exists, reuse it)
+- Same visual style, structure, and conventions as AcademicYearEdit.vue
+
+FUNCTIONAL REQUIREMENTS:
+1. The component must be a list component (detail).
+2. Use PrimeVue DataTable to display the evaluation periods.
+3. Suggested minimum columns:
+   - Name
+   - StartDate
+   - EndDate
+   - IsActive (formatted)
+   - Actions (Edit / Delete if applicable)
+4. The DataTable must:
+   - Support loading state
+   - Handle empty lists correctly
+   - Have row actions following the same visual pattern as the master
+
+MASTER / DETAIL INTEGRATION:
+- The component must receive AcademicYearId from the master
+  (prop or composable, following the existing pattern).
+- Upon mounting, it must load the periods associated with that AcademicYearId
+  using the existing .NET Core controller.
+- Do not create new endpoints if they already exist; reuse current ones.
+
+STRUCTURE:
+- Suggested component name: AcademicYearEvaluationPeriods.vue
+- Place it in the same folder or subfolder where it makes sense
+  according to the current project structure.
+- Export default with <script setup>.
+
+STYLE AND CONSISTENCY:
+- Copy Tailwind classes, layout, spacing, and naming conventions
+  from AcademicYearEdit.vue where applicable.
+- Do not introduce unnecessary new UI patterns.
+- Keep the code clean, readable, and aligned with the project.
+
+DELIVERABLE:
+- Complete component code ready to paste.
+- Do not include long explanations, just the code.

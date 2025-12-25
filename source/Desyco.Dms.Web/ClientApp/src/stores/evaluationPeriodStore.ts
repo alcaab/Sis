@@ -23,6 +23,19 @@ export const useEvaluationPeriodStore = defineStore("evaluationPeriod", () => {
         }
     }
 
+    async function fetchByAcademicYear(academicYearId: number) {
+        loading.value = true;
+        try {
+            const response = await EvaluationPeriodService.getEvaluationPeriodsByAcademicYear(academicYearId);
+            evaluationPeriods.value = response.data;
+        } catch (error) {
+            console.error("Failed to fetch evaluation periods by academic year", error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     async function createEvaluationPeriod(data: EvaluationPeriodDto) {
         loading.value = true;
         try {
@@ -67,5 +80,6 @@ export const useEvaluationPeriodStore = defineStore("evaluationPeriod", () => {
         createEvaluationPeriod,
         updateEvaluationPeriod,
         deleteEvaluationPeriod,
+        fetchByAcademicYear,
     };
 });

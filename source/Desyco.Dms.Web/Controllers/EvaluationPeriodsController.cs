@@ -36,6 +36,15 @@ public class EvaluationPeriodsController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("by-academic-year/{academicYearId:int}")]
+    [Authorize(Policy = Permissions.EvaluationPeriods.Read)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<EvaluationPeriodViewDto>>> GetByAcademicYear(int academicYearId, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetEvaluationPeriodsByAcademicYearQuery(academicYearId), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost]
     [Authorize(Policy = Permissions.EvaluationPeriods.Write)]
     [ProducesResponseType(StatusCodes.Status201Created)]

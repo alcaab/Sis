@@ -2,4 +2,7 @@
 
 namespace Desyco.Dms.Domain.Evaluations.Interfaces;
 
-public interface IEvaluationPeriodRepository : IRepositoryBase<EvaluationPeriodEntity, int>;
+public interface IEvaluationPeriodRepository : IRepositoryBase<EvaluationPeriodEntity, int>
+{
+    Task<List<EvaluationPeriodEntity>> GetByAcademicYearIdAsync(int academicYearId, CancellationToken cancellationToken = default);
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { useRouter } from "vue-router";
+    import { useRouter, useRoute } from "vue-router";
     import { useEvaluationPeriodStore } from "@/stores/evaluationPeriodStore";
     import EvaluationPeriodForm from "./EvaluationPeriodForm.vue";
     import { useNotification } from "@/composables/useNotification";
@@ -7,22 +7,26 @@
     import type { EvaluationPeriodDto } from "@/types/evaluation-period";
 
     const router = useRouter();
+    const route = useRoute();
     const store = useEvaluationPeriodStore();
     const notify = useNotification();
     const { t } = useI18n();
+
+    const academicYearId = Number(route.query.academicYearId);
+    const returnUrl = (route.query.returnUrl as string) || "/school-settings/evaluation-period";
 
     const handleCreate = async (data: EvaluationPeriodDto) => {
         try {
             await store.createEvaluationPeriod(data);
             notify.showSuccess(t("common.notifications.createSuccess"));
-            router.push({ name: "evaluation-period-list" }).then();
+            router.push(returnUrl).then();
         } catch (error) {
             notify.showError(error, t("common.notifications.operationError"));
         }
     };
 
     const handleCancel = () => {
-        router.push({ name: "evaluation-period-list" });
+        router.push(returnUrl);
     };
 </script>
 
@@ -32,6 +36,7 @@
         <EvaluationPeriodForm
             :isEditing="false"
             :loading="store.loading"
+            :initialData="{ academicYearId: academicYearId }"
             @submit="handleCreate"
             @cancel="handleCancel"
         />

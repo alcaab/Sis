@@ -96,6 +96,19 @@
         }
     },
     "schoolSettings": {
+        "panelGroups": {
+            "yearsDaysTimes": {
+                "title": "YEARS, DAYS & TIMES",
+                "daysOfTheWeek": "Days of the Week",
+                "manageSchoolYears": "Manage School Years",
+                "manageSpecialDays": "Manage Special Days",
+                "manageTerms": "Manage Evaluation Periods"
+            },
+            "others": {
+                "title": "OTHERS",
+                "manageTermTypes": "Manage Evaluation Types"
+            }
+        },
         "academicYear": {
             "title": "Academic Years",
             "createHeader": "Create Academic Year",
@@ -123,13 +136,6 @@
             "sequence": "Sequence",
             "academicYear": "Academic Year",
             "levelType": "Level Type"
-        },
-        "yearsDaysTimes": {
-            "title": "YEARS, DAYS & TIMES",
-            "daysOfTheWeek": "Days of the Week",
-            "manageSchoolYears": "Manage School Years",
-            "manageSpecialDays": "Manage Special Days",
-            "manageTerms": "Manage Terms"
         }
     }
 }

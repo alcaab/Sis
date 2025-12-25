@@ -14,5 +14,7 @@ public partial class EvaluationPeriodMapper
     
     public partial void Map(EvaluationPeriodDto dto, EvaluationPeriodEntity entity);
     
+    public partial EvaluationPeriodViewDto MapToView(EvaluationPeriodEntity entity);
+    
     public partial QueryResult<EvaluationPeriodDto> Map(QueryResult<EvaluationPeriodEntity> queryResult);
 }

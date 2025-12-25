@@ -4,6 +4,7 @@
     import { useAcademicYearStore } from "@/stores/academicYearStore";
     import { AcademicYearService } from "@/service/AcademicYearService";
     import AcademicYearForm from "./AcademicYearForm.vue";
+    import EvaluationPeriodView from "@/views/school/evaluation-periods/EvaluationPeriodView.vue";
     import type { AcademicYearDto } from "@/types/academic-year";
     import { useNotification } from "@/composables/useNotification";
     import { useI18n } from "vue-i18n";
@@ -76,6 +77,10 @@
                 @submit="handleUpdate"
                 @cancel="handleCancel"
             />
+
+            <Divider class="my-8" />
+
+            <EvaluationPeriodView :academicYearId="id" />
         </div>
     </div>
 </template>

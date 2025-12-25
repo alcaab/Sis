@@ -18,6 +18,10 @@ export const EvaluationPeriodService = {
         return api.get<EvaluationPeriodDto>(`${BASE_ROUTE}/${id}`);
     },
 
+    getEvaluationPeriodsByAcademicYear(academicYearId: number): Promise<AxiosResponse<EvaluationPeriodDto[]>> {
+        return api.get<EvaluationPeriodDto[]>(`${BASE_ROUTE}/by-academic-year/${academicYearId}`);
+    },
+
     createEvaluationPeriod(data: EvaluationPeriodDto): Promise<AxiosResponse<EvaluationPeriodDto>> {
         return api.post<EvaluationPeriodDto>(BASE_ROUTE, data);
     },
