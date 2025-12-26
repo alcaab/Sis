@@ -1,7 +1,8 @@
 <script setup lang="ts">
-    import { onMounted, watch, computed, ref } from "vue";
+    import { onMounted, watch, computed } from "vue";
     import type { EvaluationPeriodDto } from "@/types/evaluation-period";
     import { useAcademicYearStore } from "@/stores/academicYearStore";
+    import { useEducationalLevelStore } from "@/stores/educationalLevelStore";
     import FormField from "@/components/common/FormField.vue";
     import { useForm } from "vee-validate";
     import * as yup from "yup";
@@ -10,6 +11,7 @@
 
     const { t } = useI18n();
     const academicYearStore = useAcademicYearStore();
+    const educationalLevelStore = useEducationalLevelStore();
 
     const props = defineProps<{
         initialData?: Partial<EvaluationPeriodDto>;
@@ -85,7 +87,10 @@
 
     onMounted(async () => {
         if (academicYearStore.academicYears.length === 0) {
-            await academicYearStore.fetchAcademicYears({ rows: 100, sortField: "name", sortOrder: 1 });
+            await academicYearStore.fetchAcademicYears();
+        }
+        if (educationalLevelStore.educationalLevels.length === 0) {
+            await educationalLevelStore.fetchEducationalLevels();
         }
     });
 
@@ -149,11 +154,14 @@
             id="levelTypeId"
             required
         >
-            <InputNumber
+            <Select
                 id="levelTypeId"
                 v-model="levelTypeId"
+                :options="educationalLevelStore.educationalLevels"
+                optionLabel="name"
+                optionValue="id"
+                :placeholder="t('common.placeholders.select')"
                 class="w-sm"
-                :useGrouping="false"
                 :invalid="!!errors.levelTypeId"
             />
         </FormField>
@@ -224,7 +232,8 @@
                 suffix="%"
                 :min="0"
                 :max="100"
-                :minFractionDigits="2" :maxFractionDigits="3"
+                :minFractionDigits="2"
+                :maxFractionDigits="3"
                 :invalid="!!errors.weight"
             />
         </FormField>

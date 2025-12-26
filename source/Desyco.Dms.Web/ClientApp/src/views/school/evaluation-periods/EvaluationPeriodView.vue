@@ -3,6 +3,7 @@
     import { useRouter, useRoute } from "vue-router";
     import { useEvaluationPeriodStore } from "@/stores/evaluationPeriodStore";
     import { useI18n } from "vue-i18n";
+    import TableActions from "@/components/common/TableActions.vue";
 
     const props = defineProps<{
         academicYearId: number;
@@ -20,6 +21,16 @@
             name: "evaluation-period-create",
             query: {
                 academicYearId: props.academicYearId,
+                returnUrl: route.fullPath,
+            },
+        });
+    };
+
+    const openEdit = (id: number) => {
+        router.push({
+            name: "evaluation-period-edit",
+            params: { id },
+            query: {
                 returnUrl: route.fullPath,
             },
         });
@@ -108,6 +119,23 @@
             :header="t('schoolSettings.evaluationPeriod.weight')"
         >
             <template #body="slotProps"> {{ slotProps.data.weight }}% </template>
+        </Column>
+        <Column
+            :exportable="false"
+            style="width: 2rem"
+            frozen
+            alignFrozen="right"
+        >
+            <template #header>
+                <div class="flex justify-center w-full">{{ t("common.actions") }}</div>
+            </template>
+            <template #body="slotProps">
+                <TableActions
+                    :id="slotProps.data.id"
+                    @edit="openEdit(slotProps.data.id)"
+                    :canDelete="false"
+                />
+            </template>
         </Column>
         <template #footer>
             <div class="flex justify-start gap-2">

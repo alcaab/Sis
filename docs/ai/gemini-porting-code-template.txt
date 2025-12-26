@@ -1,0 +1,70 @@
+Actúa como un Arquitecto de Software Senior experto en migración de Angular a Vue 3 y TypeScript.
+
+Tengo un servicio de Angular llamado `EnumService` que se encarga de transformar Enums de TypeScript en listas de objetos (`LookupModel`) para ser usados en selectores/dropdowns. El servicio implementa un patrón de caché (lazy loading) para no procesar el Enum cada vez que se pide.
+
+**Tu tarea:**
+Por favor, refactoriza este código para una aplicación Vue 3 utilizando Composition API + TypeScript.
+
+**Requisitos técnicos:**
+1. **Arquitectura:** Analiza si es mejor implementar esto como un **Composable** (ej: `useEnumService`) o como un módulo de **Utilidad/Servicio Singleton** puro, dado que los Enums son estáticos. Justifica tu elección y genera el código basándote en la mejor opción.
+2. **Funcionalidad:**
+   - Debes mantener la lógica de `createDataSource` que filtra las claves numéricas (comportamiento estándar de los Enums en TS).
+   - Debes mantener el comportamiento de "caché" (si la lista ya existe, devuélvela; si no, créala).
+3. **Tipado:**
+   - Define la interfaz `LookupModel`.
+   - Genera Enums "Mock" (ficticios) para `RetailItemTypes`, `BarcodeMaskTypes`, etc., para que el código sea compilable y demostrable.
+4. **Reactividad:** Si usas un Composable, asegúrate de que se integre bien con el ecosistema Vue, aunque los datos sean estáticos.
+
+**Código Angular Original:**
+```typescript
+@Injectable({
+    providedIn: 'root'
+})
+export class EnumService {
+    private temTypes: LookupModel[];
+    private barcodeMaskTypes: LookupModel[];
+    private barcodeTypes: LookupModel[];
+    private barcodeSegmentTypes: LookupModel[];
+    private roundOffMethods: LookupModel[];
+    private calculationMethods: LookupModel[];
+    private showComponentOptions: LookupModel[];
+    private sendComponentsAs: LookupModel[];
+    private addressTypes: LookupModel[];
+    private validationTimePeriodTypes: LookupModel[];
+
+    constructor() {}
+
+    public getItemTypes(): LookupModel[] {
+        if (this.temTypes) return this.temTypes;
+
+        this.temTypes = this.createDataSource(RetailItemTypes, (value: string) => {
+            return `retailItemTypes.${value}`;
+        });
+
+        return this.temTypes;
+    }
+
+    public getBarcodeMaskTypes(): LookupModel[] {
+        if (this.barcodeMaskTypes) return this.barcodeMaskTypes;
+
+        this.barcodeMaskTypes = this.createDataSource(BarcodeMaskTypes, (value: string) => {
+            return `barcodeMaskTypes.${value}`;
+        });
+
+        return this.barcodeMaskTypes;
+    }
+    
+    // ... (asume el resto de métodos getters similares para los otros enums) ...
+
+    private createDataSource(enumType: unknown, translationResolver: Function): LookupModel[] {
+        return Object.entries(enumType)
+            .filter((e) => isNaN(Number(e[0])))
+            .map((m) => {
+                return {
+                    id: m[1],
+                    value: m[0],
+                    description: translationResolver(m[0]) ?? m[0]
+                };
+            });
+    }
+}
