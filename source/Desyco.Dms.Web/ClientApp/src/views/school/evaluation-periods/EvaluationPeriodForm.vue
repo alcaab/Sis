@@ -17,6 +17,8 @@
         initialData?: Partial<EvaluationPeriodDto>;
         isEditing: boolean;
         loading: boolean;
+        disableAcademicYear?: boolean;
+        disableLevelType?: boolean;
     }>();
 
     const emit = defineEmits(["submit", "cancel"]);
@@ -146,6 +148,7 @@
                 :placeholder="t('common.placeholders.select')"
                 class="w-sm"
                 :invalid="!!errors.academicYearId"
+                :disabled="disableAcademicYear"
             />
         </FormField>
 
@@ -163,6 +166,7 @@
                 :placeholder="t('common.placeholders.select')"
                 class="w-sm"
                 :invalid="!!errors.levelTypeId"
+                :disabled="disableLevelType"
             />
         </FormField>
 

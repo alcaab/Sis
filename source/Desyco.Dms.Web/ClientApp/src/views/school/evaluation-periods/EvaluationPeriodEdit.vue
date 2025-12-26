@@ -17,6 +17,7 @@
     const evaluationPeriod = ref<EvaluationPeriodDto | null>(null);
     const loading = ref(true);
     const returnUrl = (route.query.returnUrl as string) || "/school-settings/evaluation-period";
+    const lockContext = route.query.lockContext === "true";
 
     onMounted(async () => {
         const id = Number(route.params.id);
@@ -66,6 +67,8 @@
                 :initialData="evaluationPeriod"
                 :isEditing="true"
                 :loading="store.loading"
+                :disableAcademicYear="lockContext"
+                :disableLevelType="lockContext"
                 @submit="handleUpdate"
                 @cancel="handleCancel"
             />

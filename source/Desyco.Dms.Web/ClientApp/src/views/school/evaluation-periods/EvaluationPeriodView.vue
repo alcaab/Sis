@@ -32,6 +32,7 @@
             params: { id },
             query: {
                 returnUrl: route.fullPath,
+                lockContext: "true",
             },
         });
     };

@@ -41,6 +41,7 @@
                 :isEditing="false"
                 :loading="store.loading"
                 :initialData="{ academicYearId: academicYearId }"
+                :disableAcademicYear="!!academicYearId"
                 @submit="handleCreate"
                 @cancel="handleCancel"
             />
