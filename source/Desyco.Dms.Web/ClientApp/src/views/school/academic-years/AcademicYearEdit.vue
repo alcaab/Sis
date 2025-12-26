@@ -28,6 +28,7 @@
     });
 
     const loadData = async () => {
+        loading.value = true;
         try {
             const response = await AcademicYearService.getAcademicYear(id);
             initialData.value = response.data;
@@ -35,6 +36,9 @@
             console.error(error);
             notify.showError(error, t("common.notifications.loadError"));
             router.push({ name: "academic-year-list" }).then();
+        }
+        finally {
+            loading.value = false;
         }
     };
 
@@ -70,6 +74,12 @@
             <div class="font-semibold text-xl mb-6">
                 {{ t("schoolSettings.academicYear.editHeader") }}
             </div>
+            <BlockUI
+                :blocked="loading"
+                fullScreen
+            >
+                <ProgressSpinner v-if="loading" />
+            </BlockUI>
             <AcademicYearForm
                 :isEditing="true"
                 :loading="loading"

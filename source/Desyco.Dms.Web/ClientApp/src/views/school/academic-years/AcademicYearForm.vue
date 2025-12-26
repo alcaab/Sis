@@ -2,6 +2,7 @@
     import { watch, computed } from "vue";
     import { AcademicYearStatus, type AcademicYearDto } from "@/types/academic-year";
     import FormField from "@/components/common/FormField.vue";
+    import { enumService } from "@/service/EnumService";
     import { useForm } from "vee-validate";
     import * as yup from "yup";
     import { toTypedSchema } from "@vee-validate/yup";
@@ -88,12 +89,6 @@
         { immediate: true, deep: true },
     );
 
-    const statuses = computed(() => [
-        { label: t("schoolSettings.academicYear.statusLabels.upcoming"), value: AcademicYearStatus.Upcoming },
-        { label: t("schoolSettings.academicYear.statusLabels.current"), value: AcademicYearStatus.Current },
-        { label: t("schoolSettings.academicYear.statusLabels.closed"), value: AcademicYearStatus.Closed },
-    ]);
-
     const onSubmit = handleSubmit((values) => {
         // Ensure dates are sent as YYYY-MM-DD strings for DateOnly compatibility
         const payload = {
@@ -166,9 +161,9 @@
         >
             <SelectButton
                 v-model="status"
-                :options="statuses"
-                optionLabel="label"
-                optionValue="value"
+                :options="enumService.academicYearStatuses"
+                optionLabel="description"
+                optionValue="id"
                 class="w-full md:w-auto"
                 :invalid="!!errors.status"
             />

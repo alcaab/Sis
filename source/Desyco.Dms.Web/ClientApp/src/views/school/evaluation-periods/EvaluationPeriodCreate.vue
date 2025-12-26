@@ -5,6 +5,7 @@
     import { useNotification } from "@/composables/useNotification";
     import { useI18n } from "vue-i18n";
     import type { EvaluationPeriodDto } from "@/types/evaluation-period";
+    import AcademicYearForm from "@/views/school/academic-years/AcademicYearForm.vue";
 
     const router = useRouter();
     const route = useRoute();
@@ -31,14 +32,18 @@
 </script>
 
 <template>
-    <div class="card">
-        <div class="font-semibold text-xl mb-4">{{ t("schoolSettings.evaluationPeriod.createHeader") }}</div>
-        <EvaluationPeriodForm
-            :isEditing="false"
-            :loading="store.loading"
-            :initialData="{ academicYearId: academicYearId }"
-            @submit="handleCreate"
-            @cancel="handleCancel"
-        />
+    <div class="w-full animate fade-in">
+        <div class="p-2">
+            <div class="font-semibold text-xl mb-6">
+                {{ t("schoolSettings.evaluationPeriod.createHeader") }}
+            </div>
+            <EvaluationPeriodForm
+                :isEditing="false"
+                :loading="store.loading"
+                :initialData="{ academicYearId: academicYearId }"
+                @submit="handleCreate"
+                @cancel="handleCancel"
+            />
+        </div>
     </div>
 </template>

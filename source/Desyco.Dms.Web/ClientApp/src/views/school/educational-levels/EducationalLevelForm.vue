@@ -6,6 +6,7 @@
     import { toTypedSchema } from "@vee-validate/yup";
     import { EducationalLevelType, type EducationalLevelDto } from "@/types/educational-level";
     import FormField from "@/components/common/FormField.vue";
+    import { enumService } from "@/service/EnumService";
 
     const { t } = useI18n();
 
@@ -39,15 +40,6 @@
     const [name] = defineField("name");
     const [levelTypeId] = defineField("levelTypeId");
     const [isActive] = defineField("isActive");
-
-    const levelTypes = computed(() => [
-        {
-            label: t("schoolSettings.educationalLevel.types.earlyChildhood"),
-            value: EducationalLevelType.EarlyChildhood,
-        },
-        { label: t("schoolSettings.educationalLevel.types.primary"), value: EducationalLevelType.Primary },
-        { label: t("schoolSettings.educationalLevel.types.secondary"), value: EducationalLevelType.Secondary },
-    ]);
 
     watch(
         () => props.initialData,
@@ -102,9 +94,9 @@
             <Select
                 id="levelTypeId"
                 v-model="levelTypeId"
-                :options="levelTypes"
-                optionLabel="label"
-                optionValue="value"
+                :options="enumService.educationalLevelTypes"
+                optionLabel="description"
+                optionValue="id"
                 class="w-sm"
                 :placeholder="t('common.placeholders.select')"
                 :invalid="!!errors.levelTypeId"

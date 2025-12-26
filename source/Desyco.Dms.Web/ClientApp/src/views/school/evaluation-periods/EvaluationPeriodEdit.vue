@@ -15,7 +15,7 @@
     const { t } = useI18n();
 
     const evaluationPeriod = ref<EvaluationPeriodDto | null>(null);
-    const fetchingData = ref(true);
+    const loading = ref(true);
     const returnUrl = (route.query.returnUrl as string) || "/school-settings/evaluation-period";
 
     onMounted(async () => {
@@ -28,7 +28,7 @@
                 notify.showError(error, t("common.notifications.loadError"));
                 router.push(returnUrl).then();
             } finally {
-                fetchingData.value = false;
+                loading.value = false;
             }
         }
     });
@@ -50,21 +50,25 @@
 </script>
 
 <template>
-    <div class="card">
-        <div class="font-semibold text-xl mb-4">{{ t("schoolSettings.evaluationPeriod.editHeader") }}</div>
-        <BlockUI
-            :blocked="fetchingData"
-            fullScreen
-        >
-            <ProgressSpinner v-if="fetchingData" />
-        </BlockUI>
-        <EvaluationPeriodForm
-            v-if="evaluationPeriod"
-            :initialData="evaluationPeriod"
-            :isEditing="true"
-            :loading="store.loading"
-            @submit="handleUpdate"
-            @cancel="handleCancel"
-        />
+    <div class="w-full animate fade-in">
+        <div class="p-2">
+            <div class="font-semibold text-xl mb-6">
+                {{ t("schoolSettings.evaluationPeriod.editHeader") }}
+            </div>
+            <BlockUI
+                :blocked="loading"
+                fullScreen
+            >
+                <ProgressSpinner v-if="loading" />
+            </BlockUI>
+            <EvaluationPeriodForm
+                v-if="evaluationPeriod"
+                :initialData="evaluationPeriod"
+                :isEditing="true"
+                :loading="store.loading"
+                @submit="handleUpdate"
+                @cancel="handleCancel"
+            />
+        </div>
     </div>
 </template>

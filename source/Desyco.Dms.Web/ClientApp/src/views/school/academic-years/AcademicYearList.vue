@@ -11,6 +11,7 @@
     import { useNotification } from "@/composables/useNotification";
     import { useDeleteConfirm } from "@/composables/useDeleteConfirm";
     import { useI18n } from "vue-i18n";
+    import { enumService } from "@/service/EnumService";
 
     const router = useRouter();
     const store = useAcademicYearStore();
@@ -63,14 +64,6 @@
             item: { id: item.id, name: item.name },
             deleteAction: store.deleteAcademicYear,
         });
-    };
-
-    const getStatusLabel = (status: AcademicYearStatus) => {
-        if (!status) {
-            return t("schoolSettings.academicYear.statusLabels.unknown");
-        }
-
-        return t(`schoolSettings.academicYear.statusLabels.${AcademicYearStatus[status].toLowerCase()}`);
     };
 
     const getStatusSeverity = (status: AcademicYearStatus) => {
@@ -168,7 +161,7 @@
             >
                 <template #body="slotProps">
                     <Tag
-                        :value="getStatusLabel(slotProps.data.status)"
+                        :value="enumService.getDescription('AcademicYearStatus', slotProps.data.status)"
                         :severity="getStatusSeverity(slotProps.data.status)"
                     />
                 </template>
