@@ -395,3 +395,14 @@ Se implementó una API especializada para soportar la interfaz de usuario de ges
 *   **Modules Autofac:** 
     *   `source/Desyco.Dms.Application/ApplicationModule.cs`
     *   `source/Desyco.Dms.Infrastructure/InfrastructureModule.cs`
+
+### AV. Implementación de Mantenimiento de Días de la Semana
+*   **Backend:**
+    *   Se creó `Desyco.Dms.Application/DaysOfWeek` con DTOs, Mappers, Queries, Commands y Validators.
+    *   Se creó `DaysOfWeekController`.
+    *   Se actualizó `Permissions.cs` y `FeatureSeeder.cs` para incluir `DaysOfWeek`.
+*   **Frontend:**
+    *   Se implementó el store `dayOfWeekStore` y servicio `DayOfWeekService`.
+    *   Se creó el componente `WeeklySchedule.vue` (Dumb) y `WeeklyScheduleContainer.vue` (Smart).
+    *   Se configuró la ruta `/school-settings/days-of-week` y se actualizó el menú en `SchoolSettings.vue`.
+    *   Se utilizó `Accordion`, `SelectButton` y `DatePicker` (timeOnly) como se solicitó.

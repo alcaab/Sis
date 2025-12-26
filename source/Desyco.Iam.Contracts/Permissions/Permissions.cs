@@ -75,6 +75,14 @@ public static class Permissions
         public const string Write = $"{Root}.{Code}.Write";
         public const string Delete = $"{Root}.{Code}.Delete";
     }
+
+    public static class DaysOfWeek
+    {
+        public const string Code = "DaysOfWeek";
+        public const string Read = $"{Root}.{Code}.Read";
+        public const string Write = $"{Root}.{Code}.Write";
+        public const string Delete = $"{Root}.{Code}.Delete";
+    }
     
     // Permission management feature itself
     public static class Security

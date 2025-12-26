@@ -22,7 +22,7 @@
                 },
                 {
                     label: t("schoolSettings.panelGroups.yearsDaysTimes.daysOfTheWeek"),
-                    to: "/school/years-days-times/days-of-the-week",
+                    to: "/school-settings/days-of-week",
                 },
                 {
                     label: t("schoolSettings.panelGroups.yearsDaysTimes.manageSpecialDays"),

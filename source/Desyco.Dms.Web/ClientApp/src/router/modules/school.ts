@@ -59,6 +59,14 @@ const schoolRoutes: RouteRecordRaw[] = [
                 },
             },
             {
+                path: "days-of-week",
+                name: "days-of-week",
+                component: () => import("@/views/school/days-of-week/WeeklyScheduleContainer.vue"),
+                meta: {
+                    breadcrumb: "Days of the Week",
+                },
+            },
+            {
                 path: "educational-level",
                 name: "educational-level-list",
                 component: () => import("@/views/school/educational-levels/EducationalLevelList.vue"),

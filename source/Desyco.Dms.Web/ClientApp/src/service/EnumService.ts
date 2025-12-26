@@ -3,39 +3,44 @@ import { EducationalLevelType } from "@/types/educational-level";
 import { PermissionAction } from "@/types/permissions";
 import type { LookupModel } from "@/types/common";
 import i18n from "@/i18n";
+import { DayOfWeek } from "@/types/days-of-week.ts";
 
 class EnumService {
     private cache: Map<string, LookupModel[]> = new Map();
 
     public get academicYearStatuses(): LookupModel[] {
-        return this.getOrSetCache(
-            "AcademicYearStatus",
-            AcademicYearStatus,
-            (key) => i18n.global.t(`schoolSettings.academicYear.statusLabels.${key.toLowerCase()}`)
+        return this.getOrSetCache("AcademicYearStatus", AcademicYearStatus, (key) =>
+            i18n.global.t(`schoolSettings.academicYear.statusLabels.${key.toLowerCase()}`),
         );
     }
 
     public get educationalLevelTypes(): LookupModel[] {
-        return this.getOrSetCache(
-            "EducationalLevelType",
-            EducationalLevelType,
-            (key) => i18n.global.t(`schoolSettings.educationalLevel.types.${this.toCamelCase(key)}`)
+        return this.getOrSetCache("EducationalLevelType", EducationalLevelType, (key) =>
+            i18n.global.t(`schoolSettings.educationalLevel.types.${this.toCamelCase(key)}`),
         );
     }
 
     public get permissionActions(): LookupModel[] {
-        return this.getOrSetCache(
-            "PermissionAction",
-            PermissionAction,
-            (key) => i18n.global.t(`permissions.actions.${key.toLowerCase()}`)
+        return this.getOrSetCache("PermissionAction", PermissionAction, (key) =>
+            i18n.global.t(`permissions.actions.${key.toLowerCase()}`),
         );
     }
 
-    public getDescription(enumName: "AcademicYearStatus" | "EducationalLevelType" | "PermissionAction", id: number | string): string {
+    public get daysOfWeek(): LookupModel[] {
+        return this.getOrSetCache("DayOfWeek", DayOfWeek, (key) =>
+            i18n.global.t(`dayOfWeek.names.${key.toLowerCase()}`),
+        );
+    }
+
+    public getDescription(
+        enumName: "AcademicYearStatus" | "EducationalLevelType" | "PermissionAction" | "DayOfWeek",
+        id: number | string,
+    ): string {
         let list: LookupModel[] = [];
         if (enumName === "AcademicYearStatus") list = this.academicYearStatuses;
         else if (enumName === "EducationalLevelType") list = this.educationalLevelTypes;
         else if (enumName === "PermissionAction") list = this.permissionActions;
+        else if (enumName === "DayOfWeek") list = this.daysOfWeek;
 
         const item = list.find((x) => x.id === id);
         return item ? item.description : id.toString();
@@ -44,7 +49,7 @@ class EnumService {
     private getOrSetCache(
         cacheKey: string,
         enumType: Record<string, string | number>,
-        translationResolver: (key: string) => string
+        translationResolver: (key: string) => string,
     ): LookupModel[] {
         if (!this.cache.has(cacheKey)) {
             const data = this.createDataSource(enumType, translationResolver);
@@ -55,7 +60,7 @@ class EnumService {
 
     private createDataSource(
         enumType: Record<string, string | number>,
-        translationResolver: (key: string) => string
+        translationResolver: (key: string) => string,
     ): LookupModel[] {
         return Object.entries(enumType)
             .filter(([key]) => isNaN(Number(key)))
