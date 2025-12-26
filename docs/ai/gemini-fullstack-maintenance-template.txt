@@ -13,7 +13,7 @@ Backend Stack (do not deviate):
 - FluentValidation
 - Riok.Mapperly for mapping
 - Repository pattern
-- MediatR (only if already used in the project)
+- Desyco.Mediator a fork library of MediatR already install ( only if already used in the project)
 
 Backend Reference:
 - EF Core Entity: [EntityName]
@@ -91,6 +91,9 @@ Persistence:
   - Data access only
   - No business logic
   - Async methods only
+
+Seeder
+- Add the new feature to FeatureSeeder and reorder the sequence
 
 =====================================
 FRONTEND RULES

@@ -58,6 +58,14 @@ const schoolRoutes: RouteRecordRaw[] = [
                     breadcrumb: "Edit Evaluation Period",
                 },
             },
+            {
+                path: "educational-level",
+                name: "educational-level-list",
+                component: () => import("@/views/school/educational-levels/EducationalLevelList.vue"),
+                meta: {
+                    breadcrumb: "Educational Levels",
+                },
+            },
         ],
     },
 ];

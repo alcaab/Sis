@@ -4,7 +4,7 @@
 
     withDefaults(
         defineProps<{
-            id: string;
+            id: string | number;
             canEdit?: boolean;
             canDelete?: boolean;
             loading?: boolean;
@@ -22,7 +22,7 @@
 </script>
 
 <template>
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-end gap-1">
         <!-- Custom Actions (Left) -->
         <slot
             name="left"

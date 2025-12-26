@@ -175,7 +175,7 @@
             </Column>
             <Column
                 :exportable="false"
-                style="min-width: 8rem"
+                style="width: 4rem"
             >
                 <template #header>
                     <div class="flex justify-center w-full">{{ t("common.actions") }}</div>

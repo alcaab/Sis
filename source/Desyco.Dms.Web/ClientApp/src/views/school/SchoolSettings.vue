@@ -9,16 +9,6 @@
 
     const staticMenu = [
         {
-            label: t("schoolSettings.panelGroups.others.title"),
-            icon: "pi pi-fw pi-calendar",
-            items: [
-                {
-                    label: t("schoolSettings.panelGroups.others.manageTermTypes"),
-                    to: "/school-settings/evaluation-period-type",
-                },
-            ],
-        },
-        {
             label: t("schoolSettings.panelGroups.yearsDaysTimes.title"),
             icon: "pi pi-fw pi-calendar",
             items: [
@@ -27,7 +17,7 @@
                     to: "/school-settings/academic-year",
                 },
                 {
-                    label: t("schoolSettings.panelGroups.yearsDaysTimes.manageTerms"),
+                    label: t("schoolSettings.panelGroups.yearsDaysTimes.manageEvaluationPeriod"),
                     to: "/school-settings/evaluation-period",
                 },
                 {
@@ -37,6 +27,16 @@
                 {
                     label: t("schoolSettings.panelGroups.yearsDaysTimes.manageSpecialDays"),
                     to: "/school/years-days-times/manage-special-days",
+                },
+            ],
+        },
+        {
+            label: t("schoolSettings.panelGroups.others.title"),
+            icon: "pi pi-fw pi-cog",
+            items: [
+                {
+                    label: t("schoolSettings.panelGroups.others.educationalLevels"),
+                    to: "/school-settings/educational-level",
                 },
             ],
         },

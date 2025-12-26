@@ -148,7 +148,7 @@
             ></Column>
             <Column
                 :exportable="false"
-                style="min-width: 4rem"
+                style="width: 4rem"
             >
                 <template #header>
                     <div class="flex justify-center w-full">{{ t("common.actions") }}</div>
@@ -165,7 +165,6 @@
                                 icon="pi pi-shield"
                                 severity="info"
                                 outlined
-                                class="mr-2"
                                 :title="t('common.buttons.permissions')"
                                 @click="managePermissions(slotProps.data)"
                             />

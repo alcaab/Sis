@@ -62,7 +62,7 @@
         confirmDelete({
             item: { id: item.id, name: item.name },
             deleteAction: store.deleteEvaluationPeriod,
-            onSuccess: onSearch
+            onSuccess: onSearch,
         });
     };
 </script>
@@ -152,13 +152,11 @@
                 :sortable="true"
                 style="min-width: 8rem"
             >
-                <template #body="slotProps">
-                    {{ slotProps.data.weight }}%
-                </template>
+                <template #body="slotProps"> {{ slotProps.data.weight }}% </template>
             </Column>
             <Column
                 :exportable="false"
-                style="min-width: 8rem"
+                style="width: 4rem"
             >
                 <template #header>
                     <div class="flex justify-center w-full">{{ t("common.actions") }}</div>

@@ -63,9 +63,17 @@ public static class Permissions
     public static class EvaluationPeriods
     {
         public const string Code = "EvaluationPeriods";
-        public const string Read = $"Permissions.{Code}.Read";
-        public const string Write = $"Permissions.{Code}.Write";
-        public const string Delete = $"Permissions.{Code}.Delete";
+        public const string Read = $"{Root}.{Code}.Read";
+        public const string Write = $"{Root}.{Code}.Write";
+        public const string Delete = $"{Root}.{Code}.Delete";
+    }
+
+    public static class EducationalLevels
+    {
+        public const string Code = "EducationalLevels";
+        public const string Read = $"{Root}.{Code}.Read";
+        public const string Write = $"{Root}.{Code}.Write";
+        public const string Delete = $"{Root}.{Code}.Delete";
     }
     
     // Permission management feature itself

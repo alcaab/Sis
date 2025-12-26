@@ -109,12 +109,9 @@
         // Ensure dates are sent as YYYY-MM-DD strings for DateOnly compatibility
         const payload = {
             ...values,
-            startDate: values.startDate instanceof Date
-                ? values.startDate.toLocaleDateString('en-CA')
-                : values.startDate,
-            endDate: values.endDate instanceof Date
-                ? values.endDate.toLocaleDateString('en-CA')
-                : values.endDate
+            startDate:
+                values.startDate instanceof Date ? values.startDate.toLocaleDateString("en-CA") : values.startDate,
+            endDate: values.endDate instanceof Date ? values.endDate.toLocaleDateString("en-CA") : values.endDate,
         };
         emit("submit", payload);
     });
@@ -130,117 +127,118 @@
         class="flex flex-col gap-4"
         v-focustrap
     >
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.academicYear')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.academicYear')"
+            id="academicYearId"
+            required
+        >
+            <Select
                 id="academicYearId"
-                required
-            >
-                <Select
-                    id="academicYearId"
-                    v-model="academicYearId"
-                    :options="academicYearStore.academicYears"
-                    optionLabel="name"
-                    optionValue="id"
-                    :placeholder="t('common.placeholders.select')"
-                    class="w-full"
-                    :invalid="!!errors.academicYearId"
-                />
-            </FormField>
+                v-model="academicYearId"
+                :options="academicYearStore.academicYears"
+                optionLabel="name"
+                optionValue="id"
+                :placeholder="t('common.placeholders.select')"
+                class="w-sm"
+                :invalid="!!errors.academicYearId"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.levelType')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.levelType')"
+            id="levelTypeId"
+            required
+        >
+            <InputNumber
                 id="levelTypeId"
-                required
-            >
-                <InputNumber
-                    id="levelTypeId"
-                    v-model="levelTypeId"
-                    class="w-full"
-                    :useGrouping="false"
-                    :invalid="!!errors.levelTypeId"
-                />
-            </FormField>
+                v-model="levelTypeId"
+                class="w-sm"
+                :useGrouping="false"
+                :invalid="!!errors.levelTypeId"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.name')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.name')"
+            id="name"
+            required
+        >
+            <InputText
                 id="name"
-                required
-            >
-                <InputText
-                    id="name"
-                    v-model="name"
-                    class="w-full"
-                    :invalid="!!errors.name"
-                    autofocus
-                />
-            </FormField>
+                v-model="name"
+                class="w-full"
+                :invalid="!!errors.name"
+                autofocus
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.shortName')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.shortName')"
+            id="shortName"
+            required
+        >
+            <InputText
                 id="shortName"
-                required
-            >
-                <InputText
-                    id="shortName"
-                    v-model="shortName"
-                    class="w-full"
-                    :invalid="!!errors.shortName"
-                />
-            </FormField>
+                v-model="shortName"
+                class="w-sm"
+                :invalid="!!errors.shortName"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.startDate')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.startDate')"
+            id="startDate"
+            required
+        >
+            <DatePicker
                 id="startDate"
-                required
-            >
-                <DatePicker
-                    id="startDate"
-                    v-model="startDateProxy"
-                    showIcon
-                    dateFormat="yy-mm-dd"
-                    :invalid="!!errors.startDate"
-                />
-            </FormField>
+                v-model="startDateProxy"
+                showIcon
+                dateFormat="yy-mm-dd"
+                :invalid="!!errors.startDate"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.endDate')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.endDate')"
+            id="endDate"
+            required
+        >
+            <DatePicker
                 id="endDate"
-                required
-            >
-                <DatePicker
-                    id="endDate"
-                    v-model="endDateProxy"
-                    showIcon
-                    dateFormat="yy-mm-dd"
-                    :invalid="!!errors.endDate"
-                />
-            </FormField>
+                v-model="endDateProxy"
+                showIcon
+                dateFormat="yy-mm-dd"
+                :invalid="!!errors.endDate"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.weight')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.weight')"
+            id="weight"
+            required
+        >
+            <InputNumber
                 id="weight"
-                required
-            >
-                <InputNumber
-                    id="weight"
-                    v-model="weight"
-                    suffix="%"
-                    :min="0"
-                    :max="100"
-                    :invalid="!!errors.weight"
-                />
-            </FormField>
+                v-model="weight"
+                suffix="%"
+                :min="0"
+                :max="100"
+                :minFractionDigits="2" :maxFractionDigits="3"
+                :invalid="!!errors.weight"
+            />
+        </FormField>
 
-            <FormField
-                :label="t('schoolSettings.evaluationPeriod.sequence')"
+        <FormField
+            :label="t('schoolSettings.evaluationPeriod.sequence')"
+            id="sequence"
+        >
+            <InputNumber
                 id="sequence"
-            >
-                <InputNumber
-                    id="sequence"
-                    v-model="sequence"
-                    :useGrouping="false"
-                />
-            </FormField>
+                v-model="sequence"
+                :useGrouping="false"
+            />
+        </FormField>
 
         <div class="flex justify-end gap-2 mt-4">
             <Button

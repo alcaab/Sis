@@ -8,7 +8,9 @@ import type { RequestParamsPayload } from "@/utils/queryOptions/queryOptionModel
 const BASE_ROUTE = "/evaluation-periods";
 
 export const EvaluationPeriodService = {
-    getEvaluationPeriods(requestParams?: RequestParamsPayload): Promise<AxiosResponse<QueryResult<EvaluationPeriodDto>>> {
+    getEvaluationPeriods(
+        requestParams?: RequestParamsPayload,
+    ): Promise<AxiosResponse<QueryResult<EvaluationPeriodDto>>> {
         const queryString = QueryStringBuilder.buildQueryOptionsString(requestParams);
 
         return api.get<QueryResult<EvaluationPeriodDto>>(`${BASE_ROUTE}${queryString}`);

@@ -102,11 +102,11 @@
                 "daysOfTheWeek": "Days of the Week",
                 "manageSchoolYears": "Manage School Years",
                 "manageSpecialDays": "Manage Special Days",
-                "manageTerms": "Manage Evaluation Periods"
+                "manageEvaluationPeriod": "Manage Evaluation Periods"
             },
             "others": {
                 "title": "OTHERS",
-                "manageTermTypes": "Manage Evaluation Types"
+                "educationalLevels": "Educational Levels"
             }
         },
         "academicYear": {
@@ -136,6 +136,18 @@
             "sequence": "Sequence",
             "academicYear": "Academic Year",
             "levelType": "Level Type"
+        },
+        "educationalLevel": {
+            "title": "Educational Levels",
+            "name": "Name",
+            "levelType": "Type",
+            "isActive": "Active",
+            "dialogHeader": "Educational Level Details",
+            "types": {
+                "earlyChildhood": "Early Childhood",
+                "primary": "Primary",
+                "secondary": "Secondary"
+            }
         }
     }
 }

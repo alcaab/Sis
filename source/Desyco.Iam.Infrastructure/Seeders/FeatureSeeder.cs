@@ -20,10 +20,17 @@ public class FeatureSeeder(IamDbContext context)
             },
             new()
             {
+                Code = Permissions.EducationalLevels.Code,
+                Description = "feature.educationalLevels",
+                Group = "Academic",
+                Order = 110
+            },
+            new()
+            {
                 Code = Permissions.EvaluationPeriods.Code,
                 Description = "feature.evaluationPeriods",
                 Group = "Academic",
-                Order = 150
+                Order = 120
             },
             new()
             {

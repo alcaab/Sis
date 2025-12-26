@@ -98,12 +98,9 @@
         // Ensure dates are sent as YYYY-MM-DD strings for DateOnly compatibility
         const payload = {
             ...values,
-            startDate: values.startDate instanceof Date 
-                ? values.startDate.toLocaleDateString('en-CA') 
-                : values.startDate,
-            endDate: values.endDate instanceof Date 
-                ? values.endDate.toLocaleDateString('en-CA') 
-                : values.endDate
+            startDate:
+                values.startDate instanceof Date ? values.startDate.toLocaleDateString("en-CA") : values.startDate,
+            endDate: values.endDate instanceof Date ? values.endDate.toLocaleDateString("en-CA") : values.endDate,
         };
         emit("submit", payload);
     });
@@ -156,6 +153,7 @@
                 id="endDate"
                 v-model="endDateProxy"
                 showIcon
+                class="w-sm"
                 dateFormat="yy-mm-dd"
                 :invalid="!!errors.endDate"
             />
