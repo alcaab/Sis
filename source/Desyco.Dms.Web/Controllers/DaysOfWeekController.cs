@@ -1,4 +1,5 @@
 using Desyco.Dms.Application.DaysOfWeek;
+using Desyco.Dms.Application.DaysOfWeek.Commands;
 using Desyco.Dms.Application.DaysOfWeek.DTOs;
 using Desyco.Dms.Application.DaysOfWeek.Queries;
 using Desyco.Iam.Contracts.Permissions;
@@ -22,27 +23,14 @@ public class DaysOfWeekController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [Authorize(Policy = Permissions.DaysOfWeek.Write)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<DayOfWeekDto>> Update(DayOfWeek id, [FromBody] UpdateDayOfWeekCommand command,
+    public async Task<ActionResult<List<DayOfWeekDto>>> UpdateBatch([FromBody] DayOfWeekDto command,
         CancellationToken cancellationToken)
     {
-        if (id != command.Id)
-        {
-            return BadRequest("Id in URL and request body do not match.");
-        }
-
-        try
-        {
-            var result = await mediator.Send(command, cancellationToken);
-            return Ok(result);
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

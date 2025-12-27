@@ -1,17 +1,15 @@
-using Desyco.Dms.Domain.Common.Entities;
-
 namespace Desyco.Dms.Application.DaysOfWeek.DTOs;
 
-public class DayOfWeekDto
+public record DayOfWeekDto
 {
-    public DayOfWeek Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string ShortName { get; set; } = string.Empty;
-    public TimeOnly? OpenTime { get; set; }
-    public TimeOnly? StartTime { get; set; }
-    public TimeOnly? EndTime { get; set; }
-    public TimeOnly? CloseTime { get; set; }
-    public bool IsStartOfWeek { get; set; }
-    public bool IsEndOfWeek { get; set; }
-    public bool IsSchoolDay { get; set; }
+    public DayOfWeek Id { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public string ShortName { get; init; } = string.Empty;
+    public TimeOnly? OpenTime { get; init; }
+    public TimeOnly? StartTime { get; init; }
+    public TimeOnly? EndTime { get; init; }
+    public TimeOnly? CloseTime { get; init; }
+    public bool IsStartOfWeek { get; init; }
+    public bool IsEndOfWeek { get; init; }
+    public bool IsSchoolDay { get; init; }
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { DayOfWeekDto, UpdateDayOfWeekCommand } from "@/types/days-of-week";
+import type { DayOfWeekDto, UpdateWeeklyScheduleCommand } from "@/types/days-of-week";
 
 export class DayOfWeekService {
     async getAll(): Promise<DayOfWeekDto[]> {
@@ -7,8 +7,8 @@ export class DayOfWeekService {
         return response.data;
     }
 
-    async update(id: number, command: UpdateDayOfWeekCommand): Promise<DayOfWeekDto> {
-        const response = await axios.put<DayOfWeekDto>(`/api/v1/days-of-week/${id}`, command);
+    async updateBatch(command: UpdateWeeklyScheduleCommand): Promise<DayOfWeekDto[]> {
+        const response = await axios.put<DayOfWeekDto[]>("/api/v1/days-of-week", command);
         return response.data;
     }
 }

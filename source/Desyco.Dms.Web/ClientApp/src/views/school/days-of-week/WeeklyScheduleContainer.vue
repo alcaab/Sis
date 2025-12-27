@@ -2,33 +2,36 @@
 import { onMounted } from 'vue';
 import { useDayOfWeekStore } from '@/stores/dayOfWeekStore';
 import WeeklySchedule from './WeeklySchedule.vue';
-import type { UpdateDayOfWeekCommand } from '@/types/days-of-week';
-import { useToast } from 'primevue/usetoast';
+import type { UpdateWeeklyScheduleCommand } from '@/types/days-of-week';
+import { useNotification } from '@/composables/useNotification';
+import { useI18n } from 'vue-i18n';
 
 const store = useDayOfWeekStore();
-const toast = useToast();
+const { showSuccess, showError } = useNotification();
+const { t } = useI18n();
 
 onMounted(() => {
     store.fetchDays();
 });
 
-const handleSave = async (id: number, command: UpdateDayOfWeekCommand) => {
+const handleSaveAll = async (command: UpdateWeeklyScheduleCommand) => {
     try {
-        await store.updateDay(id, command);
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Schedule updated successfully', life: 3000 });
+        await store.updateAll(command);
+        showSuccess(t('common.notifications.updateSuccess'));
     } catch (error) {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update schedule', life: 3000 });
+        showError(error, t('common.notifications.operationErrorTitle'));
     }
 };
 
 const handleError = (message: string) => {
-    toast.add({ severity: 'warn', summary: 'Validation', detail: message, life: 3000 });
+    // Custom validation error from child
+    showError({ message }, t('common.notifications.operationErrorTitle'));
 };
 </script>
 
 <template>
     <div>
-        <h1 class="text-2xl font-bold mb-4">Days of the Week</h1>
+        <h1 class="text-2xl font-bold mb-4">{{ t('schoolSettings.panelGroups.yearsDaysTimes.daysOfTheWeek') }}</h1>
         <div v-if="store.loading" class="flex justify-center p-8">
             <i class="pi pi-spin pi-spinner text-4xl"></i>
         </div>
@@ -36,7 +39,7 @@ const handleError = (message: string) => {
             v-else 
             :days="store.days" 
             :saving="store.saving" 
-            @save="handleSave" 
+            @saveAll="handleSaveAll" 
             @error="handleError"
         />
     </div>

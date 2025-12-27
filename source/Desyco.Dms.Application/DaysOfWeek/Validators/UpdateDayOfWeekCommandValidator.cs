@@ -1,8 +1,9 @@
+using Desyco.Dms.Application.DaysOfWeek.DTOs;
 using FluentValidation;
 
 namespace Desyco.Dms.Application.DaysOfWeek.Validators;
 
-public class UpdateDayOfWeekCommandValidator : AbstractValidator<UpdateDayOfWeekCommand>
+public class UpdateDayOfWeekCommandValidator : AbstractValidator<DayOfWeekDto>
 {
     public UpdateDayOfWeekCommandValidator()
     {

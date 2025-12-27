@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { dayOfWeekService } from "@/service/DayOfWeekService";
-import type { DayOfWeekDto, UpdateDayOfWeekCommand } from "@/types/days-of-week";
+import type { DayOfWeekDto, UpdateWeeklyScheduleCommand } from "@/types/days-of-week";
 
 interface State {
     days: DayOfWeekDto[];
@@ -25,17 +25,12 @@ export const useDayOfWeekStore = defineStore("dayOfWeek", {
                 this.loading = false;
             }
         },
-        async updateDay(id: number, command: UpdateDayOfWeekCommand) {
+        async updateAll(command: UpdateWeeklyScheduleCommand) {
             this.saving = true;
             try {
-                const updatedDay = await dayOfWeekService.update(id, command);
-                const index = this.days.findIndex((d) => d.id === id);
-                if (index !== -1) {
-                    this.days[index] = updatedDay;
-                }
-                return updatedDay;
+                this.days = await dayOfWeekService.updateBatch(command);
             } catch (error) {
-                console.error("Error updating day:", error);
+                console.error("Error updating weekly schedule:", error);
                 throw error;
             } finally {
                 this.saving = false;

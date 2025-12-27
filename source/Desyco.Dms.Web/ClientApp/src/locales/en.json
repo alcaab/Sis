@@ -1,5 +1,7 @@
 {
     "common": {
+        "yes": "Yes",
+        "no": "No",
         "buttons": {
             "new": "New",
             "edit": "Edit",
@@ -147,6 +149,31 @@
                 "earlyChildhood": "Early Childhood",
                 "primary": "Primary",
                 "secondary": "Secondary"
+            }
+        },
+        "dayOfWeek": {
+            "schoolDay": "School Day",
+            "openTime": "Open time",
+            "startTime": "Start time",
+            "endTime": "End time",
+            "closeTime": "Close time",
+            "names": {
+                "sunday": "Sunday",
+                "monday": "Monday",
+                "tuesday": "Tuesday",
+                "wednesday": "Wednesday",
+                "thursday": "Thursday",
+                "friday": "Friday",
+                "saturday": "Saturday"
+            },
+            "shortNames": {
+                "sunday": "Sun",
+                "monday": "Mon",
+                "tuesday": "Tue",
+                "wednesday": "Wed",
+                "thursday": "Thu",
+                "friday": "Fri",
+                "saturday": "Sat"
             }
         }
     }

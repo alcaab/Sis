@@ -8,9 +8,8 @@ namespace Desyco.Dms.Application.DaysOfWeek.Mappers;
 public partial class DayOfWeekMapper
 {
     public partial DayOfWeekDto ToDto(DayOfWeekEntity entity);
-    public partial DayOfWeekEntity ToEntity(DayOfWeekDto dto);
     
     public partial List<DayOfWeekDto> ToDtoList(List<DayOfWeekEntity> entities);
     
-    public partial void UpdateEntity(UpdateDayOfWeekCommand command, DayOfWeekEntity entity);
+    public partial void UpdateEntity(DayOfWeekDto dto, DayOfWeekEntity entity);
 }

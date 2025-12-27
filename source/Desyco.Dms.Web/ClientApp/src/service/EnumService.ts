@@ -27,9 +27,11 @@ class EnumService {
     }
 
     public get daysOfWeek(): LookupModel[] {
-        return this.getOrSetCache("DayOfWeek", DayOfWeek, (key) =>
-            i18n.global.t(`dayOfWeek.names.${key.toLowerCase()}`),
-        );
+        return this.getOrSetCache("DayOfWeek", DayOfWeek, (key) => {
+            const name = i18n.global.t(`schoolSettings.dayOfWeek.names.${key.toLowerCase()}`);
+            const shortName = i18n.global.t(`schoolSettings.dayOfWeek.shortNames.${key.toLowerCase()}`);
+            return `${name} (${shortName})`;
+        });
     }
 
     public getDescription(

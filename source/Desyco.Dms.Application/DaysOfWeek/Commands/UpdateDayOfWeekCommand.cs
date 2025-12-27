@@ -1,13 +1,6 @@
 using Desyco.Dms.Application.DaysOfWeek.DTOs;
 using Desyco.Mediator.Contracts;
 
-namespace Desyco.Dms.Application.DaysOfWeek;
+namespace Desyco.Dms.Application.DaysOfWeek.Commands;
 
-public record UpdateDayOfWeekCommand(
-    DayOfWeek Id,
-    bool IsSchoolDay,
-    TimeOnly? OpenTime,
-    TimeOnly? StartTime,
-    TimeOnly? EndTime,
-    TimeOnly? CloseTime
-) : IRequest<DayOfWeekDto>;
+public record UpdateDayOfWeekCommand(List<DayOfWeekDto> Days) : IRequest<List<DayOfWeekDto>>;
