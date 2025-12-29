@@ -1,6 +1,9 @@
 import type { RouteRecordRaw } from "vue-router";
 import i18n from "@/i18n";
+import RouterOutlet from "@/components/common/RouterOutlet.vue";
 
+const createAction = i18n.global.t(`common.crud.create`);
+const updateAction = i18n.global.t(`common.crud.update`);
 
 const schoolRoutes: RouteRecordRaw[] = [
     {
@@ -14,51 +17,63 @@ const schoolRoutes: RouteRecordRaw[] = [
         children: [
             {
                 path: "academic-year",
-                name: "academic-year-list",
-                component: () => import("@/views/school/academic-years/AcademicYearList.vue"),
+                component: RouterOutlet,
                 meta: {
                     breadcrumb: i18n.global.t(`schoolSettings.academicYear.title`),
                 },
-            },
-            {
-                path: "academic-year/create",
-                name: "academic-year-create",
-                component: () => import("@/views/school/academic-years/AcademicYearCreate.vue"),
-                meta: {
-                    breadcrumb: "Create Academic Year",
-                },
-            },
-            {
-                path: "academic-year/:id/edit",
-                name: "academic-year-edit",
-                component: () => import("@/views/school/academic-years/AcademicYearEdit.vue"),
-                meta: {
-                    breadcrumb: "Edit Academic Year",
-                },
+                children: [
+                    {
+                        path: "",
+                        name: "academic-year-list",
+                        component: () => import("@/views/school/academic-years/AcademicYearList.vue"),
+                    },
+                    {
+                        path: "create",
+                        name: "academic-year-create",
+                        component: () => import("@/views/school/academic-years/AcademicYearCreate.vue"),
+                        meta: {
+                            breadcrumb: createAction,
+                        },
+                    },
+                    {
+                        path: ":id/edit",
+                        name: "academic-year-edit",
+                        component: () => import("@/views/school/academic-years/AcademicYearEdit.vue"),
+                        meta: {
+                            breadcrumb: updateAction,
+                        },
+                    },
+                ],
             },
             {
                 path: "evaluation-period",
-                name: "evaluation-period-list",
-                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodList.vue"),
+                component: RouterOutlet,
                 meta: {
                     breadcrumb: i18n.global.t(`schoolSettings.evaluationPeriod.title`),
                 },
-            },
-            {
-                path: "evaluation-period/create",
-                name: "evaluation-period-create",
-                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodCreate.vue"),
-                meta: {
-                    breadcrumb: "Create Evaluation Period",
-                },
-            },
-            {
-                path: "evaluation-period/:id/edit",
-                name: "evaluation-period-edit",
-                component: () => import("@/views/school/evaluation-periods/EvaluationPeriodEdit.vue"),
-                meta: {
-                    breadcrumb: "Edit Evaluation Period",
-                },
+                children: [
+                    {
+                        path: "",
+                        name: "evaluation-period-list",
+                        component: () => import("@/views/school/evaluation-periods/EvaluationPeriodList.vue"),
+                    },
+                    {
+                        path: "create",
+                        name: "evaluation-period-create",
+                        component: () => import("@/views/school/evaluation-periods/EvaluationPeriodCreate.vue"),
+                        meta: {
+                            breadcrumb: createAction,
+                        },
+                    },
+                    {
+                        path: ":id/edit",
+                        name: "evaluation-period-edit",
+                        component: () => import("@/views/school/evaluation-periods/EvaluationPeriodEdit.vue"),
+                        meta: {
+                            breadcrumb: updateAction,
+                        },
+                    },
+                ],
             },
             {
                 path: "days-of-week",
@@ -73,7 +88,7 @@ const schoolRoutes: RouteRecordRaw[] = [
                 name: "special-days",
                 component: () => import("@/views/school/special-days/SpecialDaysView.vue"),
                 meta: {
-                    breadcrumb: i18n.global.t(`schoolSettings.evaluationPeriod.title`),
+                    breadcrumb: i18n.global.t(`schoolSettings.specialDays.title`),
                 },
             },
             {

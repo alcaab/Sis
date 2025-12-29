@@ -1,4 +1,9 @@
 import type { RouteRecordRaw } from "vue-router";
+import RouterOutlet from "@/components/common/RouterOutlet.vue";
+import i18n from "@/i18n.ts";
+
+const createAction = i18n.global.t(`common.crud.create`);
+const updateAction = i18n.global.t(`common.crud.update`);
 
 const adminRoutes: RouteRecordRaw[] = [
     {
@@ -13,51 +18,63 @@ const adminRoutes: RouteRecordRaw[] = [
         children: [
             {
                 path: "roles",
-                name: "roles-list",
-                component: () => import("@/views/admin/roles/RolesList.vue"),
+                component: RouterOutlet,
                 meta: {
-                    breadcrumb: "Roles",
+                    breadcrumb: i18n.global.t(`admin.roles.title`),
                 },
-            },
-            {
-                path: "roles/:id/permissions",
-                name: "role-permissions",
-                component: () => import("@/views/admin/roles/RolePermissions.vue"),
-                meta: {
-                    breadcrumb: "Role Permissions",
-                },
+                children: [
+                    {
+                        path: "",
+                        name: "roles-list",
+                        component: () => import("@/views/admin/roles/RolesList.vue"),
+                    },
+                    {
+                        path: ":id/permissions",
+                        name: "role-permissions",
+                        component: () => import("@/views/admin/roles/RolePermissions.vue"),
+                        meta: {
+                            breadcrumb: i18n.global.t(`admin.permissions.title`),
+                        },
+                    },
+                ],
             },
             {
                 path: "users",
-                name: "users-list",
-                component: () => import("@/views/admin/users/UsersList.vue"),
+                component: RouterOutlet,
                 meta: {
                     breadcrumb: "Users",
                 },
-            },
-            {
-                path: "users/create",
-                name: "user-create",
-                component: () => import("@/views/admin/users/UserCreate.vue"),
-                meta: {
-                    breadcrumb: "Create User",
-                },
-            },
-            {
-                path: "users/:id/edit",
-                name: "user-edit",
-                component: () => import("@/views/admin/users/UserEdit.vue"),
-                meta: {
-                    breadcrumb: "Edit User",
-                },
-            },
-            {
-                path: "users/:id/permissions",
-                name: "user-permissions",
-                component: () => import("@/views/admin/users/UserPermissions.vue"),
-                meta: {
-                    breadcrumb: "User Permissions",
-                },
+                children: [
+                    {
+                        path: "",
+                        name: "users-list",
+                        component: () => import("@/views/admin/users/UsersList.vue"),
+                    },
+                    {
+                        path: "create",
+                        name: "user-create",
+                        component: () => import("@/views/admin/users/UserCreate.vue"),
+                        meta: {
+                            breadcrumb: createAction,
+                        },
+                    },
+                    {
+                        path: ":id/edit",
+                        name: "user-edit",
+                        component: () => import("@/views/admin/users/UserEdit.vue"),
+                        meta: {
+                            breadcrumb: updateAction,
+                        },
+                    },
+                    {
+                        path: ":id/permissions",
+                        name: "user-permissions",
+                        component: () => import("@/views/admin/users/UserPermissions.vue"),
+                        meta: {
+                            breadcrumb: i18n.global.t(`admin.permissions.title`),
+                        },
+                    },
+                ],
             },
         ],
     },

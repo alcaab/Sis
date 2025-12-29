@@ -41,6 +41,10 @@
         "activeState": {
             "true": "Enabled",
             "false": "Disabled"
+        },
+        "crud": {
+            "create": "Create",
+            "update": "Edit"
         }
     },
     "admin": {
@@ -52,6 +56,7 @@
             }
         },
         "permissions": {
+            "title": "Permissions",
             "backToRoles": "Back to previous page",
             "backToUsers": "Back to Users",
             "subtitle": "Manage role permissions and access levels",
@@ -83,14 +88,15 @@
             "description": "Description"
         },
         "users": {
+            "title": "Users",
+            "roles": "Roles",
             "userName": "Username",
             "email": "Email",
             "firstName": "First name",
             "lastName": "Last name",
             "lockoutEnabled": "Enabled",
             "phoneNumber": "Phone number",
-            "roles": "Roles",
-            "title": "Users",
+
             "createHeader": "Create User",
             "editHeader": "Edit User: {userName}",
             "listTitle": "Users",
