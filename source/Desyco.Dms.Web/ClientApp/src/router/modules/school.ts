@@ -1,4 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
+import i18n from "@/i18n";
+
 
 const schoolRoutes: RouteRecordRaw[] = [
     {
@@ -15,7 +17,7 @@ const schoolRoutes: RouteRecordRaw[] = [
                 name: "academic-year-list",
                 component: () => import("@/views/school/academic-years/AcademicYearList.vue"),
                 meta: {
-                    breadcrumb: "Academic Years",
+                    breadcrumb: i18n.global.t(`schoolSettings.academicYear.title`),
                 },
             },
             {
@@ -39,7 +41,7 @@ const schoolRoutes: RouteRecordRaw[] = [
                 name: "evaluation-period-list",
                 component: () => import("@/views/school/evaluation-periods/EvaluationPeriodList.vue"),
                 meta: {
-                    breadcrumb: "Evaluation Periods",
+                    breadcrumb: i18n.global.t(`schoolSettings.evaluationPeriod.title`),
                 },
             },
             {
@@ -61,9 +63,17 @@ const schoolRoutes: RouteRecordRaw[] = [
             {
                 path: "days-of-week",
                 name: "days-of-week",
-                component: () => import("@/views/school/days-of-week/WeeklyScheduleContainer.vue"),
+                component: () => import("@/views/school/days-of-week/WeeklyScheduleView.vue"),
                 meta: {
-                    breadcrumb: "Days of the Week",
+                    breadcrumb: i18n.global.t(`schoolSettings.dayOfWeek.title`),
+                },
+            },
+            {
+                path: "special-days",
+                name: "special-days",
+                component: () => import("@/views/school/special-days/SpecialDaysView.vue"),
+                meta: {
+                    breadcrumb: i18n.global.t(`schoolSettings.evaluationPeriod.title`),
                 },
             },
             {
@@ -71,7 +81,7 @@ const schoolRoutes: RouteRecordRaw[] = [
                 name: "educational-level-list",
                 component: () => import("@/views/school/educational-levels/EducationalLevelList.vue"),
                 meta: {
-                    breadcrumb: "Educational Levels",
+                    breadcrumb: i18n.global.t(`schoolSettings.educationalLevel.title`),
                 },
             },
         ],

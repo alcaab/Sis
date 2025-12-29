@@ -11,9 +11,12 @@ public class GetAllDaysOfWeekQueryHandler(IDayOfWeekRepository repository, DayOf
     public async Task<List<DayOfWeekDto>> Handle(GetAllDaysOfWeekQuery request, CancellationToken cancellationToken)
     {
         var entities = await repository.ListAsync(cancellationToken: cancellationToken);
-        // Ensure they are ordered by ID (Sunday=0, Monday=1, etc or however DayOfWeek enum works)
-        // System.DayOfWeek: Sunday = 0, Monday = 1, ..., Saturday = 6
-        var orderedEntities = entities.OrderBy(x => x.Id).ToList();
+        var firstItem = entities.FirstOrDefault(d => d.IsStartOfWeek);
+
+        var orderedEntities = firstItem is null
+            ? entities.OrderBy(e => e.Id).ToList()
+            : entities .OrderBy(e => (e.Id - firstItem.Id + 7) % 7).ToList();
+        
         return mapper.ToDtoList(orderedEntities);
     }
 }

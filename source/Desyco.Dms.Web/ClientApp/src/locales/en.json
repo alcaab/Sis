@@ -102,9 +102,9 @@
             "yearsDaysTimes": {
                 "title": "YEARS, DAYS & TIMES",
                 "daysOfTheWeek": "Days of the Week",
-                "manageSchoolYears": "Manage School Years",
-                "manageSpecialDays": "Manage Special Days",
-                "manageEvaluationPeriod": "Manage Evaluation Periods"
+                "schoolYears": "Manage School Years",
+                "specialDays": "Manage Special Days",
+                "evaluationPeriod": "Manage Evaluation Periods"
             },
             "others": {
                 "title": "OTHERS",
@@ -152,6 +152,7 @@
             }
         },
         "dayOfWeek": {
+            "title": "Days of the Week",
             "schoolDay": "School Day",
             "openTime": "Open time",
             "startTime": "Start time",
@@ -175,6 +176,9 @@
                 "friday": "Fri",
                 "saturday": "Sat"
             }
+        },
+        "specialDays": {
+            "title": "Special Days"
         }
     }
 }

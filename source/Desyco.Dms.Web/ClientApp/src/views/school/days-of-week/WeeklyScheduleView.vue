@@ -34,7 +34,7 @@
     <div class="card w-full animate fade-in">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
             <h4 class="m-0 text-xl font-semibold text-surface-900 dark:text-surface-0">
-                {{ t("schoolSettings.panelGroups.yearsDaysTimes.daysOfTheWeek") }}
+                {{ t("schoolSettings.dayOfWeek.title") }}
             </h4>
             <div class="flex items-center gap-2">
                 <Button

@@ -1,14 +1,14 @@
-import axios from "axios";
-import type { DayOfWeekDto, UpdateWeeklyScheduleCommand } from "@/types/days-of-week";
+import api from "./api";
+import type { DayOfWeekDto, WeeklyScheduleDto } from "@/types/days-of-week";
 
 export class DayOfWeekService {
     async getAll(): Promise<DayOfWeekDto[]> {
-        const response = await axios.get<DayOfWeekDto[]>("/api/v1/days-of-week");
+        const response = await api.get<DayOfWeekDto[]>("/days-of-week");
         return response.data;
     }
 
-    async updateBatch(command: UpdateWeeklyScheduleCommand): Promise<DayOfWeekDto[]> {
-        const response = await axios.put<DayOfWeekDto[]>("/api/v1/days-of-week", command);
+    async updateBatch(model: WeeklyScheduleDto): Promise<DayOfWeekDto[]> {
+        const response = await api.put<DayOfWeekDto[]>("/days-of-week", model);
         return response.data;
     }
 }

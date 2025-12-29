@@ -15,7 +15,7 @@ namespace Desyco.Dms.Web.Controllers;
 public class DaysOfWeekController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    //[Authorize(Policy = Permissions.DaysOfWeek.Read)]
+    [Authorize(Policy = Permissions.DaysOfWeek.Read)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<DayOfWeekDto>>> GetAll(CancellationToken cancellationToken)
     {
@@ -24,10 +24,10 @@ public class DaysOfWeekController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut]
-    // [Authorize(Policy = Permissions.DaysOfWeek.Write)]
+    [Authorize(Policy = Permissions.DaysOfWeek.Write)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<List<DayOfWeekDto>>> UpdateBatch([FromBody] WeeklyScheduleDto weeklyScheduleDto,
+    public async Task<ActionResult<List<DayOfWeekDto>>> Update([FromBody] WeeklyScheduleDto weeklyScheduleDto,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new UpdateDayOfWeekCommand(weeklyScheduleDto.Days), cancellationToken);

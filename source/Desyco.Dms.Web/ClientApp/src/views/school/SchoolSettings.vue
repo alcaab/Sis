@@ -13,11 +13,11 @@
             icon: "pi pi-fw pi-calendar",
             items: [
                 {
-                    label: t("schoolSettings.panelGroups.yearsDaysTimes.manageSchoolYears"),
+                    label: t("schoolSettings.panelGroups.yearsDaysTimes.schoolYears"),
                     to: "/school-settings/academic-year",
                 },
                 {
-                    label: t("schoolSettings.panelGroups.yearsDaysTimes.manageEvaluationPeriod"),
+                    label: t("schoolSettings.panelGroups.yearsDaysTimes.evaluationPeriod"),
                     to: "/school-settings/evaluation-period",
                 },
                 {
@@ -25,8 +25,8 @@
                     to: "/school-settings/days-of-week",
                 },
                 {
-                    label: t("schoolSettings.panelGroups.yearsDaysTimes.manageSpecialDays"),
-                    to: "/school/years-days-times/manage-special-days",
+                    label: t("schoolSettings.panelGroups.yearsDaysTimes.specialDays"),
+                    to: "/school-settings/special-days",
                 },
             ],
         },
