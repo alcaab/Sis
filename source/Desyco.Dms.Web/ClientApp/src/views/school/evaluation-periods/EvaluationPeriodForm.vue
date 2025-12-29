@@ -208,6 +208,8 @@
                 showIcon
                 dateFormat="yy-mm-dd"
                 :invalid="!!errors.startDate"
+                iconDisplay="input"
+                fluid
             />
         </FormField>
 
@@ -222,6 +224,8 @@
                 showIcon
                 dateFormat="yy-mm-dd"
                 :invalid="!!errors.endDate"
+                iconDisplay="input"
+                fluid
             />
         </FormField>
 

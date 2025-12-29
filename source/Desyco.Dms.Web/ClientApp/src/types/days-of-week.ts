@@ -16,20 +16,11 @@ export interface DayOfWeekDto {
     startTime: string | null;
     endTime: string | null;
     closeTime: string | null;
-    isStartOfWeek: boolean;
-    isEndOfWeek: boolean;
+    isStartOfWeek?: boolean;
+    isEndOfWeek?: boolean;
     isSchoolDay: boolean;
 }
 
-export interface DayOfWeekScheduleUpdateDto {
-    id: number;
-    isSchoolDay: boolean;
-    openTime: string | null;
-    startTime: string | null;
-    endTime: string | null;
-    closeTime: string | null;
-}
-
-export interface UpdateWeeklyScheduleCommand {
-    days: DayOfWeekScheduleUpdateDto[];
+export interface WeeklyScheduleDto {
+    days: DayOfWeekDto[];
 }

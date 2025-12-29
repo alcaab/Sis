@@ -24,13 +24,13 @@ public class DaysOfWeekController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut]
-    [Authorize(Policy = Permissions.DaysOfWeek.Write)]
+    // [Authorize(Policy = Permissions.DaysOfWeek.Write)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<List<DayOfWeekDto>>> UpdateBatch([FromBody] DayOfWeekDto command,
+    public async Task<ActionResult<List<DayOfWeekDto>>> UpdateBatch([FromBody] WeeklyScheduleDto weeklyScheduleDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(command, cancellationToken);
+        var result = await mediator.Send(new UpdateDayOfWeekCommand(weeklyScheduleDto.Days), cancellationToken);
         return Ok(result);
     }
 }

@@ -1,13 +1,8 @@
 <script setup lang="ts">
     import { ref, computed, watchEffect } from "vue";
-    import type { DayOfWeekDto, UpdateWeeklyScheduleCommand, DayOfWeekScheduleUpdateDto } from "@/types/days-of-week";
+    import { DayOfWeekDto, WeeklyScheduleDto } from "@/types/days-of-week";
     import SelectButton from "primevue/selectbutton";
     import DatePicker from "primevue/datepicker";
-    import Button from "primevue/button";
-    import Accordion from "primevue/accordion";
-    import AccordionPanel from "primevue/accordionpanel";
-    import AccordionHeader from "primevue/accordionheader";
-    import AccordionContent from "primevue/accordioncontent";
     import { enumService } from "@/service/EnumService";
     import { useI18n } from "vue-i18n";
     import FormField from "@/components/common/FormField.vue";
@@ -20,7 +15,7 @@
     }>();
 
     const emit = defineEmits<{
-        (e: "saveAll", command: UpdateWeeklyScheduleCommand): void;
+        (e: "saveAll", model: WeeklyScheduleDto): void;
         (e: "error", message: string): void;
     }>();
 
@@ -68,13 +63,9 @@
         return enumService.getDescription("DayOfWeek", dayId);
     };
 
-    // Expand all by default
-    const expandedDays = computed(() => props.days.map((d) => String(d.id)));
-
     const onSaveAll = () => {
-        const updates: DayOfWeekScheduleUpdateDto[] = [];
+        const updates: DayOfWeekDto[] = [];
 
-        // Validate all days
         for (const day of props.days) {
             const form = forms.value[day.id];
             if (!form) continue;
@@ -82,22 +73,24 @@
             if (form.isSchoolDay) {
                 const start = form.startTime;
                 const end = form.endTime;
-                const open = form.openTime;
-                const close = form.closeTime;
+                // const open = form.openTime;
+                // const close = form.closeTime;
 
-                if (!start || !end || !open || !close) {
-                    emit("error", `${getDayHeader(day.id)}: ${t("common.validations.required")}`);
-                    return;
-                }
+                // if (!start || !end || !open || !close) {
+                //     emit("error", `${getDayHeader(day.id)}: ${t("common.validations.required")}`);
+                //     return;
+                // }
 
-                if (start >= end) {
-                    emit("error", `${getDayHeader(day.id)}: Start Time must be before End Time.`);
-                    return;
-                }
+                // if (start >= end) {
+                //     emit("error", `${getDayHeader(day.id)}: Start Time must be before End Time.`);
+                //     return;
+                // }
             }
 
             updates.push({
                 id: form.id,
+                name: "",
+                shortName: "",
                 isSchoolDay: form.isSchoolDay,
                 openTime: toTimeStr(form.openTime),
                 startTime: toTimeStr(form.startTime),
@@ -106,114 +99,118 @@
             });
         }
 
-        const command: UpdateWeeklyScheduleCommand = {
+        const model: WeeklyScheduleDto = {
             days: updates,
         };
-        emit("saveAll", command);
+        emit("saveAll", model);
     };
+
+    defineExpose({
+        onSaveAll,
+    });
 </script>
 
 <template>
-    <div class="card flex flex-col gap-4">
-        <div class="flex justify-end mb-2">
-            <Button
-                :label="t('common.buttons.saveAll')"
-                icon="pi pi-save"
-                @click="onSaveAll"
-                :loading="saving"
-            />
-        </div>
-
-        <Accordion
-            :value="expandedDays"
-            multiple
+    <div class="flex flex-col gap-1">
+        <Panel
+            v-for="day in days"
+            :key="day.id"
+            :value="String(day.id)"
+            :collapsed="!forms[day.id].isSchoolDay"
         >
-            <AccordionPanel
-                v-for="(day, idx) in days"
-                :key="day.id"
-                :value="String(day.id)"
+            <template #header>
+                <div class="flex items-center gap-2">
+                    <i class="pi pi-clock" />
+                    <span class="font-bold">{{ getDayHeader(day.id) }}</span>
+                </div>
+            </template>
+            <template #icons>
+                <SelectButton
+                    v-model="forms[day.id].isSchoolDay"
+                    optionLabel="label"
+                    optionValue="value"
+                    :options="schoolDayOptions"
+                    :allowEmpty="false"
+                />
+            </template>
+            <div
+                v-if="forms[day.id] && forms[day.id].isSchoolDay"
+                class="flex flex-col gap-4"
             >
-                <AccordionHeader>{{ getDayHeader(day.id) }}</AccordionHeader>
-                <AccordionContent>
-                    <div
-                        v-if="forms[day.id]"
-                        class="flex flex-col gap-4"
-                    >
-                        <FormField
-                            :label="t('schoolSettings.dayOfWeek.schoolDay')"
-                            :id="`isSchoolDay-${idx}`"
-                            required
-                        >
-                            <SelectButton
-                                v-model="forms[day.id].isSchoolDay"
-                                :options="schoolDayOptions"
-                                optionLabel="label"
-                                optionValue="value"
-                            />
-                        </FormField>
-
-                        <div
-                            v-if="forms[day.id].isSchoolDay"
-                            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-                        >
-                            <FormField
-                                :label="t('schoolSettings.dayOfWeek.openTime')"
-                                :id="`openTime-${idx}`"
-                            >
-                                <DatePicker
-                                    v-model="forms[day.id].openTime"
-                                    timeOnly
-                                    showIcon
-                                    hourFormat="24"
-                                />
-                            </FormField>
-
-                            <FormField
-                                :label="t('schoolSettings.dayOfWeek.startTime')"
-                                :id="`startTime-${idx}`"
-                            >
-                                <DatePicker
-                                    v-model="forms[day.id].startTime"
-                                    timeOnly
-                                    showIcon
-                                    hourFormat="24"
-                                />
-                            </FormField>
-                            <FormField
-                                :label="t('schoolSettings.dayOfWeek.endTime')"
-                                :id="`endTime-${idx}`"
-                            >
-                                <DatePicker
-                                    v-model="forms[day.id].endTime"
-                                    timeOnly
-                                    showIcon
-                                    hourFormat="24"
-                                />
-                            </FormField>
-                            <FormField
-                                :label="t('schoolSettings.dayOfWeek.closeTime')"
-                                :id="`closeTime-${idx}`"
-                            >
-                                <DatePicker
-                                    v-model="forms[day.id].closeTime"
-                                    timeOnly
-                                    showIcon
-                                    hourFormat="24"
-                                />
-                            </FormField>
-                        </div>
-                    </div>
-                </AccordionContent>
-            </AccordionPanel>
-        </Accordion>
-
-        <div class="flex justify-end mt-2">
-            <Button
-                :label="t('common.buttons.saveAll')"
-                icon="pi pi-save"
-                @click="onSaveAll"
-                :loading="saving"
-            />
-        </div>
+                <FormField
+                    :label="t('schoolSettings.dayOfWeek.openTime')"
+                    :id="`openTime-${day.id}`"
+                    align="right"
+                >
+                    <DatePicker
+                        v-model="forms[day.id].openTime"
+                        timeOnly
+                        showIcon
+                        showClear
+                        icon="pi pi-clock"
+                        class="w-2/12"
+                        hourFormat="24"
+                        iconDisplay="input"
+                        fluid
+                    />
+                </FormField>
+                <FormField
+                    :label="t('schoolSettings.dayOfWeek.startTime')"
+                    :id="`startTime-${day.id}`"
+                    align="right"
+                >
+                    <DatePicker
+                        v-model="forms[day.id].startTime"
+                        timeOnly
+                        showIcon
+                        showClear
+                        icon="pi pi-clock"
+                        class="w-2/12"
+                        hourFormat="24"
+                        iconDisplay="input"
+                        fluid
+                    />
+                </FormField>
+                <FormField
+                    :label="t('schoolSettings.dayOfWeek.endTime')"
+                    :id="`endTime-${day.id}`"
+                    align="right"
+                >
+                    <DatePicker
+                        v-model="forms[day.id].endTime"
+                        timeOnly
+                        showIcon
+                        showClear
+                        icon="pi pi-clock"
+                        class="w-2/12"
+                        hourFormat="24"
+                        iconDisplay="input"
+                        fluid
+                    />
+                </FormField>
+                <FormField
+                    :label="t('schoolSettings.dayOfWeek.closeTime')"
+                    :id="`closeTime-${day.id}`"
+                    align="right"
+                >
+                    <DatePicker
+                        v-model="forms[day.id].closeTime"
+                        timeOnly
+                        showIcon
+                        showClear
+                        icon="pi pi-clock"
+                        class="w-2/12"
+                        hourFormat="24"
+                        iconDisplay="input"
+                        fluid
+                    />
+                </FormField>
+            </div>
+        </Panel>
     </div>
 </template>
+<style scoped>
+    :deep(.p-panel-header) {
+        padding: 0.5rem 1rem;
+    }
+</style>

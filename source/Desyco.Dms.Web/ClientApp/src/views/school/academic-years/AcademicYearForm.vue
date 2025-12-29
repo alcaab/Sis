@@ -136,6 +136,8 @@
                 showIcon
                 dateFormat="yy-mm-dd"
                 :invalid="!!errors.startDate"
+                iconDisplay="input"
+                fluid
             />
         </FormField>
 
@@ -148,9 +150,10 @@
                 id="endDate"
                 v-model="endDateProxy"
                 showIcon
-                class="w-sm"
                 dateFormat="yy-mm-dd"
                 :invalid="!!errors.endDate"
+                iconDisplay="input"
+                fluid
             />
         </FormField>
 
