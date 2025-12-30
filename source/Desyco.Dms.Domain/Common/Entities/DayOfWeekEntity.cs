@@ -16,7 +16,5 @@ public class DayOfWeekEntity : EntityBase<DayOfWeek>
     
     public bool IsStartOfWeek { get; set; }
     
-    public bool IsEndOfWeek { get; set; }
-    
     public bool IsSchoolDay { get; set; }
 }
