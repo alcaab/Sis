@@ -53,9 +53,9 @@ REGLAS BACKEND
 - Sigue estrictamente la separación CQRS (Comandos vs Consultas).
 - Crea UN DTO común basado en la entidad.
 - Reutiliza el DTO en:
-    - Comandos (Commands)
-    - Consultas (Queries)
-    - Respuestas (cuando sea aplicable)
+  - Comandos (Commands)
+  - Consultas (Queries)
+  - Respuestas (cuando sea aplicable)
 - NO dupliques DTOs a menos que sea explícitamente necesario.
 
 Estructura CQRS:
@@ -79,20 +79,20 @@ Validación:
 Mapeo:
 - Usa solo Riok.Mapperly.
 - Mapeos explícitos:
-    - Entidad ↔ DTO
+  - Entidad ↔ DTO
 
 Persistencia:
 - Usa SIEMPRE el patrón Repository.
 - Los Handlers NO deben acceder al DbContext directamente.
 - Si ya existe un repositorio:
-    - Sigue su interfaz, nomenclatura y estructura.
+  - Sigue su interfaz, nomenclatura y estructura.
 - Si no existe un repositorio:
-    - Crea uno siguiendo exactamente el mismo patrón
-      usado por los repositorios existentes en el proyecto.
+  - Crea uno siguiendo exactamente el mismo patrón
+    usado por los repositorios existentes en el proyecto.
 - Responsabilidades del Repositorio:
-    - Solo acceso a datos
-    - Nada de lógica de negocio
-    - Solo métodos asíncronos (Async)
+  - Solo acceso a datos
+  - Nada de lógica de negocio
+  - Solo métodos asíncronos (Async)
 
 Seeder:
 - Añade la nueva funcionalidad al FeatureSeeder y reordena la secuencia.
@@ -122,28 +122,28 @@ Patrones de UI reutilizables (cuando aplique):
 Requerimientos Técnicos del Modelo
 Basado en las siguientes definiciones de C#:
 - Enum `SpecialDayType`:** - `SchoolClosure` (Value: "School Closure") -> Círculo Rojo (`bg-red-500`).
-    - `TimingChange` (Value: "Timing Change") -> Círculo Naranja (`bg-orange-500`).
-    - Otros -> Color Primario de la plantilla (`bg-primary`).
+  - `TimingChange` (Value: "Timing Change") -> Círculo Naranja (`bg-orange-500`).
+  - Otros -> Color Primario de la plantilla (`bg-primary`).
 
 Configuración del Componente (DatePicker)
 1. Vista Estática: - Usa `DatePicker` en modo inline.
-    - Propiedades: `minDate`, `maxDate` y `disabledDays` (array de números de días de la semana a deshabilitar).
-    - Lógica de visualización: Calcula dinámicamente el número de meses entre `minDate` y `maxDate` y asígnalo a `numberOfMonths`.
-    - Orientación: Los meses deben apilarse en dos columnas (un mes para cada una) fijas y filas dinamicas que debe crecer a medida que se incrementa el numero de meses.
-    - Ambas columnas deben tomar todo el ancho de elemento contenedor
-    - Navegación: Oculta mediante CSS las flechas de navegación (`prev` y `next`). El usuario no debe poder salir del rango.
+   - Propiedades: `minDate`, `maxDate` y `disabledDays` (array de números de días de la semana a deshabilitar).
+   - Lógica de visualización: Calcula dinámicamente el número de meses entre `minDate` y `maxDate` y asígnalo a `numberOfMonths`.
+   - Orientación: Los meses deben apilarse en dos columnas (un mes para cada una) fijas y filas dinamicas que debe crecer a medida que se incrementa el numero de meses.
+   - Ambas columnas deben tomar todo el ancho de elemento contenedor
+   - Navegación: Oculta mediante CSS las flechas de navegación (`prev` y `next`). El usuario no debe poder salir del rango.
 
 2. Personalización de Celdas (Slot `#date`):
-    - Si el día está en `disabledDays`, la celda debe estar vacía.
-    - Para días habilitados:
-        - Mostrar el número del día dentro de un círculo con el color correspondiente según el `SpecialDayType`.
-        - Si existe registro: Mostrar botones mini (`pi-pencil` y `pi-trash`) con severities `warn` y `danger`.
-        - Si NO existe registro: Mostrar un botón mini (`pi-plus`) con `severity="success"`.
+   - Si el día está en `disabledDays`, la celda debe estar vacía.
+   - Para días habilitados:
+     - Mostrar el número del día dentro de un círculo con el color correspondiente según el `SpecialDayType`.
+     - Si existe registro: Mostrar botones mini (`pi-pencil` y `pi-trash`) con severities `warn` y `danger`.
+     - Si NO existe registro: Mostrar un botón mini (`pi-plus`) con `severity="success"`.
 
 3. Interfaz de Usuario (Diálogo):
-    - Implementa un `Dialog` que se abra para Crear o Editar.
-    - El formulario debe incluir: `Name` (InputText), `Description` (Textarea), `Type` (Select con las opciones del Enum) y selectores de hora (`DatePicker` con `timeOnly`) para los campos de tiempo.
-    - El campo `Date` debe ser de solo lectura.
+   - Implementa un `Dialog` que se abra para Crear o Editar.
+   - El formulario debe incluir: `Name` (InputText), `Description` (Textarea), `Type` (Select con las opciones del Enum) y selectores de hora (`DatePicker` con `timeOnly`) para los campos de tiempo.
+   - El campo `Date` debe ser de solo lectura.
 
 Estilo y Layout
 - Utiliza **Tailwind CSS** (tailwindcss-primeui ) para centrar el contenido de la celda.
@@ -158,11 +158,11 @@ REGLAS DE INTEGRACIÓN
 - Los DTOs del Backend definen el contrato de la API.
 - El Frontend debe adaptarse al backend, nunca al revés.
 - Consistencia de nomenclatura entre:
-    - Entidad
-    - DTO
-    - Comandos / Consultas
-    - Endpoints de API
-    - Modelos de Frontend
+  - Entidad
+  - DTO
+  - Comandos / Consultas
+  - Endpoints de API
+  - Modelos de Frontend
 - Respeta los contratos de paginación, filtrado y ordenamiento (si aplica).
 - NO asumas campos, enums o comportamientos que no estén explícitamente definidos.
 

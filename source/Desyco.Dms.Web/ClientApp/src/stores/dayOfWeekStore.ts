@@ -28,7 +28,7 @@ export const useDayOfWeekStore = defineStore("dayOfWeek", {
         async updateAll(model: WeeklyScheduleDto) {
             this.saving = true;
             try {
-                this.days = await dayOfWeekService.updateBatch(model);
+                this.days = await dayOfWeekService.update(model);
             } catch (error) {
                 console.error("Error updating weekly schedule:", error);
                 throw error;

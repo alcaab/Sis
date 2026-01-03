@@ -280,6 +280,7 @@ REGLAS FRONTEND
 - Sigue estrictamente el Modo de UI CRUD seleccionado.
 - Reutiliza el diseño (layout), UX y patrones de código cuando sea aplicable.
 - NO introduzcas nuevas librerías ni cambios de arquitectura.
+- Utiliza yup/vee-validate/yup para validaciones en la UI.
 
 Patrones de UI reutilizables (cuando aplique):
 - PrimeVue DataTable (paginación, ordenamiento, filtrado)

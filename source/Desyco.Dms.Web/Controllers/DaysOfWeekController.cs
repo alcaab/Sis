@@ -1,4 +1,3 @@
-using Desyco.Dms.Application.DaysOfWeek;
 using Desyco.Dms.Application.DaysOfWeek.Commands;
 using Desyco.Dms.Application.DaysOfWeek.DTOs;
 using Desyco.Dms.Application.DaysOfWeek.Queries;

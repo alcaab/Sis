@@ -7,7 +7,7 @@ export class DayOfWeekService {
         return response.data;
     }
 
-    async updateBatch(model: WeeklyScheduleDto): Promise<DayOfWeekDto[]> {
+    async update(model: WeeklyScheduleDto): Promise<DayOfWeekDto[]> {
         const response = await api.put<DayOfWeekDto[]>("/days-of-week", model);
         return response.data;
     }

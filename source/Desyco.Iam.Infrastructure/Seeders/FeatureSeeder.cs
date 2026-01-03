@@ -41,6 +41,13 @@ public class FeatureSeeder(IamDbContext context)
             },
             new()
             {
+                Code = Permissions.SpecialDays.Code,
+                Description = "feature.specialDays",
+                Group = "Academic",
+                Order = 140
+            },
+            new()
+            {
                 Code = Permissions.Students.Code,
                 Description = "feature.students",
                 Group = "Academic",

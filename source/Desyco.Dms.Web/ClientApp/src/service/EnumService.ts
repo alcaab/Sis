@@ -1,6 +1,7 @@
 import { AcademicYearStatus } from "@/types/academic-year";
 import { EducationalLevelType } from "@/types/educational-level";
 import { PermissionAction } from "@/types/permissions";
+import { SpecialDayType } from "@/types/special-days";
 import type { LookupModel } from "@/types/common";
 import i18n from "@/i18n";
 import { DayOfWeek } from "@/types/days-of-week.ts";
@@ -11,6 +12,12 @@ class EnumService {
     public get academicYearStatuses(): LookupModel[] {
         return this.getOrSetCache("AcademicYearStatus", AcademicYearStatus, (key) =>
             i18n.global.t(`schoolSettings.academicYear.statusLabels.${key.toLowerCase()}`),
+        );
+    }
+
+    public get specialDayTypes(): LookupModel[] {
+        return this.getOrSetCache("SpecialDayType", SpecialDayType, (key) =>
+            i18n.global.t(`schoolSettings.specialDay.types.${this.toCamelCase(key)}`),
         );
     }
 

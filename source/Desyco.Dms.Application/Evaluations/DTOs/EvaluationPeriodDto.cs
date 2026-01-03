@@ -1,22 +1,22 @@
 namespace Desyco.Dms.Application.Evaluations.DTOs;
 
-public class EvaluationPeriodDto
+public record EvaluationPeriodDto
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
     
-    public int AcademicYearId { get; set; }
+    public int AcademicYearId { get; init; }
     
-    public int LevelTypeId { get; set; }
+    public int LevelTypeId { get; init; }
     
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
     
-    public string ShortName { get; set; } = string.Empty;
+    public string ShortName { get; init; } = string.Empty;
     
-    public DateOnly StartDate { get; set; }
+    public DateOnly StartDate { get; init; }
     
-    public DateOnly EndDate { get; set; }
+    public DateOnly EndDate { get; init; }
     
-    public int? Sequence { get; set; }
+    public int? Sequence { get; init; }
     
-    public decimal Weight { get; set; }
+    public decimal Weight { get; init; }
 }
