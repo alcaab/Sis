@@ -2,7 +2,7 @@ using Desyco.Dms.Domain.EducationalLevels;
 
 namespace Desyco.Dms.Application.EducationalLevels.DTOs;
 
-public class EducationalLevelDto
+public record EducationalLevelDto
 {
     public int Id { get; set; }
     public EducationalLevelType LevelTypeId { get; set; }

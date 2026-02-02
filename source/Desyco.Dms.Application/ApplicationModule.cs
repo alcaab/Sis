@@ -5,6 +5,7 @@ using Desyco.Mediator;
 
 namespace Desyco.Dms.Application;
 
+//TODO: mover hacia la capa de presentacion
 public class ApplicationModule : Module
 {
     protected override void Load(ContainerBuilder builder)
